@@ -46,7 +46,10 @@ export default class App extends React.Component<IAppProps, IAppState> {
 }
 const AppStackNavigator = createStackNavigator({
     SignIn: {
-        screen: SignInScreen
+        screen: SignInScreen,
+        navigationOptions: {
+            header: null
+        }
     },
     Menu: {
         screen: MenuScreen
