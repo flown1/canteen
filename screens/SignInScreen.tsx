@@ -7,31 +7,29 @@ import {
 } from 'react-native';
 import API_KEYS from '../constants/Api_keys'
 import Expo from "expo"
-import ISignInScreenState from "../@types/states/screens/ISignInScreenState";
+import ISignInScreenState from "../@types/screens/SignInScreen/ISignInScreenState";
+import ISignInScreenProps from "../@types/screens/SignInScreen/ISignInScreenProps";
+import {NavigationActions, StackActions} from "react-navigation";
 
-class SignInScreen extends React.Component<{}, ISignInScreenState> {
+
+class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenState> {
 
     state = {
         signedIn: false
     };
-
-    componentWillMount(){
-
-    }
 
     render(){
         return(
             <View style={styles.container}>
                 <View style={styles.mainBox}>
                     <Text style={styles.signInText}>Logowanie</Text>
-                    <Button title={"Google Sign In"} onPress={this._signIn}
-                            style={styles.signInButton}>Google Sign In</Button>
+                    <Button title={"Google Sign In"} onPress={this._signIn}>Google Sign In</Button>
                 </View>
             </View>
         )
     }
 
-    private _signIn = async (e: any) : void => {
+    private _signIn = async (e: any) : Promise<any> => {
         e.preventDefault();
         console.log("Signing in...");
 
@@ -46,15 +44,23 @@ class SignInScreen extends React.Component<{}, ISignInScreenState> {
                 console.log(result.user.name);
                 this.setState({
                     signedIn: true
-                })
-                this.props.navigation.navigate('Menu');
+                });
+                this.props.navigation.dispatch(this._resetAction);
             } else {
                 console.log("cancelled")
             }
+
         } catch (e) {
             console.log("error", e)
         }
-    }
+    };
+
+    private _resetAction = StackActions.reset({
+        index: 0,
+        actions: [
+            NavigationActions.navigate({routeName: 'Menu'}),
+        ],
+    });
 }
 export default SignInScreen;
 

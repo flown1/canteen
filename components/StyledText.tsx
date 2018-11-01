@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text } from 'react-native';
-import IMonoTextProps from "../@types/props/components/IMonoTextProps";
+import IMonoTextProps from "../@types/components/fonts/Mono/IMonoTextProps";
 
 export class MonoText extends React.Component<IMonoTextProps, {}> {
   render() {
