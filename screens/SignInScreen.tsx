@@ -1,29 +1,46 @@
 import React from 'react'
 import {
-    Button,
-    StyleSheet,
+    Image,
     Text,
-    View
+    StyleSheet,
+    View, TouchableHighlight
 } from 'react-native';
 import API_KEYS from '../constants/Api_keys'
 import Expo from "expo"
 import ISignInScreenState from "../@types/screens/SignInScreen/ISignInScreenState";
 import ISignInScreenProps from "../@types/screens/SignInScreen/ISignInScreenProps";
 import {NavigationActions, StackActions} from "react-navigation";
+import TextStruck from "../components/uiUtils/TextStruck";
+import Logo from "../components/uiUtils/Logo";
+import Colors from "../constants/Colors";
 
+const googleSignInBtn = require("../assets/images/google_signin_btn.png");
 
 class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenState> {
 
     state = {
-        signedIn: false
+        signedIn: false,
+        isSigninInProgress: false
     };
 
-    render(){
-        return(
+    render() {
+        return (
             <View style={styles.container}>
                 <View style={styles.mainBox}>
-                    <Text style={styles.signInText}>Logowanie</Text>
-                    <Button title={"Google Sign In"} onPress={this._signIn}>Google Sign In</Button>
+                    <View style={styles.logoBox}>
+                        <Logo/>
+                        <TextStruck textStyle={styles.logoSubtitle} text={"Est. 2018"} lineStyle={styles.logoSubtitleLine} containerStyles={styles.struckLineContainer}/>
+                    </View>
+                    <TextStruck text="Zaloguj się"
+                                textStyle={styles.signInText}
+                                lineStyle={styles.line}
+                                containerStyles={styles.struckLineContainer}/>
+                    <TouchableHighlight onPress={this._signIn}>
+                        <Image style={styles.googleBtn} source={googleSignInBtn}/>
+                    </TouchableHighlight>
+                </View>
+                <View style={styles.bottomBox}>
+                    <Text style={styles.bottomLine}>Made in Lodz 2018</Text>
                 </View>
             </View>
         )
@@ -31,7 +48,6 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
 
     private _signIn = async (e: any) : Promise<any> => {
         e.preventDefault();
-        console.log("Signing in...");
 
         try {
             const result = await Expo.Google.logInAsync({
@@ -49,7 +65,6 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
             } else {
                 console.log("cancelled")
             }
-
         } catch (e) {
             console.log("error", e)
         }
@@ -67,23 +82,55 @@ export default SignInScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-        justifyContent: 'center',
-        alignItems: 'stretch'
+        backgroundColor: Colors.backgroundColor,
+        justifyContent: 'space-between',
     },
     mainBox: {
-        backgroundColor: 'red',
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
         marginLeft: 15,
         marginRight: 15
     },
-    signInText: {
-        color: 'rgba(0,0,0,0.4)',
-        fontSize: 14,
+    logoBox: {
+        top: -100
+    },
+    logoSubtitle: {
+        color: Colors.black,
+        fontFamily: 'montserrat-light',
+        fontSize: 16,
         textAlign: 'center'
     },
-    signInButton: {
-        height: 20,
-        width:40,
-        backgroundColor: 'blue'
+    logoSubtitleLine: {
+        borderBottomColor: Colors.gray,
+        borderBottomWidth: 1,
+        width: 80,
+        top: -10
+    },
+    signInText: {
+        color: Colors.black,
+        fontFamily: 'montserrat-light',
+        fontSize: 24,
+        textAlign: 'center'
+    },
+    struckLineContainer: {
+        width: 200
+    },
+    line: {
+        borderBottomColor: Colors.gray,
+        borderBottomWidth: 1,
+        width: 80,
+        top: -12
+    },
+    googleBtn: {
+    },
+    bottomBox: {
+        bottom: 5,
+        alignItems: 'stretch'
+    },
+    bottomLine: {
+        fontSize: 13,
+        fontFamily: 'montserrat-light',
+        textAlign: 'center'
     }
 });

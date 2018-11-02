@@ -9,12 +9,12 @@
     "eject": "expo eject",
     "test": "node ./node_modules/jest/bin/jest.js --watchAll"
   },
-  "jest": {
-    "preset": "jest-expo"
-  },
+  "jest": {},
   "dependencies": {
+    "@babel/preset-react": "^7.0.0",
     "@expo/samples": "2.1.1",
     "@types/expo": "^30.0.0",
+    "@types/react-native-google-signin": "^1.0.1",
     "@types/react-navigation": "^2.13.0",
     "expo": "^30.0.1",
     "firebase": "^5.5.6",
@@ -30,5 +30,10 @@
     "jest-expo": "30.0.0",
     "react-native-typescript-transformer": "^1.2.10",
     "typescript": "^3.1.4"
+  },
+  "rnpm": {
+    "assets": [
+      "./assets/fonts/"
+    ]
   }
 }
