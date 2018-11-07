@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import { AppLoading, Font, Icon } from 'expo';
 import IError from "./@types/models/errors/IError";
 import IAppState from "./@types/IAppState";
@@ -24,7 +23,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
             );
         } else {
             return (
-                <AppStackNavigator/>
+                <SignInNavigator/>
             )
         }
     }
@@ -48,7 +47,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
         this.setState({ isLoadingComplete: true });
     };
 }
-const AppStackNavigator = createStackNavigator({
+const SignInNavigator = createStackNavigator({
     SignIn: {
         screen: SignInScreen,
         navigationOptions: {
@@ -58,7 +57,9 @@ const AppStackNavigator = createStackNavigator({
     Menu: {
         screen: MenuScreen,
         navigationOptions: {
+            header: null,
             headerLeft: null
         }
     }
 });
+

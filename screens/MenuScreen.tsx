@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, Text} from "react-native";
-import {NavigationActions, StackActions} from "react-navigation";
+import {NavigationActions, StackActions, TabNavigator} from "react-navigation";
 import IMenuScreenProps from "../@types/screens/MenuScreen/IMenuScreenProps";
 
 export default class MenuScreen extends React.Component<IMenuScreenProps, {}> {
@@ -12,7 +12,6 @@ export default class MenuScreen extends React.Component<IMenuScreenProps, {}> {
         );
     }
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
