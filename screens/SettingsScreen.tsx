@@ -1,12 +1,14 @@
 import React from 'react';
 import {StyleSheet, View, Text} from "react-native";
-import IMenuScreenProps from "../@types/screens/MenuScreen/IMenuScreenProps";
+import {ISettingsScreenProps} from "../@types/screens/SettingsScreen/ISettingsProps";
 
-export default class MenuScreen extends React.Component<IMenuScreenProps, {}> {
+
+
+export default class SettingsScreen extends React.Component<ISettingsScreenProps, {}> {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Menu</Text>
+                <Text>Settings</Text>
             </View>
         );
     }
@@ -19,4 +21,3 @@ const styles = StyleSheet.create({
         alignItems: 'stretch'
     }
 });
-

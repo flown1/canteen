@@ -1,3 +1,4 @@
 export default interface IAppState {
-    isLoadingComplete: boolean
+    isLoadingComplete: boolean,
+    isSignedIn: boolean
 }

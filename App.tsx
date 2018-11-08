@@ -3,13 +3,12 @@ import { AppLoading, Font, Icon } from 'expo';
 import IError from "./@types/models/errors/IError";
 import IAppState from "./@types/IAppState";
 import IAppProps from "./@types/IAppProps";
-import {createStackNavigator} from "react-navigation";
-import SignInScreen from "./screens/SignInScreen";
-import MenuScreen from "./screens/MenuScreen";
+import {AppNavigator} from "./navigation/AppNavigator";
 
 export default class App extends React.Component<IAppProps, IAppState> {
     state = {
-        isLoadingComplete: false
+        isLoadingComplete: false,
+        isSignedIn: false
     };
 
     render() {
@@ -23,12 +22,12 @@ export default class App extends React.Component<IAppProps, IAppState> {
             );
         } else {
             return (
-                <SignInNavigator/>
+                 <AppNavigator/>
             )
         }
     }
 
-    _loadResourcesAsync = async () => {
+    private _loadResourcesAsync = async () => {
         return Promise.all([
             Font.loadAsync({
                 ...Icon.Ionicons.font,
@@ -44,22 +43,6 @@ export default class App extends React.Component<IAppProps, IAppState> {
     };
 
     private _handleFinishLoading = () : void => {
-        this.setState({ isLoadingComplete: true });
+        this.setState({ isLoadingComplete: true, isSignedIn: true });
     };
 }
-const SignInNavigator = createStackNavigator({
-    SignIn: {
-        screen: SignInScreen,
-        navigationOptions: {
-            header: null
-        }
-    },
-    Menu: {
-        screen: MenuScreen,
-        navigationOptions: {
-            header: null,
-            headerLeft: null
-        }
-    }
-});
-
