@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, View, Text} from "react-native";
 import IMenuScreenProps from "../@types/screens/MenuScreen/IMenuScreenProps";
 import DishesList from "../components/Menu/DishesList/DishesList";
+import Colors from "../constants/Colors";
 
 export default class MenuScreen extends React.Component<IMenuScreenProps, {}> {
     render() {
@@ -15,10 +16,7 @@ export default class MenuScreen extends React.Component<IMenuScreenProps, {}> {
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        justifyContent: 'center',
-        alignItems: 'stretch'
+        backgroundColor: Colors.backgroundColor
     }
 });
 

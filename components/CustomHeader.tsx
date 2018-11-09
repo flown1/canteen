@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
+
         marginTop: 25,
         marginLeft: 8,
         marginRight: 8
