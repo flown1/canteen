@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppLoading, Font, Icon } from 'expo';
-import IError from "./@types/models/errors/IError";
+import IError from "./@types/components/errors/IError";
 import IAppState from "./@types/IAppState";
 import IAppProps from "./@types/IAppProps";
 import {AppNavigator} from "./navigation/AppNavigator";

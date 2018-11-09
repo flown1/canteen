@@ -10,8 +10,8 @@ import Expo from "expo"
 import ISignInScreenState from "../@types/screens/SignInScreen/ISignInScreenState";
 import ISignInScreenProps from "../@types/screens/SignInScreen/ISignInScreenProps";
 import {NavigationActions, StackActions} from "react-navigation";
-import TextStruck from "../components/uiUtils/TextStruck";
-import Logo from "../components/uiUtils/Logo";
+import TextStruck from "../components/Text/TextStruck";
+import Logo from "../components/Text/Logo";
 import Colors from "../constants/Colors";
 
 const googleSignInBtn = require("../assets/images/google_signin_btn.png");
@@ -28,7 +28,7 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
             <View style={styles.container}>
                 <View style={styles.mainBox}>
                     <View style={styles.logoBox}>
-                        <Logo/>
+                        <Logo size={"large"}/>
                         <TextStruck textStyle={styles.logoSubtitle} text={"Est. 2018"} lineStyle={styles.logoSubtitleLine} containerStyles={styles.struckLineContainer}/>
                     </View>
                     <TextStruck text="Zaloguj się"

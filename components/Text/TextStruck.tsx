@@ -4,7 +4,7 @@ import {
     Text,
     View
 } from 'react-native';
-import ITextStruckProps from "../../@types/components/uiElements/ITextStruckProps";
+import ITextStruckProps from "../../@types/components/ITextStruckProps";
 
 export default class TextStruck extends React.Component<ITextStruckProps, {}> {
 

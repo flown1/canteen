@@ -4,7 +4,7 @@ import {ISettingsScreenProps} from "../@types/screens/SettingsScreen/ISettingsPr
 
 
 
-export default class SettingsScreen extends React.Component<ISettingsScreenProps, {}> {
+export default class AccountScreen extends React.Component<ISettingsScreenProps, {}> {
     render() {
         return (
             <View style={styles.container}>
