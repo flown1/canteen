@@ -1,13 +1,16 @@
 import React from 'react';
 import {
+    Button,
     Image,
     StyleSheet,
     Text,
-    TouchableHighlight,
+    TouchableHighlight, TouchableHighlightComponent,
     View
 } from 'react-native';
 import Colors from "../../../../constants/Colors";
 import {LinearGradient} from "expo";
+
+const plusIco = require('../../../../assets/images/plus.png');
 
 export default class Dish extends React.Component<IDishProps, {}> {
     render() {
@@ -22,17 +25,22 @@ export default class Dish extends React.Component<IDishProps, {}> {
                         <TouchableHighlight style={styles.orderBtn} onPress={this._handleOrderBtnPress}>
                             <LinearGradient
                                 colors={[Colors.primary, Colors.green]}
-                                                  style={{ padding: 17, borderRadius: 5 }}>
-                                <Text style={styles.orderBtnText}>Zamów</Text>
+                                                  style={[styles.flexRow, { borderRadius: 5, alignItems: 'center' }]}>
+                                    <Image source={plusIco} style={styles.plusIco}/>
+                                    <Text style={styles.orderBtnText}>Zamów</Text>
                             </LinearGradient>
                         </TouchableHighlight>
                     </View>
                     <View style={styles.rightDown}>
-                        <Text>{this.props.desc}</Text>
-                        <Text>{this.props.price}</Text>
+                        <Text style={styles.desc}>{this.props.desc}</Text>
+                        <View style={styles.price}>
+                            <Text style={styles.biggerNumber}>{this.props.price.toString().split(".")[0]}.</Text>
+                            <Text style={styles.smallerNumber}>{this.props.price.toString().split(".")[1]}</Text>
+                            <Text style={styles.currency}>zł</Text>
+
+                        </View>
                     </View>
                 </View>
-
             </View>
         );
     }
@@ -55,9 +63,10 @@ const styles = StyleSheet.create({
         width: 110
     },
     rightPart: {
+        width: 260,
         paddingTop: 5,
         paddingBottom: 5,
-        paddingLeft: 2,
+        
         paddingRight: 2
     },
     img: {
@@ -69,7 +78,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        height: 32,
+        height: 40,
         borderBottomColor: Colors.black,
         borderBottomWidth: 1
     },
@@ -77,6 +86,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
 
+        justifyContent: 'space-between'
     },
     name: {
         fontSize: 21,
@@ -85,14 +95,49 @@ const styles = StyleSheet.create({
     },
     orderBtn: {
         width: 86,
-        height: 25,
+        height: 35,
         borderRadius: 4,
         backgroundColor: Colors.lime
     },
+    plusIco: {
+        width: 20,
+        height: 20
+    },
     orderBtnText: {
-        bottom: 15,
+        height: 35,
+        width: 86,
+        top: 6,
+
         color: Colors.white,
+        backgroundColor: 'transparent',
         fontSize: 17,
         fontFamily: 'montserrat-light'
-    }
+    },
+    desc: {
+        width: 170,
+        color: Colors.gray
+    },
+    price: {
+        display: 'flex',
+        flexDirection: 'row',
+
+        alignItems: "center"
+    },
+    biggerNumber: {
+        fontFamily: 'montserrat-light',
+        fontSize: 25,
+    },
+    smallerNumber: {
+        fontFamily: 'montserrat-light',
+        fontSize: 14,
+        top: 4
+    },
+    currency: {
+        fontFamily: 'montserrat-light',
+        fontSize: 25,
+    },
+    flexRow: {
+        display: 'flex',
+        flexDirection: 'row'
+    },
 });

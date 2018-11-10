@@ -5,6 +5,7 @@ import {
     StyleSheet,
     View, TouchableHighlight
 } from 'react-native';
+import { connect } from 'react-redux';
 import API_KEYS from '../constants/Api_keys'
 import Expo from "expo"
 import ISignInScreenState from "../@types/screens/SignInScreen/ISignInScreenState";
@@ -13,15 +14,12 @@ import {NavigationActions, StackActions} from "react-navigation";
 import TextStruck from "../components/Text/TextStruck";
 import Logo from "../components/Text/Logo";
 import Colors from "../constants/Colors";
+import signInSuccesful from "../redux/actions/signInAction";
+import User from "../dataModels/user";
 
 const googleSignInBtn = require("../assets/images/google_signin_btn.png");
 
 class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenState> {
-
-    state = {
-        signedIn: false,
-        isSigninInProgress: false
-    };
 
     render() {
         return (
@@ -58,9 +56,11 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
 
             if (result.type === "success") {
                 console.log(result.user.name);
-                this.setState({
-                    signedIn: true
-                });
+
+                const user = new User("Ferdynand", "Kowalski", "dragoslayer666@o2.pl", "THSOufy70d5fA*D^t8a58a*SF5a604fa5fta");
+                console.log(`user: ${user}`);
+
+                this.props.onSuccessfulSignIn(user);
                 this.props.navigation.dispatch(this._resetAction);
             } else {
                 console.log("cancelled")
@@ -77,7 +77,15 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
         ],
     });
 }
-export default SignInScreen;
+
+const mapDispatchToProps = (dispatch) => {
+    onSuccessfulSignIn: (user) => {dispatch(signInSuccesful(user))}
+};
+
+const mapStateToProps = (state) => {
+
+};
+export default connect(state => state, mapDispatchToProps)(SignInScreen);
 
 const styles = StyleSheet.create({
     container: {

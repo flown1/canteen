@@ -8,7 +8,7 @@ export default class OrderScreen extends React.Component<ISettingsScreenProps, {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Account</Text>
+                <Text>Order</Text>
             </View>
         );
     }

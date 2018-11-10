@@ -1,9 +1,12 @@
 import React from 'react';
-import { AppLoading, Font, Icon } from 'expo';
+import { AppLoading, Font } from 'expo';
 import IError from "./@types/components/errors/IError";
 import IAppState from "./@types/IAppState";
 import IAppProps from "./@types/IAppProps";
 import {AppNavigator} from "./navigation/AppNavigator";
+import {createStore} from "redux";
+import rootReducer from "./redux/reducers";
+import { Provider } from 'react-redux'
 
 export default class App extends React.Component<IAppProps, IAppState> {
     state = {
@@ -21,8 +24,11 @@ export default class App extends React.Component<IAppProps, IAppState> {
                 />
             );
         } else {
+            const store = createStore(rootReducer);
             return (
-                 <AppNavigator/>
+                <Provider store={store}>
+                    <AppNavigator/>
+                </Provider>
             )
         }
     }
@@ -30,7 +36,6 @@ export default class App extends React.Component<IAppProps, IAppState> {
     private _loadResourcesAsync = async () => {
         return Promise.all([
             Font.loadAsync({
-                ...Icon.Ionicons.font,
                 'montserrat-light': require('./assets/fonts/Montserrat-Light.ttf'),
                 'scriptmt-bold': require('./assets/fonts/ScriptMTBold.ttf'),
 
