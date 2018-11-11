@@ -1,14 +1,16 @@
 export default class User {
-    private string firstName;
-    private string lastName;
-    private string email;
-    private string token;
+    firstName: string;
+    lastName: string;
+    email: string;
+    imgUrl: string;
+    serverAuthCode: string;
 
-    constructor(firstName, lastName, email, token) {
+    constructor(firstName, lastName, email, imgUrl, serverAuthCode) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.token = token;
+        this.imgUrl = imgUrl;
+        this.serverAuthCode = serverAuthCode;
     }
 
 }

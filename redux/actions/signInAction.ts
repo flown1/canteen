@@ -1,11 +1,13 @@
 import User from "../../dataModels/user";
-import SIGN_IN_RESULT from "../reducers/signInReducer";
+import SignInResults from "../constants/SignInResults";
+import {ISignInAction} from "../../@types/redux/actions/ISignInActions";
 
-export default function signInSuccesful(user: User){
+
+export default function signInSuccesful(user: User) : ISignInAction {
   return {
-      type: SIGN_IN_RESULT.SUCCESS,
+      type: SignInResults.SUCCESS,
       payload: {
-          signedIn: true,
+          isSignedIn: true,
           user: user
       }
   }

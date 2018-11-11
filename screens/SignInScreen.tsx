@@ -22,6 +22,7 @@ const googleSignInBtn = require("../assets/images/google_signin_btn.png");
 class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenState> {
 
     render() {
+        console.log("SignInScreen this.props: " + JSON.stringify(this.props));
         return (
             <View style={styles.container}>
                 <View style={styles.mainBox}>
@@ -57,10 +58,15 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
             if (result.type === "success") {
                 console.log(result.user.name);
 
-                const user = new User("Ferdynand", "Kowalski", "dragoslayer666@o2.pl", "THSOufy70d5fA*D^t8a58a*SF5a604fa5fta");
+                const user = new User(result.user.name.split(" ")[0],
+                                        result.user.name.split(" ")[1],
+                                        result.user.email,
+                                        result.user.photoUrl,
+                                        result.serverAuthCode);
                 console.log(`user: ${user}`);
 
                 this.props.onSuccessfulSignIn(user);
+
                 this.props.navigation.dispatch(this._resetAction);
             } else {
                 console.log("cancelled")
@@ -79,12 +85,17 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
 }
 
 const mapDispatchToProps = (dispatch) => {
-    onSuccessfulSignIn: (user) => {dispatch(signInSuccesful(user))}
+    return {
+        onSuccessfulSignIn: (user) => {
+            dispatch(signInSuccesful(user))
+        }
+    }
 };
 
 const mapStateToProps = (state) => {
-
+    return state;
 };
+
 export default connect(state => state, mapDispatchToProps)(SignInScreen);
 
 const styles = StyleSheet.create({

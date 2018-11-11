@@ -1,32 +1,22 @@
 import User from "../../dataModels/user";
-
-
-interface ISignInState {
-    isSignedIn : boolean,
-    user: User | undefined
-}
-
-interface ISignInAction {
-    type: String,
-    payload: {
-        signInSuccessful: boolean,
-        user: User
-    }
-}
+import SignInResults from "../constants/SignInResults";
+import ISignInState from "../../@types/state/ISignedInState";
+import {ISignInAction} from "../../@types/redux/actions/ISignInActions";
 
 const initialState : ISignInState= {
     isSignedIn: false,
-    user: undefined
+    user: new User("---","---","---","---","---")
 };
 
 export default function signIn(state = initialState, action: ISignInAction) {
     switch (action.type) {
-        case "SIGNED_IN":
-            return {
-                ...state,
-                isSignedIn: action.payload.signInSuccessful,
+        case SignInResults.SUCCESS:
+            let newState = {
+                isSignedIn: true,
                 user: action.payload.user
             };
+
+            return newState;
         default:
             return state
     }

@@ -1,4 +1,6 @@
-export default const SIGN_IN_RESULT = {
-    SUCCESS: 'SUCCESS',
-    FAILED: 'FAILED'
+enum SignInResults {
+    SUCCESS = 'SUCCESS',
+    FAILED = 'FAILED'
 }
+
+export default SignInResults;

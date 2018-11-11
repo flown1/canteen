@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet, View, Text} from "react-native";
-import {ISettingsScreenProps} from "../@types/screens/SettingsScreen/ISettingsProps";
+import {IAccountScreenProps} from "../@types/screens/AccountScreen/IAccountProps";
 
 
 
-export default class OrderScreen extends React.Component<ISettingsScreenProps, {}> {
+export default class OrderScreen extends React.Component<IAccountScreenProps, {}> {
     render() {
         return (
             <View style={styles.container}>

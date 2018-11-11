@@ -10,8 +10,7 @@ import { Provider } from 'react-redux'
 
 export default class App extends React.Component<IAppProps, IAppState> {
     state = {
-        isLoadingComplete: false,
-        isSignedIn: false
+        isLoadingComplete: false
     };
 
     render() {
@@ -48,6 +47,6 @@ export default class App extends React.Component<IAppProps, IAppState> {
     };
 
     private _handleFinishLoading = () : void => {
-        this.setState({ isLoadingComplete: true, isSignedIn: true });
+        this.setState({ isLoadingComplete: true});
     };
 }
