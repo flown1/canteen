@@ -22,7 +22,6 @@ const googleSignInBtn = require("../assets/images/google_signin_btn.png");
 class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenState> {
 
     render() {
-        console.log("SignInScreen this.props: " + JSON.stringify(this.props));
         return (
             <View style={styles.container}>
                 <View style={styles.mainBox}>
@@ -69,10 +68,10 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
 
                 this.props.navigation.dispatch(this._resetAction);
             } else {
-                console.log("cancelled")
+                console.warn("Signin cancelled")
             }
         } catch (e) {
-            console.log("error", e)
+            console.warn("Error while signingIn: ", e)
         }
     };
 
@@ -90,10 +89,6 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(signInSuccesful(user))
         }
     }
-};
-
-const mapStateToProps = (state) => {
-    return state;
 };
 
 export default connect(state => state, mapDispatchToProps)(SignInScreen);

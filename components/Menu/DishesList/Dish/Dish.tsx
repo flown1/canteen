@@ -1,10 +1,9 @@
 import React from 'react';
 import {
-    Button,
     Image,
     StyleSheet,
     Text,
-    TouchableHighlight, TouchableHighlightComponent,
+    TouchableHighlight,
     View
 } from 'react-native';
 import Colors from "../../../../constants/Colors";
@@ -57,13 +56,15 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         display: 'flex',
         flexDirection: 'row',
-        backgroundColor: Colors.white
+        backgroundColor: Colors.white,
+
+        marginBottom: 10
     },
     leftPart: {
         width: 110
     },
     rightPart: {
-        width: 260,
+        width: 250,
         paddingTop: 5,
         paddingBottom: 5,
         

@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         backgroundColor: Colors.boneWhite,
+
         paddingTop: 6,
         paddingBottom: 6,
         paddingLeft: 10,
