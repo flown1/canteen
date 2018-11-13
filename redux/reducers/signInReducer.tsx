@@ -1,6 +1,6 @@
 import User from "../../dataModels/user";
 import SignInResults from "../constants/SignInResults";
-import ISignInState from "../../@types/state/ISignedInState";
+import ISignInState from "../../@types/redux/state/ISignedInState";
 import {ISignInAction} from "../../@types/redux/actions/ISignInActions";
 
 const initialState : ISignInState= {

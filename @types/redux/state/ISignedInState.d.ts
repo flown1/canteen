@@ -1,4 +1,4 @@
-import User from "../../dataModels/user";
+import User from "../../../dataModels/user";
 
 export default interface ISignInState {
     isSignedIn: boolean,

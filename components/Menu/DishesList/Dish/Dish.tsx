@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import Colors from "../../../../constants/Colors";
 import {LinearGradient} from "expo";
+import {IDishProps} from "../../../../@types/components/Menu/DishList/Dish/IDishProps";
 
 const plusIco = require('../../../../assets/images/plus.png');
 
@@ -16,11 +17,11 @@ export default class Dish extends React.Component<IDishProps, {}> {
         return (
             <View style={styles.box}>
                 <View style={styles.leftPart}>
-                    <Image source={{uri: this.props.imgUrl }|| {uri: ""}} style={styles.img}/>
+                    <Image source={{uri: this.props.dish.imgUrl }|| {uri: ""}} style={styles.img}/>
                 </View>
                 <View style={styles.rightPart}>
                     <View style={styles.rightUp}>
-                        <Text style={styles.name}>{this.props.name}</Text>
+                        <Text style={styles.name}>{this.props.dish.namePL}</Text>
                         <TouchableHighlight style={styles.orderBtn} onPress={this._handleOrderBtnPress}>
                             <LinearGradient
                                 colors={[Colors.primary, Colors.green]}
@@ -31,12 +32,11 @@ export default class Dish extends React.Component<IDishProps, {}> {
                         </TouchableHighlight>
                     </View>
                     <View style={styles.rightDown}>
-                        <Text style={styles.desc}>{this.props.desc}</Text>
+                        <Text style={styles.desc}>{this.props.dish.descPL}</Text>
                         <View style={styles.price}>
-                            <Text style={styles.biggerNumber}>{this.props.price.toString().split(".")[0]}.</Text>
-                            <Text style={styles.smallerNumber}>{this.props.price.toString().split(".")[1]}</Text>
+                            <Text style={styles.biggerNumber}>{this.props.dish.price.toString().split(".")[0]}.</Text>
+                            <Text style={styles.smallerNumber}>{this.props.dish.price.toString().split(".")[1]}</Text>
                             <Text style={styles.currency}>zł</Text>
-
                         </View>
                     </View>
                 </View>
@@ -46,7 +46,9 @@ export default class Dish extends React.Component<IDishProps, {}> {
 
     private _handleOrderBtnPress = (e : Event) : void => {
         e.preventDefault();
-        console.log(`Ordered ${this.props.name}!`);
+        console.log(`Ordered ${this.props.dish.namePL} of id ${this.props.dish.id}!`);
+
+        this.props.addToCart(this.props.dish);
     }
 }
 

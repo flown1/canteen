@@ -90,17 +90,18 @@ const MainNavigator = createDrawerNavigator({
 );
 
 export const AppNavigator = createStackNavigator({
-    SignIn: {
-        screen: SignInScreen,
-        navigationOptions: {
-            header: null
-        }
-    },
+
     Menu: {
         screen: MainNavigator,
         navigationOptions: {
             header: <CustomHeader/>,
             headerLeft: null
+        }
+    },
+    SignIn: {
+        screen: SignInScreen,
+        navigationOptions: {
+            header: null
         }
     },
 
