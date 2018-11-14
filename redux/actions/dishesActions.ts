@@ -16,19 +16,3 @@ export function dishesRetrieved(dishList: Array<DishData>): IDishesRetrieved{
         }
     }
 }
-
-interface IDishAddToCart {
-    type: string,
-    payload: {
-        dish: DishData
-    }
-}
-
-export function dishAddToCart(dish: DishData): IDishAddToCart {
-    return {
-        type: ACTIONS.DISHES.ADD_TO_CART,
-        payload: {
-            dish: dish
-        }
-    }
-}

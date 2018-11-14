@@ -9,8 +9,9 @@ import { connect } from 'react-redux';
 import ApiFetcher from "../../../utils/ApiFetcher";
 import DishData from '../../../dataModels/dishData'
 import Dish from "./Dish/Dish";
-import {dishAddToCart, dishesRetrieved} from "../../../redux/actions/dishesActions";
-import {IState} from "../../../@types/redux/state/IState";
+import { dishesRetrieved } from "../../../redux/actions/dishesActions";
+import { IState } from "../../../@types/redux/state/IState";
+import { addDishToCart } from "../../../redux/actions/cartActions";
 
 
 interface IDishListProps {
@@ -22,22 +23,18 @@ interface IDishListProps {
 
 class DishesList extends React.Component<IDishListProps> {
     componentDidMount(){
-        console.log("Triggering apiFetcher");
         ApiFetcher.getAllDishes((data: Array<DishData>) => {
             if (!data) {
                 return;
             }
 
-            console.log(`Here is what to be displayed:`, data);
             this.props.onDishesReceived(data);
-
         });
     }
 
     _keyExtractor = (item, index) => index.toString();
 
     _renderItem = ({item: d }) => {
-        console.log('dish:', d);
         return (
             <Dish dish={d}
                   addToCart={this._addToCart}/>
@@ -45,7 +42,6 @@ class DishesList extends React.Component<IDishListProps> {
     };
 
     _addToCart = (dish: DishData) => {
-      console.log(`DishList will add product of name${dish.namePL}`);
       this.props.addToCart(dish);
     };
     render() {
@@ -68,7 +64,6 @@ class DishesList extends React.Component<IDishListProps> {
 }
 
 const mapStateToProps = (state: IState) => {
-    console.log("STATE: ", state);
     return {
         dishList: state.menu.dishList
     }
@@ -76,7 +71,7 @@ const mapStateToProps = (state: IState) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onDishesReceived: (dishList) => dispatch(dishesRetrieved(dishList)),
-        addToCart: (dish) => dispatch(dishAddToCart(dish))
+        addToCart: (dish) => dispatch(addDishToCart(dish))
     }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DishesList);

@@ -32,12 +32,11 @@ export default class App extends React.Component<IAppProps, IAppState> {
         }
     }
 
-    private _loadResourcesAsync = async () => {
+    private _loadResourcesAsync = async () =>  {
         return Promise.all([
             Font.loadAsync({
                 'montserrat-light': require('./assets/fonts/Montserrat-Light.ttf'),
-                'scriptmt-bold': require('./assets/fonts/ScriptMTBold.ttf'),
-
+                'scriptmt-bold': require('./assets/fonts/ScriptMTBold.ttf')
             }),
         ]);
     };

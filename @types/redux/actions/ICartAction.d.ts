@@ -1,8 +1,9 @@
 import DishData from "../../../dataModels/dishData";
 
-export default interface IDishesActions{
+export default interface ICartAction {
     type: String,
     payload: {
-        dishList ?: Array<DishData>
+        dish: DishData
     }
 }
+

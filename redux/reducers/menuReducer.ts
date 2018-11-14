@@ -9,7 +9,6 @@ const initialState = {
 export default function menu(state = initialState, action: IDishesActions) {
     switch (action.type) {
         case ACTIONS.DISHES.RETRIEVED:
-            console.log("menu triggered with", action.payload.dishList);
             return  {
                 dishList: action.payload.dishList
             };

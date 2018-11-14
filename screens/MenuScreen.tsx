@@ -8,7 +8,7 @@ export default class MenuScreen extends React.Component<IMenuScreenProps, {}> {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Menu</Text>
+                <Text style={styles.sectionLabel}>Menu</Text>
                 <DishesList/>
             </View>
         );
@@ -17,6 +17,11 @@ export default class MenuScreen extends React.Component<IMenuScreenProps, {}> {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: Colors.backgroundColor
+    },
+    sectionLabel: {
+        fontFamily: 'montserrat-light',
+        fontSize: 22,
+        color: Colors.black
     }
 });
 

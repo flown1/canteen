@@ -8,12 +8,16 @@ import {
 } from 'react-native';
 import Logo from "./Text/Logo";
 import Colors from "../constants/Colors";
+import IReactNavigateProps from "../@types/@react-navigation/IReactNavigateProps";
 
 const loopIco = require('../assets/images/search_ico.png');
 const cartIco = require('../assets/images/cart_ico.png');
 
-export default class CustomHeader extends React.Component {
+interface ICustomHeaderProps {
+    navigation: IReactNavigateProps
+}
 
+export default class CustomHeaderRight extends React.Component<ICustomHeaderProps> {
     render() {
         return (
             <View style={styles.container}>
@@ -35,15 +39,16 @@ export default class CustomHeader extends React.Component {
                 </TouchableHighlight>
             </View>
         );
-    }
+    };
 
     private _handleSearchIcoClick = (): void => {
         console.log("Clicked search icon");
-    }
+    };
 
     private _handleCartIcoClick = (): void => {
         console.log("Clicked cart button");
-    }
+        this.props.navigation.navigate('Cart');
+    };
 }
 
 const styles = StyleSheet.create({

@@ -1,6 +1,8 @@
 export const ACTIONS = {
     DISHES: {
-        RETRIEVED: "DISHES_RETRIEVED",
-        ADD_TO_CART: "ADD_TO_CART"
+        RETRIEVED: "DISHES_RETRIEVED"
+    },
+    CART: {
+        ADD_DISH: "ADD_DISH"
     }
 };

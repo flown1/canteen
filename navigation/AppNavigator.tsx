@@ -1,5 +1,5 @@
-import {Image, StyleSheet} from 'react-native';
-import {createBottomTabNavigator, createDrawerNavigator, createStackNavigator} from "react-navigation";
+import { Image, StyleSheet} from 'react-native';
+import { createBottomTabNavigator, createStackNavigator } from "react-navigation";
 import MenuScreen from "../screens/MenuScreen";
 import AccountScreen from "../screens/AccountScreen";
 import SignInScreen from "../screens/SignInScreen";
@@ -8,7 +8,8 @@ import OrderScreen from "../screens/OrderScreen";
 
 import * as React from "react";
 import Colors from "../constants/Colors";
-import CustomHeader from "../components/CustomHeader";
+import CustomHeaderRight from "../components/CustomHeaderRight";
+import CartScreen from "../screens/CartScreen";
 
 const MenuIco = require('../assets/images/menu_ico_black_new.png');
 const OrderIco = require('../assets/images/fastfood_ico_black.png');
@@ -84,8 +85,9 @@ const BottomTabNavigator = createBottomTabNavigator(
         animationEnabled: true
     }
 );
-const MainNavigator = createDrawerNavigator({
-        Menu: {screen: BottomTabNavigator}
+
+const MainNavigator = createStackNavigator({
+        Menu: {screen: BottomTabNavigator},
     }
 );
 
@@ -93,10 +95,10 @@ export const AppNavigator = createStackNavigator({
 
     Menu: {
         screen: MainNavigator,
-        navigationOptions: {
-            header: <CustomHeader/>,
+        navigationOptions: ({ navigation }) => ({
+            header: <CustomHeaderRight navigation={navigation} /> ,//<Button title='Cart' onPress={() => navigation.navigate('Cart')} >,
             headerLeft: null
-        }
+        })
     },
     SignIn: {
         screen: SignInScreen,
@@ -104,5 +106,11 @@ export const AppNavigator = createStackNavigator({
             header: null
         }
     },
+    Cart: {
+        screen: CartScreen,
+        navigationOptions: {
+            header: null
+        }
+    }
 
 });

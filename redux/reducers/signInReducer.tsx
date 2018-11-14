@@ -11,7 +11,6 @@ const initialState : ISignInState= {
 export default function signIn(state = initialState, action: ISignInAction) {
     switch (action.type) {
         case SignInResults.SUCCESS:
-
             return  {
                 isSignedIn: true,
                 user: action.payload.user
