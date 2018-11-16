@@ -10,6 +10,7 @@ import * as React from "react";
 import Colors from "../constants/Colors";
 import CustomHeaderRight from "../components/CustomHeaderRight";
 import CartScreen from "../screens/CartScreen";
+import PaymentsScreen from "../screens/PaymentsScreen";
 
 const MenuIco = require('../assets/images/menu_ico_black_new.png');
 const OrderIco = require('../assets/images/fastfood_ico_black.png');
@@ -108,6 +109,12 @@ export const AppNavigator = createStackNavigator({
     },
     Cart: {
         screen: CartScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    Payments: {
+        screen: PaymentsScreen,
         navigationOptions: {
             header: null
         }

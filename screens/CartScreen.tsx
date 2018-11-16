@@ -10,6 +10,8 @@ import {IState} from "../@types/redux/state/IState";
 import {ICartScreenProps} from "../@types/screens/CartScreen/ICartScreenProps";
 import Colors from "../constants/Colors";
 import OrderList from "../components/Order/OrderList";
+import {deleteOrderFromCart} from "../redux/actions/cartActions";
+import ProceedToPaymentsButton from "../components/Button/ProceesToPaymentsButton";
 
 const cartEmptyImg = require("../assets/images/cart_empty_img.png");
 
@@ -28,14 +30,19 @@ class CartScreen extends React.Component<ICartScreenProps> {
             return (
                 <View style={styles.container}>
                     <Text style={styles.title}>Twoj koszyk:</Text>
-                    <OrderList items={this.props.cart.items} deleteItem={this._handleOnDeleteItem.bind(this)}/>
+                    <OrderList items={this.props.cart.items} deleteItem={this._handleOnDeleteItem}/>
+                    <ProceedToPaymentsButton onPress={this._handleOnProceedToPaymentsPress}/>
                 </View>
             );
         }
     }
 
-    private _handleOnDeleteItem(id: string) {
-        console.log(`gonna delete: ${id}`);
+    private _handleOnDeleteItem = (id: string) => {
+        this.props.onDelete(id);
+    };
+
+    private _handleOnProceedToPaymentsPress = () => {
+        this.props.navigation.navigate('Payments')
     }
 }
 
@@ -45,7 +52,12 @@ const mapStateToProps = (state: IState) => {
     }
 };
 
-export default connect(mapStateToProps)(CartScreen)
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onDelete: (idToDelete: string) => dispatch(deleteOrderFromCart(idToDelete))
+    }
+};
+export default connect(mapStateToProps, mapDispatchToProps)(CartScreen)
 
 const styles = StyleSheet.create({
     noProductsContainer: {

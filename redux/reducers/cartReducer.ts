@@ -28,7 +28,7 @@ const addDishToCart = (items, dish: DishData): ICartState => {
     return newItems;
 };
 
-export default function cart(state = initialState, action: ICartActionAddToCart) {
+export default function cart(state = initialState, action) {
     switch (action.type) {
         case ACTIONS.CART.ADD_DISH:
 
@@ -36,6 +36,12 @@ export default function cart(state = initialState, action: ICartActionAddToCart)
             return  {
                 ...state,
                 items: newItems
+            };
+        case ACTIONS.CART.DELETE_ORDER:
+            const idToDelete = action.payload.idToDelete;
+            return {
+                ...state,
+                items: state.items.filter( (o: OrderData) => o.dish.id !== idToDelete)
             };
         default:
             return state
