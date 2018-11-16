@@ -8,12 +8,10 @@ export default class ApiFetcher {
     static getAllDishes(callback: Function): void{
         const ROOT = `${CONFIG.SERVER_INFO.ROOT_URL}:${CONFIG.SERVER_INFO.PORT}`;
         const DISHES_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.GET_DISHES;
-        console.log(`${ROOT}${DISHES_ENDPOINT}`);
 
         fetch(ROOT + DISHES_ENDPOINT)
         .then(( data ) => {return data.json()})
         .then(( dataJson ) => {
-            console.log("GetDishes result: ", dataJson);
 
             let dishes = new Array<DishData>();
 

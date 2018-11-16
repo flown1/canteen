@@ -55,7 +55,6 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
             });
 
             if (result.type === "success") {
-                console.log(result.user.name);
 
                 const user = new User(result.user.name.split(" ")[0],
                                         result.user.name.split(" ")[1],

@@ -1,29 +1,34 @@
 import React from 'react';
 import {
     StyleSheet,
-    Text,
+    Text, TouchableOpacity,
     View
 } from 'react-native';
 import Colors from "../../constants/Colors";
 
-export default class XButton extends React.Component {
+interface IXButtonProps {
+    handleOnPress: () => void
+}
+
+export default class XButton extends React.Component<IXButtonProps,{}> {
 
     render() {
         return (
-            <View style={styles.wrapper}>
+            <TouchableOpacity onPress={this.props.handleOnPress} style={styles.wrapper}>
                 <Text style={styles.theX}>X</Text>
-            </View>
+            </TouchableOpacity>
         );
     }
 }
 
 const styles = StyleSheet.create({
     wrapper: {
-        alignContent: 'center'
+        alignContent: 'center',
+        marginTop: 20
     },
     theX: {
         fontFamily: 'montserrat-light',
-        fontSize: 22,
+        fontSize: 18,
         color: Colors.darkGray
     }
 });

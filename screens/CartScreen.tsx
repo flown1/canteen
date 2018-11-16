@@ -6,17 +6,16 @@ import {
     View
 } from 'react-native';
 import { connect } from 'react-redux'
-import DishData from "../dataModels/dishData";
 import {IState} from "../@types/redux/state/IState";
 import {ICartScreenProps} from "../@types/screens/CartScreen/ICartScreenProps";
 import Colors from "../constants/Colors";
-import OrderItem from "../components/Order/OrderItem";
+import OrderList from "../components/Order/OrderList";
 
 const cartEmptyImg = require("../assets/images/cart_empty_img.png");
 
 class CartScreen extends React.Component<ICartScreenProps> {
     render() {
-        if (!this.props.cart.items.length) {
+        if (this.props.cart.items.length === 0) {
             return (
                 <View style={styles.noProductsContainer}>
                     <Text style={styles.title}>Twój Koszyk jest pusty.</Text>
@@ -29,12 +28,14 @@ class CartScreen extends React.Component<ICartScreenProps> {
             return (
                 <View style={styles.container}>
                     <Text style={styles.title}>Twoj koszyk:</Text>
-                    {this.props.cart.items.map((d: DishData) => {
-                        return <OrderItem key={d.id} dish={d}/>
-                    })}
+                    <OrderList items={this.props.cart.items} deleteItem={this._handleOnDeleteItem.bind(this)}/>
                 </View>
             );
         }
+    }
+
+    private _handleOnDeleteItem(id: string) {
+        console.log(`gonna delete: ${id}`);
     }
 }
 

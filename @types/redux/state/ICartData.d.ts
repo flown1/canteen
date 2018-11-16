@@ -1,3 +1,5 @@
+import OrderData from "../../../dataModels/OrderData";
+
 export interface ICartState {
-    items: any
+    items: Array<OrderData>
 }

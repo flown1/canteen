@@ -46,7 +46,6 @@ export default class Dish extends React.Component<IDishProps, {}> {
 
     private _handleOrderBtnPress = (e : Event) : void => {
         e.preventDefault();
-        console.log(`Ordered ${this.props.dish.namePL} of id ${this.props.dish.id}!`);
 
         this.props.addToCart(this.props.dish);
     }

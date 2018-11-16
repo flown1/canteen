@@ -93,18 +93,18 @@ const MainNavigator = createStackNavigator({
 
 export const AppNavigator = createStackNavigator({
 
+    // SignIn: {
+    //     screen: SignInScreen,
+    //     navigationOptions: {
+    //         header: null
+    //     }
+    // },
     Menu: {
         screen: MainNavigator,
         navigationOptions: ({ navigation }) => ({
             header: <CustomHeaderRight navigation={navigation} /> ,//<Button title='Cart' onPress={() => navigation.navigate('Cart')} >,
             headerLeft: null
         })
-    },
-    SignIn: {
-        screen: SignInScreen,
-        navigationOptions: {
-            header: null
-        }
     },
     Cart: {
         screen: CartScreen,
