@@ -28,8 +28,7 @@ class CartScreen extends React.Component<ICartScreenProps> {
                     <Image source={cartEmptyImg} style={styles.cartEmpty}/>
                 </View>
             )
-        }
-        else {
+        } else {
             let total = 0;
             this.props.cart.items.map( (o: OrderData): number => {
                 total += (o.quantity * o.dish.price);
