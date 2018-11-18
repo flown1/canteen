@@ -5,17 +5,20 @@ import {
     Text,
     View
 } from 'react-native';
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import {IState} from "../@types/redux/state/IState";
 import {ICartScreenProps} from "../@types/screens/CartScreen/ICartScreenProps";
 import Colors from "../constants/Colors";
 import OrderList from "../components/Order/OrderList";
 import {deleteOrderFromCart} from "../redux/actions/cartActions";
 import ProceedToPaymentsButton from "../components/Button/ProceesToPaymentsButton";
+import OrderData from "../dataModels/OrderData";
+import Fonts from "../constants/Fonts";
 
 const cartEmptyImg = require("../assets/images/cart_empty_img.png");
 
 class CartScreen extends React.Component<ICartScreenProps> {
+
     render() {
         if (this.props.cart.items.length === 0) {
             return (
@@ -27,11 +30,24 @@ class CartScreen extends React.Component<ICartScreenProps> {
             )
         }
         else {
+            let total = 0;
+            this.props.cart.items.map( (o: OrderData): number => {
+                total += (o.quantity * o.dish.price);
+            });
+
             return (
                 <View style={styles.container}>
-                    <Text style={styles.title}>Twoj koszyk:</Text>
-                    <OrderList items={this.props.cart.items} deleteItem={this._handleOnDeleteItem}/>
-                    <ProceedToPaymentsButton onPress={this._handleOnProceedToPaymentsPress}/>
+                    <View style={styles.upperBox}>
+                        <Text style={styles.title}>Twoj koszyk:</Text>
+                        <OrderList items={this.props.cart.items} deleteItem={this._handleOnDeleteItem}/>
+                    </View>
+                    <View style={styles.lowerBox}>
+                        <View style={styles.totalWrapper}>
+                            <Text style={styles.totalLabel}>Total: </Text>
+                            <Text style={styles.total}>{total}zł</Text>
+                        </View>
+                        <ProceedToPaymentsButton onPress={this._handleOnProceedToPaymentsPress}/>
+                    </View>
                 </View>
             );
         }
@@ -66,19 +82,42 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     container: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
         marginTop: 30,
+    },
+    upperBox: {
+
+    },
+    lowerBox: {
+
     },
     title: {
         color: Colors.black,
-        fontFamily: 'montserrat-light',
+        fontFamily: Fonts.family.montserrat_light,
         fontSize: 22,
-        textAlign: 'center'
+        textAlign: 'center',
+        alignItems: 'center'
     },
     subtitle: {
         color: Colors.darkGray,
-        fontFamily: 'montserrat-light',
+        fontFamily: Fonts.family.montserrat_light,
         fontSize: 16,
         textAlign: 'center'
+    },
+    totalWrapper: {
+        backgroundColor: Colors.gray,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    totalLabel: {
+        fontSize: 22,
+        fontFamily: Fonts.family.montserrat_light
+    },
+    total: {
+        fontSize: 22,
+        fontFamily: Fonts.family.montserrat_light
     },
     cartEmpty: {
         height: 200,

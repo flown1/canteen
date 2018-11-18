@@ -23,7 +23,7 @@ export default class ProceedToPaymentsButton extends React.Component<IProProceed
 const styles = StyleSheet.create({
     wrapper: {
         backgroundColor: Colors.crimson,
-        height: 200
+        height: 80
     },
     buttonText: {
         fontSize: 22,
