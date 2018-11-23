@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    Button,
     Image,
     StyleSheet,
     Text,
@@ -26,6 +27,7 @@ class CartScreen extends React.Component<ICartScreenProps> {
                     <Text style={styles.title}>Twój Koszyk jest pusty.</Text>
                     <Text style={styles.subtitle}>Twój Koszyk jest smutny :-(((.</Text>
                     <Image source={cartEmptyImg} style={styles.cartEmpty}/>
+                    <Button title=" << Powrót" onPress={ () => this.props.navigation.navigate('Menu') } />
                 </View>
             )
         } else {
@@ -42,8 +44,11 @@ class CartScreen extends React.Component<ICartScreenProps> {
                     </View>
                     <View style={styles.lowerBox}>
                         <View style={styles.totalWrapper}>
-                            <Text style={styles.totalLabel}>Total: </Text>
-                            <Text style={styles.total}>{total}zł</Text>
+                            <Text style={styles.totalLabel}>Całkowity koszt: </Text>
+                            <View style={styles.totalWrapperCost}>
+                                <Text style={styles.total}>{total.toString().split(".")[0]}.</Text>
+                                <Text style={[styles.total, styles.totalSmaller]}>{total.toString().split(".")[1]}zł</Text>
+                            </View>
                         </View>
                         <ProceedToPaymentsButton onPress={this._handleOnProceedToPaymentsPress}/>
                     </View>
@@ -106,17 +111,31 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     totalWrapper: {
+        height: 55,
+        marginTop: 14,
         backgroundColor: Colors.gray,
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
+    totalWrapperCost: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
     totalLabel: {
-        fontSize: 22,
-        fontFamily: Fonts.family.montserrat_light
+        fontSize: Fonts.sizes.big,
+        fontFamily: Fonts.family.montserrat_light,
+        marginLeft: 15
     },
     total: {
-        fontSize: 22,
-        fontFamily: Fonts.family.montserrat_light
+        fontSize: Fonts.sizes.regular2,
+        fontFamily: Fonts.family.montserrat_light,
+        marginTop: 5
+    },
+    totalSmaller: {
+        fontSize: Fonts.sizes.small,
+        fontFamily: Fonts.family.montserrat_light,
+        marginTop: 10,
+        marginRight: 18
     },
     cartEmpty: {
         height: 200,

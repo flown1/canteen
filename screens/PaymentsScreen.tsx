@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     },
     promptText: {
        fontFamily: Fonts.family.montserrat_light,
-       fontSize: Fonts.sizes.regular,
+       fontSize: Fonts.sizes.regular2,
        color: Colors.black
     }
 });

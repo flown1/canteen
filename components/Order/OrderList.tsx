@@ -1,6 +1,7 @@
 import React from 'react';
 import {
     FlatList,
+    StyleSheet,
     View
 } from 'react-native';
 import OrderItem from "./OrderItem";
@@ -28,6 +29,7 @@ export default class OrderList extends React.Component<IOrderListProps> {
     render() {
         return (
             <FlatList data={this.props.items}
+                      style={styles.orderListWrapper}
                       keyExtractor={this._keyExtractor}
                       renderItem={this._renderItem}/>
         );
@@ -37,3 +39,11 @@ export default class OrderList extends React.Component<IOrderListProps> {
         this.props.deleteItem(id)
     }
 }
+
+const styles = StyleSheet.create({
+    orderListWrapper: {
+        marginTop: 15,
+        paddingRight:8,
+        paddingLeft:8,
+    }
+});

@@ -4,6 +4,12 @@ export default {
         segoe_light: 'segoe'
     },
     sizes: {
-        regular: 22
+        tiny: 10,
+        small: 16,
+        regular1: 20,
+        regular2: 22,
+        big: 28,
+        large: 38,
+        xlarge: 48
     }
 }

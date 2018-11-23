@@ -3,13 +3,15 @@ import {StyleSheet, View, Text} from "react-native";
 import IMenuScreenProps from "../@types/screens/MenuScreen/IMenuScreenProps";
 import DishesList from "../components/Menu/DishesList/DishesList";
 import Colors from "../constants/Colors";
+import Filter from "../components/Filter/Filter";
 
 export default class MenuScreen extends React.Component<IMenuScreenProps> {
 
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.sectionLabel}>Menu</Text>
+                <Filter/>
+                <Text style={styles.sectionLabel}>Menu na dzis:</Text>
                 <DishesList/>
             </View>
         );

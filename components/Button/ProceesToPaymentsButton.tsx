@@ -5,6 +5,8 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import Colors from "../../constants/Colors";
+import Fonts from "../../constants/Fonts";
+import {LinearGradient} from "expo";
 
 interface IProProceedToPaymentsButtonProps {
     onPress: () => void
@@ -14,7 +16,12 @@ export default class ProceedToPaymentsButton extends React.Component<IProProceed
     render() {
         return (
             <TouchableOpacity style={styles.wrapper} onPress={this.props.onPress}>
-                <Text style={styles.buttonText}>Zapłać >>></Text>
+                <LinearGradient
+                    colors={[Colors.red, Colors.crimson]}
+                    style={[{top: -12}, {alignItems: 'center' }]}>
+                    <Text style={styles.buttonText}>Zapłać >></Text>
+                </LinearGradient>
+
             </TouchableOpacity>
         );
     }
@@ -22,12 +29,19 @@ export default class ProceedToPaymentsButton extends React.Component<IProProceed
 
 const styles = StyleSheet.create({
     wrapper: {
+        justifyContent: 'center',
         backgroundColor: Colors.crimson,
-        height: 80
+        height: 60
+    },
+    flexRow: {
+        display: 'flex',
+        flexDirection: 'row'
     },
     buttonText: {
-        fontSize: 22,
+        fontSize: Fonts.sizes.large,
+        fontFamily: Fonts.family.montserrat_light,
         color: Colors.white,
-        textAlign: 'center'
+        textAlign: 'center',
+        justifyContent: 'center'
     }
 });

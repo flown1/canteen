@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    GestureResponderEvent,
     Image,
     StyleSheet,
     Text,
@@ -22,7 +23,7 @@ export default class Dish extends React.Component<IDishProps, {}> {
                 <View style={styles.rightPart}>
                     <View style={styles.rightUp}>
                         <Text style={styles.name}>{this.props.dish.namePL}</Text>
-                        <TouchableHighlight style={styles.orderBtn} onPress={this._handleOrderBtnPress}>
+                        <TouchableHighlight style={styles.orderBtn} onPress={(e: GestureResponderEvent) => this._handleOrderBtnPress(e)}>
                             <LinearGradient
                                 colors={[Colors.primary, Colors.green]}
                                                   style={[styles.flexRow, { borderRadius: 5, alignItems: 'center' }]}>
@@ -44,7 +45,7 @@ export default class Dish extends React.Component<IDishProps, {}> {
         );
     }
 
-    private _handleOrderBtnPress = (e : Event) : void => {
+    private _handleOrderBtnPress = (e : GestureResponderEvent) : void => {
         e.preventDefault();
 
         this.props.addToCart(this.props.dish);
@@ -58,8 +59,15 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         backgroundColor: Colors.white,
+        marginBottom: 10,
 
-        marginBottom: 10
+        shadowColor: Colors.black,
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowRadius: 3,
+        shadowOpacity: 0.2
     },
     leftPart: {
         width: 110

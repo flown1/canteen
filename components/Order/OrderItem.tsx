@@ -9,12 +9,13 @@ import Colors from "../../constants/Colors";
 import XButton from "../Button/XButton";
 import Expo from "expo";
 import {IOrderItemProps} from "../../@types/components/Order/OrderItem";
+import Fonts from "../../constants/Fonts";
 
 export default class OrderItem extends React.Component<IOrderItemProps> {
     render() {
         return (
             <View style={styles.orderBox}>
-                <Text style={styles.orderInfoText}>{this.props.orderItem.quantity}</Text>
+                <Text style={styles.orderInfoText}>{this.props.orderItem.quantity}x</Text>
                 <Image source={{uri: this.props.orderItem.dish.imgUrl }|| {uri: ""}} style={styles.dishImage}/>
                 <Text style={styles.orderInfoText}>{this.props.orderItem.dish.namePL}</Text>
                 <Text style={styles.orderInfoText}>{this.props.totalPrice}zł</Text>
@@ -47,16 +48,24 @@ const styles = StyleSheet.create({
         height: 60,
         backgroundColor: Colors.white,
         borderRadius: 5,
-        marginBottom: 15,
+        marginBottom: 8,
         paddingLeft: 20,
         paddingRight: 20,
+
+        shadowColor: Colors.black,
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowRadius: 3,
+        shadowOpacity: 0.2
     },
     dishImage: {
         width: 60
     },
     orderInfoText: {
-        fontFamily: 'montserrat-light',
-        fontSize: 18,
+        fontFamily: Fonts.family.montserrat_light,
+        fontSize: Fonts.sizes.regular1,
         color: Colors.black,
         paddingTop: 12
     }
