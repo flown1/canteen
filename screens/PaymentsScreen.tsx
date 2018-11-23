@@ -1,59 +1,49 @@
 import React from 'react';
 import {
-    Button,
+    Button, Modal,
     StyleSheet,
     Text,
-    View
+    View, WebView
 } from 'react-native';
 import Fonts from "../constants/Fonts";
 import Colors from "../constants/Colors";
-import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
+import {CONFIG} from "../config/config";
+import {CANTEEN_API_CONSTANTS} from "../constants/CanteenApi";
 import Api_keys from "../constants/Api_keys";
-
+import PaypalCheckoutButton from "../components/Button/PaypalCheckoutButton";
 
 export default class PaymentsScreen extends React.Component {
+    state = {
+        showModal: false
+    };
 
     render() {
+        const paymentsUrl = CONFIG.SERVER_INFO.ROOT_URL + ":" + CONFIG.SERVER_INFO.PORT + CANTEEN_API_CONSTANTS.ENDPOINTS.PAYMENTS.PAYPAL;
+        console.log(paymentsUrl);
+
         return (
             <View style={styles.container}>
+                <Modal
+                    visible={this.state.showModal}
+                    onRequestClose={() => this.setState({ showModal: false})}
+                >
+                    <WebView source={{ uri: paymentsUrl }} onNavigationStateChange={data => this._handlePaymentResponse}/>
+                </Modal>
                 <Text style={styles.promptText}>Wybierz metode platnosci:</Text>
-                <Button onPress={this._handleStripePresss} title="Stripe"></Button>
+                <PaypalCheckoutButton/>
             </View>
         );
     }
 
-    private _handleStripePresss = async () => {
-        console.log('Paying via Stripe...');
+    private _handlePaymentResponse = (data) => {
+        console.log("Payment data response: ", data);
 
-        /*** STRIPE CONFIG ***/
-        Stripe.setOptionsAsync({
-            publishableKey: Api_keys.PAYMENTS.STRIPE, // Your key
-        });
+    };
 
-        const params = {
-            // mandatory
-            number: '4242424242424242',
-            expMonth: 11,
-            expYear: 17,
-            cvc: '223',
-            // optional
-            name: 'Test User',
-            currency: 'usd',
-            addressLine1: '123 Test Street',
-            addressLine2: 'Apt. 5',
-            addressCity: 'Test City',
-            addressState: 'Test State',
-            addressCountry: 'Test Country',
-            addressZip: '55555',
-        };
-
-        // const token = await Stripe.createTokenWithCardAsync(params).then( (result) => {
-        //     console.log(`STRIPE Result: `, result);
-        // }).catch( (e) => {
-        //     console.warn(`Couldn't make payment using Stripe because of ${e.getMessage()}.`);
-        // });
-        // console.log("STRIPE TOKEN: ", token);
-        debugger;
+    private _handlePaypalPress = async (e) => {
+        e.preventDefault();
+        console.log('Paying via Paypal...');
+        this.setState({showModal: true})
     }
 }
 

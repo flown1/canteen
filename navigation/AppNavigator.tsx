@@ -88,7 +88,12 @@ const BottomTabNavigator = createBottomTabNavigator(
 );
 
 const MainNavigator = createStackNavigator({
-        Menu: {screen: BottomTabNavigator},
+        Menu: {
+            screen: BottomTabNavigator,
+            navigationOptions: (navigation) => ({
+                header: null
+            })
+        },
     }
 );
 

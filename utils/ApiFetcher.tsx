@@ -18,7 +18,7 @@ export default class ApiFetcher {
             dataJson.data.map((d) => {
                dishes.push(new DishData(d._id.$oid, d.namePL, d.nameEN, d.descPL, d.descEN, d.imgUrl, d.price, d.currency));
             });
-
+            console.log('Dishes:', dishes);
             callback(dishes);
         })
         .catch((e) => {

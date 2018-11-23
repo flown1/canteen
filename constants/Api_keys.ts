@@ -4,6 +4,6 @@ export default {
     GOOGLE_AUTH_WEB: '97380341635-2uigmhitac6uicf318nq60523rpq8jm8.apps.googleusercontent.com',
 
     PAYMENTS: {
-        STRIPE: 'pk_test_6f5aNfCtmHX5iGZijcTmfG9Q'
+        STRIPE: 'pk_test_6f5aNfCtmHX5iGZijcTmfG9Q   '
     }
 }

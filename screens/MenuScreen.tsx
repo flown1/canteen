@@ -4,7 +4,8 @@ import IMenuScreenProps from "../@types/screens/MenuScreen/IMenuScreenProps";
 import DishesList from "../components/Menu/DishesList/DishesList";
 import Colors from "../constants/Colors";
 
-export default class MenuScreen extends React.Component<IMenuScreenProps, {}> {
+export default class MenuScreen extends React.Component<IMenuScreenProps> {
+
     render() {
         return (
             <View style={styles.container}>

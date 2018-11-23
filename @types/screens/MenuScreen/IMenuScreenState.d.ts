@@ -1,0 +1,3 @@
+interface IMenuScreenState {
+    isMenuLoaded: boolean
+}

@@ -1,3 +1,3 @@
-export default interface ImagesURIs {
+ export default interface ImagesURIs {
     logo: ''
 }

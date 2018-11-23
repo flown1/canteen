@@ -1,7 +1,8 @@
 {
   "expo": {
     "name": "canteen-client",
-    "description": "A very interesting project.",
+    "icon": "./assets/images/apple_ico_green.png",
+    "description": "Order food in your student canteen with a mobile app",
     "slug": "canteen-client",
     "privacy": "public",
     "sdkVersion": "30.0.0",
@@ -19,7 +20,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundlerIdentifier": "com.pabich.canteen"
+    },
+    "android": {
+      "package": "com.pabich.canteen"
     }
+
   }
 }
