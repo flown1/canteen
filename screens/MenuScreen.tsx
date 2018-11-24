@@ -1,5 +1,9 @@
 import React from 'react';
-import {StyleSheet, View, Text} from "react-native";
+import {
+    StyleSheet,
+    Text,
+    ScrollView
+} from "react-native";
 import IMenuScreenProps from "../@types/screens/MenuScreen/IMenuScreenProps";
 import DishesList from "../components/Menu/DishesList/DishesList";
 import Colors from "../constants/Colors";
@@ -9,11 +13,11 @@ export default class MenuScreen extends React.Component<IMenuScreenProps> {
 
     render() {
         return (
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
                 <Filter/>
                 <Text style={styles.sectionLabel}>Menu na dzis:</Text>
                 <DishesList/>
-            </View>
+            </ScrollView>
         );
     }
 }

@@ -12,8 +12,8 @@ import Fonts from "../../../constants/Fonts";
 
 interface IFilterButtonProps {
     name ?: string,
-    icon ?: ImageSourcePropType,
-    iconLighten ?: ImageSourcePropType
+    icon ?: ImageSourcePropType | null,
+    iconLighten ?: ImageSourcePropType | null
 }
 
 interface IFilterButtonState {
@@ -39,14 +39,19 @@ export default class FilterButton extends React.Component<IFilterButtonProps, IF
 const styles = StyleSheet.create({
     container: {
         width: 80,
-        height: 70,
+        height: 60,
         justifyContent: 'center',
+        alignItems: 'center',
         borderRightColor: Colors.black,
-        borderRightWidth: 1
+        borderRightWidth: 1,
+        paddingTop: 3,
+        paddingRight: 3,
+        paddingBottom: 3,
+        paddingLeft: 3
     },
     img: {
-        width: 50,
-        height: 50
+        width: 45,
+        height: 45
     },
     title: {
         fontFamily: Fonts.family.montserrat_light,
