@@ -9,15 +9,18 @@ import {
 import Logo from "./Text/Logo";
 import Colors from "../constants/Colors";
 import IReactNavigateProps from "../@types/@react-navigation/IReactNavigateProps";
+import {IState} from "../@types/redux/state/IState";
+import { connect } from 'react-redux';
 
 const loopIco = require('../assets/images/search_ico.png');
 const cartIco = require('../assets/images/cart_ico.png');
 
 interface ICustomHeaderProps {
-    navigation: IReactNavigateProps
+    navigation: IReactNavigateProps,
+    cartLength: number
 }
 
-export default class CustomHeaderRight extends React.Component<ICustomHeaderProps> {
+class CustomHeaderRight extends React.Component<ICustomHeaderProps> {
     render() {
         return (
             <View style={styles.container}>
@@ -30,7 +33,7 @@ export default class CustomHeaderRight extends React.Component<ICustomHeaderProp
                     <View style={styles.cartWrapper}>
                         <Image source={cartIco} style={styles.cartIco}/>
                         <View style={styles.cartNumberWrapper}>
-                            <Text style={styles.cartNumber}>1</Text>
+                            <Text style={styles.cartNumber}>{this.props.cartLength}</Text>
                         </View>
                     </View>
                 </TouchableHighlight>
@@ -50,6 +53,14 @@ export default class CustomHeaderRight extends React.Component<ICustomHeaderProp
         this.props.navigation.navigate('Cart');
     };
 }
+
+const mapStateToProps = (state: IState) => {
+    return {
+        cartLength: state.cart.items.length
+    }
+};
+
+export default connect(mapStateToProps)(CustomHeaderRight);
 
 const styles = StyleSheet.create({
     container: {

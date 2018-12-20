@@ -43,10 +43,6 @@ class Filter extends React.Component<IFilterProps, {}> {
         this.props.deleteFilter(filter);
     };
 
-    componentDidUpdate() {
-        console.log("Current filters state is:", this.state.currentFilters);
-    }
-
     render() {
         return (
             <ScrollView bounces={false} showsHorizontalScrollIndicator={false} horizontal={true} style={styles.container}>

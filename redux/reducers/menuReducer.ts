@@ -27,11 +27,8 @@ export default function menu(state = initialState, action: IMenuReducerActions) 
                 const filters = state.filters.concat(action.payload.filter);
                 filters.map((filter) => {
                     if (dish.tags) {
-                        console.log("Dish ", dish.namePL, " has tags ", dish.tags, " checking for filter ", filter);
                         if (dish.tags.indexOf(filter) >= 0) {
                             dishListShow.push(dish)
-                        } else {
-                            console.log("was NOT added to dishListShow")
                         }
                     } else {
                         return null;
@@ -39,8 +36,8 @@ export default function menu(state = initialState, action: IMenuReducerActions) 
                 });
             });
 
-            console.log("Filters: ", state.filters.concat(action.payload.filter));
-            console.log("DISHES THAT MADE THROUGH FILTERS: ", dishListShow);
+            // console.log("Filters: ", state.filters.concat(action.payload.filter));
+            // console.log("DISHES THAT MADE THROUGH FILTERS: ", dishListShow);
 
             return {
                 filters: state.filters.concat(action.payload.filter),
@@ -75,8 +72,8 @@ export default function menu(state = initialState, action: IMenuReducerActions) 
                 });
             }
 
-            console.log("Filters: ", newFilters);
-            console.log("DISHES THAT MADE THROUGH FILTERS: ", dishListShow);
+            // console.log("Filters: ", newFilters);
+            // console.log("DISHES THAT MADE THROUGH FILTERS: ", dishListShow);
 
             return {
                 filters: newFilters,
