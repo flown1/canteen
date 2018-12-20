@@ -26,7 +26,9 @@ class CartScreen extends React.Component<ICartScreenProps> {
                 <View style={styles.noProductsContainer}>
                     <Text style={styles.title}>Twój Koszyk jest pusty.</Text>
                     <Text style={styles.subtitle}>Twój Koszyk jest smutny :-(((.</Text>
-                    <Image source={cartEmptyImg} style={styles.cartEmpty}/>
+                    <View style={styles.cartEmptyImgWrapper}>
+                        <Image source={cartEmptyImg} style={styles.cartEmpty}/>
+                    </View>
                     <Button title=" << Powrót" onPress={ () => this.props.navigation.navigate('Menu') } />
                 </View>
             )
@@ -136,6 +138,9 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.family.montserrat_light,
         marginTop: 10,
         marginRight: 18
+    },
+    cartEmptyImgWrapper: {
+        alignItems: 'center'
     },
     cartEmpty: {
         height: 200,

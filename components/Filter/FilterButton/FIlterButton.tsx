@@ -14,6 +14,9 @@ interface IFilterButtonProps {
     name ?: string,
     icon ?: ImageSourcePropType | null,
     iconLighten ?: ImageSourcePropType | null
+    filterName : string
+    handleAddFilter: (filterName : string) => void
+    handleDeleteFilter: (filterName : string) => void
 }
 
 interface IFilterButtonState {
@@ -24,9 +27,20 @@ export default class FilterButton extends React.Component<IFilterButtonProps, IF
     state = {
         isLightenUp: false
     };
+
+    _handleOnPress = () => {
+        this.setState({isLightenUp: !this.state.isLightenUp});
+
+        if (this.state.isLightenUp) {
+            this.props.handleDeleteFilter(this.props.filterName);
+        } else {
+            this.props.handleAddFilter(this.props.filterName);
+        }
+    };
+
     render() {
         return (
-            <TouchableOpacity onPress={() => {this.setState({isLightenUp: !this.state.isLightenUp})}}>
+            <TouchableOpacity onPress={this._handleOnPress}>
                 <View style={styles.container}>
                     <Image style={styles.img} source={this.state.isLightenUp? (this.props.iconLighten || null) : (this.props.icon || null)}/>
                     <Text style={styles.title}>{this.props.name || ""}</Text>

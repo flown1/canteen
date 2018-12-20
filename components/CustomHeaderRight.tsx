@@ -56,10 +56,18 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-
         marginTop: 25,
         marginLeft: 8,
-        marginRight: 8
+        marginRight: 8,
+
+        //shadow
+        shadowColor: Colors.black,
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowRadius: 3,
+        shadowOpacity: 0.2
     },
     logoWrapper: {
         justifyContent: 'center'

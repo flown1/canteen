@@ -6,7 +6,7 @@ import {
     View, TouchableHighlight
 } from 'react-native';
 import { connect } from 'react-redux';
-import API_KEYS from '../constants/Api_keys'
+import API_KEYS from '../constants/ApiKeys'
 import Expo from "expo"
 import ISignInScreenState from "../@types/screens/SignInScreen/ISignInScreenState";
 import ISignInScreenProps from "../@types/screens/SignInScreen/ISignInScreenProps";
@@ -20,7 +20,6 @@ import User from "../dataModels/user";
 const googleSignInBtn = require("../assets/images/google_signin_btn.png");
 
 class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenState> {
-
     render() {
         return (
             <View style={styles.container}>
@@ -33,9 +32,11 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
                                 textStyle={styles.signInText}
                                 lineStyle={styles.line}
                                 containerStyles={styles.struckLineContainer}/>
-                    <TouchableHighlight onPress={this._signIn}>
-                        <Image style={styles.googleBtn} source={googleSignInBtn}/>
-                    </TouchableHighlight>
+                    <View style={styles.signInBtnWrapper}>
+                        <TouchableHighlight onPress={this._signIn}>
+                            <Image style={styles.googleBtn} source={googleSignInBtn}/>
+                        </TouchableHighlight>
+                    </View>
                 </View>
                 <View style={styles.bottomBox}>
                     <Text style={styles.bottomLine}>Made in Lodz 2018</Text>
@@ -134,6 +135,9 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         width: 80,
         top: -12
+    },
+    signInBtnWrapper: {
+        alignItems: 'center'
     },
     googleBtn: {
     },

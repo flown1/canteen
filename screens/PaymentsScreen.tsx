@@ -9,7 +9,7 @@ import Fonts from "../constants/Fonts";
 import Colors from "../constants/Colors";
 import {CONFIG} from "../config/config";
 import {CANTEEN_API_CONSTANTS} from "../constants/CanteenApi";
-import Api_keys from "../constants/Api_keys";
+import Api_keys from "../constants/ApiKeys";
 import PaypalCheckoutButton from "../components/Button/PaypalCheckoutButton";
 
 export default class PaymentsScreen extends React.Component {

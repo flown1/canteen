@@ -108,7 +108,7 @@ export const AppNavigator = createStackNavigator({
     Menu: {
         screen: MainNavigator,
         navigationOptions: ({ navigation }) => ({
-            header: <CustomHeaderRight navigation={navigation} /> ,//<Button title='Cart' onPress={() => navigation.navigate('Cart')} >,
+            header: <CustomHeaderRight navigation={navigation} />,
             headerLeft: null
         })
     },

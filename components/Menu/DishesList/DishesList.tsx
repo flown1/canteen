@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import ApiFetcher from "../../../utils/ApiFetcher";
 import DishData from '../../../dataModels/dishData'
 import Dish from "./Dish/Dish";
-import { dishesRetrieved } from "../../../redux/actions/dishesActions";
+import {dishesRetrieved, dishesUpdated} from "../../../redux/actions/dishesActions";
 import { IState } from "../../../@types/redux/state/IState";
 import { addDishToCart } from "../../../redux/actions/cartActions";
 import Colors from "../../../constants/Colors";
@@ -18,7 +18,7 @@ import Colors from "../../../constants/Colors";
 
 interface IDishListProps {
     isMenuLoaded: boolean,
-    dishList: Array<DishData>,
+    dishListShow: Array<DishData>,
 
     onDishesReceived: (dishList: Array<DishData>) => void,
     addToCart: (dish: DishData) => void
@@ -60,16 +60,16 @@ class DishesList extends React.Component<IDishListProps, IDishListState> {
             )
         } else {
 
-            if (!this.props.dishList) {
+            if (!this.props.dishListShow) {
                 return (
                     <View>
-                        <Text>No menu to display ;(</Text>
+                        <Text>Nothing to display ;(</Text>
                     </View>
                 );
             } else {
                 return (
                     <FlatList style={styles.dishesListWrapper}
-                              data={this.props.dishList}
+                              data={this.props.dishListShow}
                               keyExtractor={this._keyExtractor}
                               renderItem={this._renderItem}
                     />
@@ -82,13 +82,14 @@ class DishesList extends React.Component<IDishListProps, IDishListState> {
 const mapStateToProps = (state: IState) => {
     return {
         isMenuLoaded: state.menu.isLoaded,
-        dishList: state.menu.dishList
+        dishListShow: state.menu.dishListShow
     }
 };
 const mapDispatchToProps = (dispatch) => {
     return {
         onDishesReceived: (dishList) => dispatch(dishesRetrieved(dishList)),
-        addToCart: (dish) => dispatch(addDishToCart(dish))
+        addToCart: (dish) => dispatch(addDishToCart(dish)),
+        filterDishList: (dishList) => dispatch(dishesUpdated(dishList))
     }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DishesList);

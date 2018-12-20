@@ -5,6 +5,9 @@ import {
 } from 'react-native';
 import Colors from "../../constants/Colors";
 import FilterButton from "./FilterButton/FIlterButton";
+import { connect } from 'react-redux';
+import {DISH_TAGS} from "../../constants/DishTags";
+import {addFilter, deleteFilter, dishesRetrieved} from "../../redux/actions/dishesActions";
 
 const SoupICO = require("../../assets/images/soup_ico.png");
 const SoupLightenICO = require("../../assets/images/soup_ico_green.png");
@@ -17,20 +20,53 @@ const DrinkLightenICO = require('../../assets/images/drink2_ico_green.png');
 const AppleICO = require('../../assets/images/apple_ico.png');
 const AppleLightenICO = require('../../assets/images/apple_ico_green.png');
 
-export default class Filter extends React.Component {
+interface IFilterProps {
+    addFilter: (String) => void
+    deleteFilter: (String) => void
+    // filterDishList: () => void
+}
+
+class Filter extends React.Component<IFilterProps, {}> {
+
+    state = {
+        initialFilter: 'ALL',
+        currentFilters: []
+    };
+
+    addFilter = (newFilter :String) => {
+        this.props.addFilter(newFilter);
+        // this.props.filterDishList();
+    };
+
+    deleteFilter = (filter: String) => {
+
+        this.props.deleteFilter(filter);
+    };
+
+    componentDidUpdate() {
+        console.log("Current filters state is:", this.state.currentFilters);
+    }
 
     render() {
         return (
             <ScrollView bounces={false} showsHorizontalScrollIndicator={false} horizontal={true} style={styles.container}>
-                    <FilterButton name={"Zupa"} icon={SoupICO} iconLighten={SoupLightenICO}/>
-                    <FilterButton name={"Danie główne"} icon={PlateICO} iconLighten={PlateLightenICO}/>
-                    <FilterButton name={"Vege"} icon={VegeICO} iconLighten={VegeLightenICO}/>
-                    <FilterButton name={"Napoje"} icon={DrinkICO} iconLighten={DrinkLightenICO}/>
-                    <FilterButton name={"Inne"} icon={AppleICO} iconLighten={AppleLightenICO}/>
+                <FilterButton name={"Zupa"} filterName={DISH_TAGS.SOUP} handleAddFilter={this.addFilter} handleDeleteFilter={this.deleteFilter} icon={SoupICO} iconLighten={SoupLightenICO}/>
+                <FilterButton name={"Danie główne"} filterName={DISH_TAGS.MAIN} handleAddFilter={this.addFilter} handleDeleteFilter={this.deleteFilter} icon={PlateICO} iconLighten={PlateLightenICO}/>
+                <FilterButton name={"Vege"} filterName={DISH_TAGS.VEGE} handleAddFilter={this.addFilter} handleDeleteFilter={this.deleteFilter} icon={VegeICO} iconLighten={VegeLightenICO}/>
+                <FilterButton name={"Napoje"} filterName={DISH_TAGS.BEVERAGE} handleAddFilter={this.addFilter} handleDeleteFilter={this.deleteFilter} icon={DrinkICO} iconLighten={DrinkLightenICO}/>
+                <FilterButton name={"Inne"} filterName={DISH_TAGS.OTHER} handleAddFilter={this.addFilter} handleDeleteFilter={this.deleteFilter} icon={AppleICO} iconLighten={AppleLightenICO}/>
             </ScrollView>
         );
     }
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addFilter: (filter) => dispatch(addFilter(filter)),
+        deleteFilter: (filter) => dispatch(deleteFilter(filter))
+    }
+};
+export default connect(null, mapDispatchToProps)(Filter);
 
 const styles = StyleSheet.create({
     container: {
