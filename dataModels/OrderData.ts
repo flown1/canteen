@@ -1,4 +1,4 @@
-import DishData from "./dishData";
+import DishData from "./DishData";
 
 export default class OrderData {
     private _dish: DishData;

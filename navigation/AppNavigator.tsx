@@ -99,12 +99,12 @@ const MainNavigator = createStackNavigator({
 
 export const AppNavigator = createStackNavigator({
 
-    // SignIn: {
-    //     screen: SignInScreen,
-    //     navigationOptions: {
-    //         header: null
-    //     }
-    // },
+    SignIn: {
+        screen: SignInScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
     Menu: {
         screen: MainNavigator,
         navigationOptions: ({ navigation }) => ({

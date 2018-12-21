@@ -1,4 +1,4 @@
-import DishData from "../../../dataModels/dishData";
+import DishData from "../../../dataModels/DishData";
 
 export default interface IDishesActions{
     type: String,

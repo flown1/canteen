@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import ApiFetcher from "../../../utils/ApiFetcher";
-import DishData from '../../../dataModels/dishData'
+import DishData from '../../../dataModels/DishData'
 import Dish from "./Dish/Dish";
 import {dishesRetrieved, dishesUpdated} from "../../../redux/actions/dishesActions";
 import { IState } from "../../../@types/redux/state/IState";

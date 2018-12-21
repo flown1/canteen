@@ -31,7 +31,7 @@ export default class OrderItem extends React.Component<IOrderItemProps> {
             await soundObject.loadAsync(quack);
             await soundObject.playAsync()
         } catch (error) {
-            console.warn(error.getMessage());
+            console.error(error.getMessage());
         }
     }
 

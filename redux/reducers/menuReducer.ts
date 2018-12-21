@@ -1,4 +1,4 @@
-import DishData from "../../dataModels/dishData";
+import DishData from "../../dataModels/DishData";
 import { ACTIONS } from "../constants/Actions";
 import { IMenuReducerActions } from "../../@types/redux/actions/IMenuReducerActions";
 

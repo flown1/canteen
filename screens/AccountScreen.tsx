@@ -12,7 +12,7 @@ class AccountScreen extends React.Component<IAccountScreenProps, {}> {
             <View style={styles.container}>
                 <View style={styles.profileBox}>
                     <Image style={styles.photo} source={{uri: this.props.signInInfo.user.imgUrl}}/>
-                    <Text style={styles.name}>{this.props.signInInfo.user.firstName} {this.props.signInInfo.user.lastName}</Text>
+                    <Text style={styles.name}>{this.props.signInInfo.user.name}</Text>
                     <Text style={styles.email}>{this.props.signInInfo.user.email}</Text>
                 </View>
                 <Button onPress={this._handleLogoutPress} title={"Wyloguj"}/>

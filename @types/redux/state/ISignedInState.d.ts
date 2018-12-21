@@ -1,6 +1,6 @@
-import User from "../../../dataModels/user";
+import GoogleAuthUser from "../../../dataModels/GoogleAuthUser";
 
 export default interface ISignInState {
     isSignedIn: boolean,
-    user: User
+    user: GoogleAuthUser
 }

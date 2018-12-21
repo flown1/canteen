@@ -15,7 +15,9 @@ import TextStruck from "../components/Text/TextStruck";
 import Logo from "../components/Text/Logo";
 import Colors from "../constants/Colors";
 import signInSuccesful from "../redux/actions/signInAction";
-import User from "../dataModels/user";
+import GoogleAuthUser from "../dataModels/GoogleAuthUser";
+import ApiFetcher from "../utils/ApiFetcher";
+import UserData from "../dataModels/UserData";
 
 const googleSignInBtn = require("../assets/images/google_signin_btn.png");
 
@@ -57,29 +59,38 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
 
             if (result.type === "success") {
 
-                const user = new User(result.user.name.split(" ")[0],
-                                        result.user.name.split(" ")[1],
+                const googleAuthUser = new GoogleAuthUser(result.user.name,
                                         result.user.email,
                                         result.user.photoUrl,
                                         result.serverAuthCode);
-                console.log(`user: ${user}`);
 
-                this.props.onSuccessfulSignIn(user);
+                ApiFetcher.postUser(googleAuthUser, (res) => {
+                    if (res.status === "SUCCESS") {
+                        const data = res.data;
+                        const user = new UserData( data.name, data.email, data.imgUrl, data.role, data.token );
 
-                this.props.navigation.dispatch(this._resetAction);
+                        console.log( "SUCCESSFULLY signed in ", user );
+
+                        this.props.onSuccessfulSignIn( user );
+                        this.props.navigation.dispatch( this._resetAction );
+                    } else {
+                        console.error("POSTing user UNsuccessful!");
+                    }
+                });
             } else {
-                console.warn("Signin cancelled")
+                console.error("Signin cancelled")
             }
+
         } catch (e) {
-            console.warn("Error while signingIn: ", e)
+            console.error("Error while signingIn: ", e)
         }
     };
 
     private _resetAction = StackActions.reset({
         index: 0,
         actions: [
-            NavigationActions.navigate({routeName: 'Menu'}),
-        ],
+            NavigationActions.navigate({routeName: 'Menu'})
+        ]
     });
 }
 

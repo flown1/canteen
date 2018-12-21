@@ -1,4 +1,4 @@
-import DishData from "../../../dataModels/dishData";
+import DishData from "../../../dataModels/DishData";
 
 
 interface IMenuReducerActions {

@@ -2,7 +2,7 @@ import {ICartState} from "../../@types/redux/state/ICartData";
 import {ICartActionAddToCart} from "../../@types/redux/actions/ICartActions";
 import {ACTIONS} from "../constants/Actions";
 import OrderData from "../../dataModels/OrderData";
-import DishData from "../../dataModels/dishData";
+import DishData from "../../dataModels/DishData";
 
 const initialState : ICartState= {
     items: new Array<OrderData>()

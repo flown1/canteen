@@ -42,7 +42,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     };
 
     private _handleLoadingError = (error: IError) : void => {
-        console.warn(error);
+        console.error(error);
     };
 
     private _handleFinishLoading = () : void => {
