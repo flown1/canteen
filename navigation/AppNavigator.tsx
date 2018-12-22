@@ -11,6 +11,7 @@ import Colors from "../constants/Colors";
 import CustomHeaderRight from "../components/CustomHeaderRight";
 import CartScreen from "../screens/CartScreen";
 import PaymentsScreen from "../screens/PaymentsScreen";
+import DishCreatorScreen from "../screens/DishCreatorScreen";
 
 const MenuIco = require('../assets/images/menu_ico_black_new.png');
 const OrderIco = require('../assets/images/fastfood_ico_black.png');
@@ -94,11 +95,16 @@ const MainNavigator = createStackNavigator({
                 header: null
             })
         },
+        DishCreator: {
+            screen: DishCreatorScreen,
+            navigationOptions: (navigation) => ({
+                header: null
+            })
+        }
     }
 );
 
 export const AppNavigator = createStackNavigator({
-
     SignIn: {
         screen: SignInScreen,
         navigationOptions: {
@@ -123,6 +129,6 @@ export const AppNavigator = createStackNavigator({
         navigationOptions: {
             header: null
         }
-    }
+    },
 
 });

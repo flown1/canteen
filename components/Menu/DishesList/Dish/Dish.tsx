@@ -13,6 +13,7 @@ import {LinearGradient} from "expo";
 import {IDishProps} from "../../../../@types/components/Menu/DishList/Dish/IDishProps";
 
 const plusIco = require('../../../../assets/images/plus.png');
+const editIco = require('../../../../assets/images/edit_ico_white.png');
 
 interface IFadeInViewProps {
     style ?: Object
@@ -20,7 +21,7 @@ interface IFadeInViewProps {
 
 class FadeInViewAnim extends React.Component<IFadeInViewProps, {}> {
     state = {
-        fadeAnim: new Animated.Value(0),  // Initial value for opacity: 0
+        fadeAnim: new Animated.Value(0),
     };
 
     componentDidMount() {
@@ -52,6 +53,24 @@ class FadeInViewAnim extends React.Component<IFadeInViewProps, {}> {
 export default class Dish extends React.Component<IDishProps, {}> {
 
     render() {
+        const buttonType = this.props.editableMode?
+            <TouchableHighlight onPress={(e: GestureResponderEvent) => this._handleEditBtnPress(e)}>
+                <LinearGradient
+                    colors={[Colors.yellow, Colors.orange]}
+                    style={[styles.editBtn, styles.flexRow, { borderRadius: 5, alignItems: 'center' }]}>
+                    <Image source={editIco} style={styles.btnIco}/>
+                    <Text style={styles.orderBtnText}>Edytuj</Text>
+                </LinearGradient>
+            </TouchableHighlight>
+            :<TouchableHighlight onPress={(e: GestureResponderEvent) => this._handleOrderBtnPress(e)}>
+                <LinearGradient
+                    colors={[Colors.primary, Colors.green]}
+                    style={[styles.orderBtn, styles.flexRow]}>
+                    <Image source={plusIco} style={styles.btnIco}/>
+                    <Text style={styles.orderBtnText}>Zamów</Text>
+                </LinearGradient>
+            </TouchableHighlight>
+
         return (
             <FadeInViewAnim>
             <View style={styles.box}>
@@ -61,14 +80,7 @@ export default class Dish extends React.Component<IDishProps, {}> {
                 <View style={styles.rightPart}>
                     <View style={styles.rightUp}>
                         <Text style={styles.name}>{this.props.dish.namePL}</Text>
-                        <TouchableHighlight style={styles.orderBtn} onPress={(e: GestureResponderEvent) => this._handleOrderBtnPress(e)}>
-                            <LinearGradient
-                                colors={[Colors.primary, Colors.green]}
-                                                  style={[styles.flexRow, { borderRadius: 5, alignItems: 'center' }]}>
-                                    <Image source={plusIco} style={styles.plusIco}/>
-                                    <Text style={styles.orderBtnText}>Zamów</Text>
-                            </LinearGradient>
-                        </TouchableHighlight>
+                        {buttonType}
                     </View>
                     <View style={styles.rightDown}>
                         <Text style={styles.desc}>{this.props.dish.descPL}</Text>
@@ -88,6 +100,10 @@ export default class Dish extends React.Component<IDishProps, {}> {
         e.preventDefault();
 
         this.props.addToCart(this.props.dish);
+    };
+
+    private _handleEditBtnPress = (e : GestureResponderEvent) : void => {
+        e.preventDefault();
     }
 }
 
@@ -143,12 +159,19 @@ const styles = StyleSheet.create({
         fontFamily: 'montserrat-light'
     },
     orderBtn: {
-        width: 86,
+        width: 90,
         height: 35,
-        borderRadius: 4,
-        backgroundColor: Colors.lime
+        borderRadius: 5,
+        alignItems: 'center'
     },
-    plusIco: {
+    editBtn: {
+        paddingLeft: 10,
+        width: 92,
+        height: 35,
+        borderRadius: 5,
+        alignItems: 'center'
+    },
+    btnIco: {
         width: 20,
         height: 20
     },

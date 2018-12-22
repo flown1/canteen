@@ -58,7 +58,6 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
             });
 
             if (result.type === "success") {
-
                 const googleAuthUser = new GoogleAuthUser(result.user.name,
                                         result.user.email,
                                         result.user.photoUrl,

@@ -4,7 +4,7 @@ import ISignInState from "./ISignedInState";
 
 
 export interface IState {
-    signInState: ISignInState,
+    signIn: ISignInState,
     menu: IMenuState,
     cart: ICartState
 }

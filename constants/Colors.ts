@@ -7,7 +7,10 @@ export default {
     white: '#fff',
     crimson: '#C50000',
     red: '#FE0C0C',
+    yellow: '#ffd428',
+    orange: '#ffb105',
     green: '#52af00',
+    darkGreen: '#235900',
     lime: '#6DE700',
 
 

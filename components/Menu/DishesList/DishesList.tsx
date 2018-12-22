@@ -14,11 +14,13 @@ import {dishesRetrieved, dishesUpdated} from "../../../redux/actions/dishesActio
 import { IState } from "../../../@types/redux/state/IState";
 import { addDishToCart } from "../../../redux/actions/cartActions";
 import Colors from "../../../constants/Colors";
+import {USER_ROLES} from "../../../constants/UserRoles";
 
 
 interface IDishListProps {
     isMenuLoaded: boolean,
     dishListShow: Array<DishData>,
+    isEditableMode: boolean,
 
     onDishesReceived: (dishList: Array<DishData>) => void,
     addToCart: (dish: DishData) => void
@@ -44,6 +46,7 @@ class DishesList extends React.Component<IDishListProps, IDishListState> {
     _renderItem = ({item: d }) => {
         return (
             <Dish dish={d}
+                  editableMode={this.props.isEditableMode}
                   addToCart={this._addToCart}/>
         );
     };
@@ -82,14 +85,14 @@ class DishesList extends React.Component<IDishListProps, IDishListState> {
 const mapStateToProps = (state: IState) => {
     return {
         isMenuLoaded: state.menu.isLoaded,
-        dishListShow: state.menu.dishListShow
+        dishListShow: state.menu.dishListShow,
+        isEditableMode: state.signIn.user.role === USER_ROLES.ADMIN
     }
 };
 const mapDispatchToProps = (dispatch) => {
     return {
         onDishesReceived: (dishList) => dispatch(dishesRetrieved(dishList)),
-        addToCart: (dish) => dispatch(addDishToCart(dish)),
-        filterDishList: (dishList) => dispatch(dishesUpdated(dishList))
+        addToCart: (dish) => dispatch(addDishToCart(dish))
     }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DishesList);

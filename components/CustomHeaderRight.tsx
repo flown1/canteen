@@ -11,17 +11,31 @@ import Colors from "../constants/Colors";
 import IReactNavigateProps from "../@types/@react-navigation/IReactNavigateProps";
 import {IState} from "../@types/redux/state/IState";
 import { connect } from 'react-redux';
+import {USER_ROLES} from "../constants/UserRoles";
+import UserData from "../dataModels/UserData";
 
 const loopIco = require('../assets/images/search_ico.png');
 const cartIco = require('../assets/images/cart_ico.png');
 
 interface ICustomHeaderProps {
     navigation: IReactNavigateProps,
-    cartLength: number
+    cartLength: number,
+    user: UserData
 }
 
 class CustomHeaderRight extends React.Component<ICustomHeaderProps> {
     render() {
+        const basketIcon = this.props.user.role === USER_ROLES.CLIENT?
+            <TouchableHighlight onPress={this._handleCartIcoClick}>
+                <View style={styles.cartWrapper}>
+                <Image source={cartIco} style={styles.cartIco}/>
+                    <View style={styles.cartNumberWrapper}>
+                        <Text style={styles.cartNumber}>{this.props.cartLength}</Text>
+                    </View>
+                </View>
+            </TouchableHighlight>
+            : null;
+
         return (
             <View style={styles.container}>
                 <View/>
@@ -29,14 +43,7 @@ class CustomHeaderRight extends React.Component<ICustomHeaderProps> {
                     <Logo size={"medium"}/>
                     <View style={styles.line}/>
                 </View>
-                <TouchableHighlight onPress={this._handleCartIcoClick}>
-                    <View style={styles.cartWrapper}>
-                        <Image source={cartIco} style={styles.cartIco}/>
-                        <View style={styles.cartNumberWrapper}>
-                            <Text style={styles.cartNumber}>{this.props.cartLength}</Text>
-                        </View>
-                    </View>
-                </TouchableHighlight>
+                {basketIcon}
                 <TouchableHighlight onPress={this._handleSearchIcoClick}>
                     <Image source={loopIco} style={styles.loopIco}/>
                 </TouchableHighlight>
@@ -49,14 +56,14 @@ class CustomHeaderRight extends React.Component<ICustomHeaderProps> {
     };
 
     private _handleCartIcoClick = (): void => {
-        console.log("Clicked cart button");
         this.props.navigation.navigate('Cart');
     };
 }
 
 const mapStateToProps = (state: IState) => {
     return {
-        cartLength: state.cart.items.length
+        cartLength: state.cart.items.length,
+        user: state.signIn.user
     }
 };
 
