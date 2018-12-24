@@ -3,5 +3,6 @@ export const DISH_TAGS = {
     SOUP: "SOUP",
     BEVERAGE: "BEVERAGE",
     MAIN: "MAIN",
+    MEAT: "MEAT",
     OTHER: "OTHER"
 };

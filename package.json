@@ -13,6 +13,7 @@
   "dependencies": {
     "@babel/preset-react": "^7.0.0",
     "@expo/samples": "2.1.1",
+    "@expo/vector-icons": "^8.0.0",
     "@types/expo": "^30.0.0",
     "@types/node": "^10.12.2",
     "@types/react-native-google-signin": "^1.0.1",
@@ -24,6 +25,8 @@
     "firebase": "^5.5.6",
     "react": "16.3.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
+    "react-native-check-box": "^2.1.7",
+    "react-native-elements": "^0.19.1",
     "react-native-firebase": "^5.0.0",
     "react-native-fontawesome": "^5.7.0",
     "react-native-google-signin": "^1.0.0-rc7",
