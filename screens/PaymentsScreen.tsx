@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import Fonts from "../constants/Fonts";
 import Colors from "../constants/Colors";
-import {CONFIG} from "../config/config";
+import {Config} from "../config/Config";
 import {CANTEEN_API_CONSTANTS} from "../constants/CanteenApi";
 import Api_keys from "../constants/ApiKeys";
 import PaypalCheckoutButton from "../components/Button/PaypalCheckoutButton";
@@ -18,7 +18,7 @@ export default class PaymentsScreen extends React.Component {
     };
 
     render() {
-        const paymentsUrl = CONFIG.SERVER_INFO.ROOT_URL + ":" + CONFIG.SERVER_INFO.PORT + CANTEEN_API_CONSTANTS.ENDPOINTS.PAYMENTS.PAYPAL;
+        const paymentsUrl = Config.SERVER_INFO.ROOT_URL + ":" + Config.SERVER_INFO.PORT + CANTEEN_API_CONSTANTS.ENDPOINTS.PAYMENTS.PAYPAL;
         console.log(paymentsUrl);
 
         return (

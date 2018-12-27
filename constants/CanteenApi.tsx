@@ -6,5 +6,8 @@ export const CANTEEN_API_CONSTANTS = {
         PAYMENTS: {
             PAYPAL: `/payments/paypal`
         }
+    },
+    ENPOINTS_IMGUR: {
+        POST_IMAGE: "/3/image"
     }
 };

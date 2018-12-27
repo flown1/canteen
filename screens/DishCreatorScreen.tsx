@@ -1,13 +1,15 @@
 import React from 'react';
 import {
+    ActivityIndicator,
     Image,
-    GestureResponderEvent,
+    Keyboard,
     ScrollView,
     StyleSheet,
     Switch,
     Text,
     TextInput,
     TouchableHighlight,
+    TouchableWithoutFeedback,
     View,
 } from 'react-native';
 import { connect } from 'react-redux'
@@ -17,40 +19,53 @@ import Colors from "../constants/Colors";
 import {DISH_TAGS} from "../constants/DishTags";
 import CheckBox from "react-native-check-box";
 import {ImagePicker, Permissions} from "expo";
-import ImageResult = ImagePicker.ImageResult;
+import ImgurApi from "../utils/ImgurApi";
+import DishData from "../dataModels/DishData";
+import CanteenApi from "../utils/CanteenApi";
+import IReactNavigateProps from "../@types/@react-navigation/IReactNavigateProps";
+import MenuScreen from "./MenuScreen";
+import {NavigationActions} from "react-navigation";
 
 const cameraDummyImg = require('../assets/images/camera_add_ico_black.png');
 
 interface IDishCreatorScreenState {
     name: string;
     desc: string;
-    price: number;
-    image: ImageResult;
+    price: string;
+    image: Object;
     isPromoted: boolean;
     tags: Array<string>;
+
+    hasCreatingStarted: boolean;
 }
 
-export default class DishCreatorScreen extends React.Component<{},IDishCreatorScreenState> {
-    constructor(props){
-        super(props);
+interface IDishCreatorScreenProps {
+    navigation: IReactNavigateProps
+}
 
-        this.state = {
-            name: "",
-            desc: "",
-            price: 0.00,
-            isPromoted: false,
-            image: null,
-            tags: []
-        };
-    }
+export default class DishCreatorScreen extends React.Component<IDishCreatorScreenProps ,IDishCreatorScreenState> {
 
-    componentDidUpdate() {
-        console.log(this.state);
-    }
+    state = {
+        name: "",
+        desc: "",
+        price: "",
+        isPromoted: false,
+        image: null,
+        tags: [],
+
+        hasCreatingStarted: false
+    };
+
+
     render() {
-        return (
-            <View style={styles.container}>
+        const loadingOverlay = this.state.hasCreatingStarted ?  <View style={styles.overlay}>
+                <ActivityIndicator size={"large"} color={Colors.green}/>
+        </View>
+        : null;
 
+        return (
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+            <View style={styles.container}>
                 <View style={styles.main}>
                     <View style={styles.header}>
                         <Text style={styles.headerText}>Dodaj:</Text>
@@ -67,9 +82,9 @@ export default class DishCreatorScreen extends React.Component<{},IDishCreatorSc
                                        value={this.state.desc}/>
                             <Text style={styles.inputLabel}>Cena:</Text>
                             <TextInput style={styles.textInput}
-                                       dataDetectorTypes={"phoneNumber"}
+                                       keyboardType='numeric'
                                        onChangeText={(price) => this.setState({price})}
-                                       value={this.state.desc}/>
+                                       value={this.state.price}/>
                         </View>
                         <TouchableHighlight style={styles.rightPart} onPress={this._handleAddPhotoPress} underlayColor="white">
                             <View>
@@ -208,25 +223,72 @@ export default class DishCreatorScreen extends React.Component<{},IDishCreatorSc
                 <View style={styles.bottom}>
                     <AddDishButton onPress={this._handleOnAddDishPress}/>
                 </View>
+                {loadingOverlay}
             </View>
+            </TouchableWithoutFeedback>
         );
     }
 
-    private _handleOnAddDishPress = (e: GestureResponderEvent): void => {
-        e.preventDefault();
-
+    private _showOverlay = (): void => {
+        this.setState({'hasCreatingStarted': true});
     };
 
+    private _hideOverlay = (): void => {
+        this.setState({'hasCreatingStarted': false});
+    };
 
-    private _handleAddPhotoPress = async (e: GestureResponderEvent): void => {
-        e.preventDefault();
+    private _handleOnAddDishPress = (): void => {
+        const image = this.state.image;
+        const name = this.state.name;
 
-        console.log("Willing to add photo...");
+        if (!this._validateInputs) {
+            console.warn("Ups! Podano nieprawidłowe dane.");
+            return ;
+        }
+        this._showOverlay();
+
+        ImgurApi.postImage(image, name, (res) => {
+            console.log("Res from Imgur:", res);
+
+            if (res.status === 200) {
+                const data = res.data;
+                const imgLink = data.link;
+
+                const dish = new DishData(null, this.state.name, "", this.state.desc, "",
+                                            imgLink, this.state.price, this.state.isPromoted, 1, this.state.tags, "PLN");
+
+                CanteenApi.postDish(dish, (res) => {
+                    console.log("Response from canteen Api: ", res);
+                    if (res.status === "SUCCESS") {
+                        console.log("[OK] Dish had been added");
+
+                        this.props.navigation.dispatch(NavigationActions.back({key: 'Menu'}));
+                    } else {
+                        console.warn("[ERR] Something went wrong. The dish was NOT added :(");
+                    }
+                    this._hideOverlay();
+                })
+            }
+        });
+    };
+
+    private _validateInputs = (): boolean => {
+        if (this.state.name === "") return false;
+        if (this.state.desc === "") return false;
+
+        const price = this.state.price;
+        if (price === "" || price === "0.00" || price === "0" || price === "0.0") return false;
+        if (this.state.image === null) return false;
+
+        return true;
+    };
+
+    private _handleAddPhotoPress = async (): Promise<void> => {
 
         const { status } = await Permissions.askAsync(Permissions.CAMERA);
         if (status === 'granted') {
             const result = await ImagePicker.launchImageLibraryAsync({
-                allowsEditing: true,
+                // allowsEditing: true,
                 aspect: [4, 4],
                 quality: 1,
                 // @ts-ignore
@@ -237,14 +299,12 @@ export default class DishCreatorScreen extends React.Component<{},IDishCreatorSc
             if (!result.cancelled) {
                 this.setState({image: result});
             } else {
-                this.setState({image: null});
+                // this.setState({image: null});
             }
         } else {
             console.warn("Permission not granted! Cannot load a photo");
             this.setState({image: null})
         }
-
-
     };
 }
 
@@ -256,6 +316,25 @@ const styles = StyleSheet.create({
         marginTop: 30,
         marginRight: 8,
         marginLeft: 8
+    },
+    overlay: {
+        position: 'absolute',
+        backgroundColor:  'rgba(255, 255, 255, 0.3)',
+        borderRadius: 5,
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        shadowColor: Colors.black,
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowRadius: 3,
+        shadowOpacity: 0.2
     },
     header: {
         borderBottomColor: Colors.black,

@@ -21,7 +21,6 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundlerIdentifier": "com.pabich.canteen"
     },
     "android": {
       "package": "com.pabich.canteen"

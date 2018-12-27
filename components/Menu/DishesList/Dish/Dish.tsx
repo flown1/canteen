@@ -69,7 +69,7 @@ export default class Dish extends React.Component<IDishProps, {}> {
                     <Image source={plusIco} style={styles.btnIco}/>
                     <Text style={styles.orderBtnText}>Zamów</Text>
                 </LinearGradient>
-            </TouchableHighlight>
+            </TouchableHighlight>;
 
         return (
             <FadeInViewAnim>
@@ -96,14 +96,12 @@ export default class Dish extends React.Component<IDishProps, {}> {
         );
     }
 
-    private _handleOrderBtnPress = (e : GestureResponderEvent) : void => {
-        e.preventDefault();
-
+    private _handleOrderBtnPress = () : void => {
         this.props.addToCart(this.props.dish);
     };
 
-    private _handleEditBtnPress = (e : GestureResponderEvent) : void => {
-        e.preventDefault();
+    private _handleEditBtnPress = () : void => {
+        this.props.navigation.navigate("DishEdit", {dish : this.props.dish});
     }
 }
 

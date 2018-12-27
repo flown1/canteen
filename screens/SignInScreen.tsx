@@ -16,7 +16,7 @@ import Logo from "../components/Text/Logo";
 import Colors from "../constants/Colors";
 import signInSuccesful from "../redux/actions/signInAction";
 import GoogleAuthUser from "../dataModels/GoogleAuthUser";
-import ApiFetcher from "../utils/ApiFetcher";
+import CanteenApi from "../utils/CanteenApi";
 import UserData from "../dataModels/UserData";
 
 const googleSignInBtn = require("../assets/images/google_signin_btn.png");
@@ -63,7 +63,7 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
                                         result.user.photoUrl,
                                         result.serverAuthCode);
 
-                ApiFetcher.postUser(googleAuthUser, (res) => {
+                CanteenApi.postUser(googleAuthUser, (res) => {
                     if (res.status === "SUCCESS") {
                         const data = res.data;
                         const user = new UserData( data.name, data.email, data.imgUrl, data.role, data.token );

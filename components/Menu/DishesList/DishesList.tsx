@@ -7,20 +7,22 @@ import {
     View
 } from 'react-native';
 import { connect } from 'react-redux';
-import ApiFetcher from "../../../utils/ApiFetcher";
+import CanteenApi from "../../../utils/CanteenApi";
 import DishData from '../../../dataModels/DishData'
 import Dish from "./Dish/Dish";
-import {dishesRetrieved, dishesUpdated} from "../../../redux/actions/dishesActions";
+import { dishesRetrieved } from "../../../redux/actions/dishesActions";
 import { IState } from "../../../@types/redux/state/IState";
 import { addDishToCart } from "../../../redux/actions/cartActions";
 import Colors from "../../../constants/Colors";
-import {USER_ROLES} from "../../../constants/UserRoles";
+import { USER_ROLES } from "../../../constants/UserRoles";
+import IReactNavigateProps from "../../../@types/@react-navigation/IReactNavigateProps";
 
 
 interface IDishListProps {
     isMenuLoaded: boolean,
     dishListShow: Array<DishData>,
     isEditableMode: boolean,
+    navigation: IReactNavigateProps
 
     onDishesReceived: (dishList: Array<DishData>) => void,
     addToCart: (dish: DishData) => void
@@ -32,14 +34,18 @@ interface IDishListState {
 class DishesList extends React.Component<IDishListProps, IDishListState> {
 
     componentDidMount() {
-        ApiFetcher.getAllDishes((data: Array<DishData>) => {
+        this.fetchDishes();
+    }
+
+    fetchDishes = () => {
+        CanteenApi.getAllDishes((data: Array<DishData>) => {
             if (!data) {
                 return;
             }
-
+            this.setState({isRefreshing: false});
             this.props.onDishesReceived(data);
         });
-    }
+    };
 
     _keyExtractor = (item, index) => index.toString();
 
@@ -47,7 +53,8 @@ class DishesList extends React.Component<IDishListProps, IDishListState> {
         return (
             <Dish dish={d}
                   editableMode={this.props.isEditableMode}
-                  addToCart={this._addToCart}/>
+                  addToCart={this._addToCart}
+                  navigation={this.props.navigation}/>
         );
     };
 
@@ -57,7 +64,6 @@ class DishesList extends React.Component<IDishListProps, IDishListState> {
 
     render() {
         if(!this.props.isMenuLoaded){
-            console.log("isMenuLoaded: false");
             return (
                 <ActivityIndicator size="large" color={Colors.green} />
             )

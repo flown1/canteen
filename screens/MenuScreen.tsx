@@ -2,7 +2,7 @@ import React from 'react';
 import {
     StyleSheet,
     Text,
-    ScrollView
+    ScrollView, RefreshControl
 } from "react-native";
 import IMenuScreenProps from "../@types/screens/MenuScreen/IMenuScreenProps";
 import DishesList from "../components/Menu/DishesList/DishesList";
@@ -12,11 +12,26 @@ import { connect } from 'react-redux';
 import {IState} from "../@types/redux/state/IState";
 import AddDishButton from "../components/Button/AddDishButton";
 import { USER_ROLES } from "../constants/UserRoles";
+import {dishesRetrieved} from "../redux/actions/dishesActions";
+import CanteenApi from "../utils/CanteenApi";
 
 class MenuScreen extends React.Component<IMenuScreenProps> {
+    state = {
+        isRefreshing: false
+    };
 
-    private _handleOnAddDishPress = (): void => {
+    _handleOnAddDishPress = (): void => {
         this.props.navigation.navigate('DishCreator')
+    };
+
+    _onRefresh = () => {
+        console.log("Refreshing...");
+        this.setState({isRefreshing: true});
+
+        CanteenApi.getAllDishes((data) => {
+            this.props.onDishesReceived(data);
+            this.setState({isRefreshing: false});
+        });
     };
 
     render() {
@@ -27,11 +42,18 @@ class MenuScreen extends React.Component<IMenuScreenProps> {
             : null;
 
         return (
-            <ScrollView style={styles.container}>
+            <ScrollView style={styles.container}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={this.state.isRefreshing}
+                                onRefresh={this._onRefresh}
+                            />
+                        }
+            >
                 <Filter/>
                 <Text style={styles.sectionLabel}>Menu na dzis:</Text>
                 {addDishButton}
-                <DishesList/>
+                <DishesList navigation={this.props.navigation}/>
             </ScrollView>
         );
     }
@@ -42,7 +64,12 @@ const mapStateToProps = (state: IState) => {
         user: state.signIn.user
     }
 };
-export default connect(mapStateToProps)(MenuScreen);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onDishesReceived: (dishList) => dispatch(dishesRetrieved(dishList)),
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(MenuScreen);
 const styles = StyleSheet.create({
     container: {
         backgroundColor: Colors.backgroundColor

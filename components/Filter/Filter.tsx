@@ -23,7 +23,6 @@ const AppleLightenICO = require('../../assets/images/apple_ico_green.png');
 interface IFilterProps {
     addFilter: (String) => void
     deleteFilter: (String) => void
-    // filterDishList: () => void
 }
 
 class Filter extends React.Component<IFilterProps, {}> {
@@ -35,7 +34,6 @@ class Filter extends React.Component<IFilterProps, {}> {
 
     addFilter = (newFilter :String) => {
         this.props.addFilter(newFilter);
-        // this.props.filterDishList();
     };
 
     deleteFilter = (filter: String) => {
