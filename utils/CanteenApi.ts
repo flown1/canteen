@@ -27,9 +27,9 @@ export default class CanteenApi {
 
     static postDish(dishData: DishData, callback: Function): void {
         const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
-        const POST_USER_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.POST_DISHES;
+        const POST_DISH_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.POST_DISHES;
 
-        fetch(ROOT + POST_USER_ENDPOINT, {
+        fetch(ROOT + POST_DISH_ENDPOINT, {
             method: "POST",
             credentials: "same-origin",
             headers: {
@@ -59,7 +59,41 @@ export default class CanteenApi {
         });
     }
 
-    static postUser(googleAuthUser: GoogleAuthUser, callback: Function): void {
+    static putDish(dishData: DishData, callback: (res) => void) {
+        const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
+        const PUT_DISH_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.PUT_DISHES;
+
+        fetch(ROOT + PUT_DISH_ENDPOINT, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                'namePL':   dishData.namePL,
+                'nameEN':   dishData.nameEN,
+                'descPL':   dishData.descPL,
+                'descEN':   dishData.descEN,
+                'price':    dishData.price,
+                'imgUrl':   dishData.imgUrl,
+                'tags':     dishData.tags,
+                'currency': dishData.currency,
+                'menu_id':  dishData.menuId,
+                'isPromoted': dishData.isPromoted
+            }),
+        })
+        .then(( data ) => {return data.json()})
+        .then(( data ) => {
+            callback(data);
+        })
+        .catch((e) => {
+            console.error(`Error while postDish(): ${e}`);
+            callback({data: {}, status: "ERROR"})
+        });
+    }
+
+    static postUser(googleAuthUser: GoogleAuthUser, callback: (res) => void): void {
         const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
         const POST_USER_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.POST_USER;
 

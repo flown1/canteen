@@ -23,7 +23,6 @@ import ImgurApi from "../utils/ImgurApi";
 import DishData from "../dataModels/DishData";
 import CanteenApi from "../utils/CanteenApi";
 import IReactNavigateProps from "../@types/@react-navigation/IReactNavigateProps";
-import MenuScreen from "./MenuScreen";
 import {NavigationActions} from "react-navigation";
 
 const cameraDummyImg = require('../assets/images/camera_add_ico_black.png');

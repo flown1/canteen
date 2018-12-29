@@ -1,6 +1,6 @@
 export const Config = {
     SERVER_INFO: {
-        ROOT_URL: "http://192.168.69.105",
+        ROOT_URL: "http://10.1.48.75",
         PORT: 3000,
     },
     IMGUR: {
