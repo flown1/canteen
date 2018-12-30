@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    ActivityIndicator,
     Animated,
     GestureResponderEvent,
     Image, ScrollView,
@@ -12,10 +13,13 @@ import Colors from "../../../../constants/Colors";
 import {ImagePicker, LinearGradient, Permissions} from "expo";
 import {IDishProps} from "../../../../@types/components/Menu/DishList/Dish/IDishProps";
 import {DISH_TAGS} from "../../../../constants/DishTags";
+import { connect } from 'react-redux';
 import CheckBox from "react-native-check-box";
 import Fonts from "../../../../constants/Fonts";
 import CanteenApi from "../../../../utils/CanteenApi";
 import DishData from "../../../../dataModels/DishData";
+import {dishUpdate} from "../../../../redux/actions/dishesActions";
+import ImgurApi from "../../../../utils/ImgurApi";
 
 const plusIco = require('../../../../assets/images/plus.png');
 const editIco = require('../../../../assets/images/edit_ico_white.png');
@@ -59,6 +63,7 @@ class FadeInViewAnim extends React.Component<IFadeInViewProps, {}> {
 
 interface IDishState {
     isEditing: boolean
+    isEditLoaderShow: boolean
 
     namePL: string;
     nameEN: string;
@@ -73,7 +78,8 @@ interface IDishState {
 
     image: Object
 }
-export default class Dish extends React.Component<IDishProps, IDishState> {
+
+class Dish extends React.Component<IDishProps, IDishState> {
 
     constructor(props) {
         super(props);
@@ -81,6 +87,7 @@ export default class Dish extends React.Component<IDishProps, IDishState> {
         const dish = this.props.dish;
         this.state = {
             isEditing: false,
+            isEditLoaderShow: false,
 
             /* editing props */
             namePL: dish.namePL,
@@ -102,7 +109,7 @@ export default class Dish extends React.Component<IDishProps, IDishState> {
     render() {
         const buttonType = this.props.editableMode?
             this.state.isEditing?
-                <TouchableHighlight onPress={(e: GestureResponderEvent) => this._handleConfirmBtnPress(e)} underlayColor="white">
+                <TouchableHighlight onPress={() => this._handleConfirmBtnPress()} underlayColor="white">
                     <LinearGradient
                         colors={[Colors.yellow, Colors.orange]}
                         style={[styles.editBtn, styles.flexRow, { borderRadius: 5, alignItems: 'center' }]}>
@@ -111,7 +118,7 @@ export default class Dish extends React.Component<IDishProps, IDishState> {
                     </LinearGradient>
                 </TouchableHighlight>
                 :
-                <TouchableHighlight onPress={(e: GestureResponderEvent) => this._handleEditBtnPress(e)} underlayColor="white">
+                <TouchableHighlight onPress={() => this._handleEditBtnPress()} underlayColor="white">
                     <LinearGradient
                         colors={[Colors.yellow, Colors.orange]}
                         style={[styles.editBtn, styles.flexRow, { borderRadius: 5, alignItems: 'center' }]}>
@@ -119,7 +126,7 @@ export default class Dish extends React.Component<IDishProps, IDishState> {
                         <Text style={styles.orderBtnText}>Edytuj</Text>
                     </LinearGradient>
                 </TouchableHighlight>
-            :<TouchableHighlight onPress={(e: GestureResponderEvent) => this._handleOrderBtnPress(e)} underlayColor="white">
+            :<TouchableHighlight onPress={() => this._handleOrderBtnPress()} underlayColor="white">
                 <LinearGradient
                     colors={[Colors.primary, Colors.green]}
                     style={[styles.orderBtn, styles.flexRow]}>
@@ -127,6 +134,11 @@ export default class Dish extends React.Component<IDishProps, IDishState> {
                     <Text style={styles.orderBtnText}>Zamów</Text>
                 </LinearGradient>
             </TouchableHighlight>;
+
+        const loader = this.state.isEditLoaderShow? <View style={styles.editBoxLoader}>
+            <ActivityIndicator size={'large'} color={Colors.lime}/>
+        </View>
+        : null;
 
         const boxType = this.state.isEditing?
             <View style={styles.editBox}>
@@ -139,9 +151,7 @@ export default class Dish extends React.Component<IDishProps, IDishState> {
                 </View>
                 <View style={styles.rightPart}>
                     <View style={styles.rightUp}>
-                        <TextInput style={styles.name}
-                                   onChangeText={(namePL) => this.setState({namePL: namePL})}
-                                   value={this.props.dish.namePL}/>
+                        <Text style={styles.name}>{this.props.dish.namePL}</Text>
                         {buttonType}
                     </View>
                     <View style={styles.rightMiddle}>
@@ -276,6 +286,7 @@ export default class Dish extends React.Component<IDishProps, IDishState> {
                         </ScrollView>
                     </View>
                 </View>
+                {loader}
             </View>
             :
             <View style={styles.box}>
@@ -305,11 +316,11 @@ export default class Dish extends React.Component<IDishProps, IDishState> {
         );
     }
 
-    private _handleOrderBtnPress = (e) : void => {
+    private _handleOrderBtnPress = () : void => {
         this.props.addToCart(this.props.dish);
     };
 
-    private _handleEditBtnPress = (e) : void => {
+    private _handleEditBtnPress = () : void => {
         const {isEditing} = this.state;
 
         if (!isEditing) {
@@ -317,26 +328,54 @@ export default class Dish extends React.Component<IDishProps, IDishState> {
         } else {
             this._hideEditBox();
         }
-        console.log("click");
     };
 
-    private _handleConfirmBtnPress = (e) : void => {
+    private _handleConfirmBtnPress = () : void => {
         console.log('confirmed...');
         const { namePL, nameEN, descPL, descEN, imgUrl, image, price, tags, isPromoted, menuId, currency } = this.state;
 
-        const dish = new DishData(null, namePL, nameEN, descPL, descEN, imgUrl, price, isPromoted, menuId, tags, currency);
+        const imageHasChange = image? true : false;
+        if (imageHasChange) {
+            ImgurApi.postImage(image, namePL, (res) => {
+                console.log("[ImgurApi] Response: ", res);
+                if (res.status === 200) {
+                    const link = res.data.link;
+                    const dish = new DishData(null, namePL, nameEN, descPL, descEN, link, price, isPromoted, menuId, tags, currency);
 
-        CanteenApi.putDish(dish, (res) => {
-           console.log("Got response: ", res);
+                    CanteenApi.putDish(dish, (res) => {
+                        console.log("[CanteenApi] Response: ", res);
+                        if (res.status === "SUCCESS") {
+                            const data = res.data;
 
-           if (res.status === "SUCCESS") {
-               const data = res.data;
+                            this.props.updateDish(dish); //powinno być pobierane z "data"
+                            this._hideEditBox();
+                        } else {
+                            console.warn("Nie udało się wyedytować dania. Spróbuj ponownie");
+                        }
+                    });
+                } else {
+                    console.warn("Nie udało się zaktualizowąć dania. Problem z uploaem zdjecia. Sprobuj ponownie.");
+                }
 
-           } else {
-               console.warn("Nie udało się wyedytować dania. Spróbuj ponownie");
-           }
-        });
-        this.setState({isEditing: false})
+            });
+        } else {
+            const dish = new DishData(null, namePL, nameEN, descPL, descEN, imgUrl, price, isPromoted, menuId, tags, currency);
+
+            this._showEditBoxLoader();
+            CanteenApi.putDish(dish, (res) => {
+                console.log("[CanteenApi] Response: ", res);
+
+                if (res.status === "SUCCESS") {
+                    const data = res.data;
+
+                    this.props.updateDish(dish); //powinno być pobierane z "data"
+                    this.setState({isEditing: false});
+                    this._hideEditBoxLoader()
+                } else {
+                    console.warn("Nie udało się wyedytować dania. Spróbuj ponownie");
+                }
+            });
+        }
     };
 
     private _showEditBox = () : void => {
@@ -345,6 +384,14 @@ export default class Dish extends React.Component<IDishProps, IDishState> {
 
     private _hideEditBox = () : void => {
         this.setState({isEditing: false});
+    };
+
+    private _showEditBoxLoader = () : void => {
+        this.setState({isEditLoaderShow: true});
+    };
+
+    private _hideEditBoxLoader = () : void => {
+        this.setState({isEditLoaderShow: false});
     };
 
     private _handleAddPhotoPress = async (): Promise<void> => {
@@ -371,6 +418,12 @@ export default class Dish extends React.Component<IDishProps, IDishState> {
         }
     };
 }
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateDish: (dish: DishData) => dispatch(dishUpdate(dish))
+    }
+};
+export default connect(null, mapDispatchToProps)(Dish);
 
 const styles = StyleSheet.create({
     flexRow: {
@@ -489,6 +542,25 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: Colors.white,
         marginBottom: 10,
+
+        shadowColor: Colors.black,
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowRadius: 3,
+        shadowOpacity: 0.2
+    },
+    editBoxLoader: {
+        position: 'absolute',
+        backgroundColor:  'rgba(255, 255, 255, 0.3)',
+        borderRadius: 5,
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
 
         shadowColor: Colors.black,
         shadowOffset: {

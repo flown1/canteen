@@ -7,4 +7,5 @@ export interface IDishProps {
 
     navigation: IReactNavigateProps,
     addToCart: (dish: DishData) => void
+    updateDish: (dish: DishData) => void
 }

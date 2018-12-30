@@ -5,6 +5,7 @@ interface IMenuReducerActions {
     type: String,
     payload: {
         filter ?: String,
-        dishList ?: Array<DishData>
+        dishList ?: Array<DishData>,
+        dish ?: DishData
     }
 }

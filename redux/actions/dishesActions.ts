@@ -17,6 +17,18 @@ export function dishesRetrieved(dishList: Array<DishData>): IDishesRetrieved {
     }
 }
 
+interface IDishUpdate {
+}
+
+export function dishUpdate(dish: DishData): IDishUpdate {
+    return {
+        type: ACTIONS.DISHES.UPDATE,
+        payload: {
+            dish: dish
+        }
+    }
+}
+
 interface IAddFilter {
     type: string,
     payload: {

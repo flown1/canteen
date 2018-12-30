@@ -20,6 +20,37 @@ export default function menu(state = initialState, action: IMenuReducerActions) 
                 filters: state.filters
             };
         }
+        case ACTIONS.DISHES.UPDATE: {
+            const dishToUpdate = action.payload.dish;
+            let newDishList = [];
+
+            state.dishList.map((dish: DishData) => {
+
+                if (dish.namePL === dishToUpdate.namePL) {
+                    newDishList.push(dishToUpdate);
+                } else {
+                    newDishList.push(dish);
+                }
+            });
+
+            let newDishListShow = [];
+
+            state.dishListShow.map((dish: DishData) => {
+
+                if (dish.namePL === dishToUpdate.namePL) {
+                    newDishListShow.push(dishToUpdate);
+                } else {
+                    newDishListShow.push(dish);
+                }
+            });
+
+            return {
+                dishList: newDishList,
+                dishListShow: newDishListShow,
+                isLoaded: true,
+                filters: state.filters
+            }
+        }
         case ACTIONS.FILTER.ADD: {
             let dishListShow = [];
             state.dishList.map((dish: DishData) => {
@@ -35,9 +66,6 @@ export default function menu(state = initialState, action: IMenuReducerActions) 
                     }
                 });
             });
-
-            // console.log("Filters: ", state.filters.concat(action.payload.filter));
-            // console.log("DISHES THAT MADE THROUGH FILTERS: ", dishListShow);
 
             return {
                 filters: state.filters.concat(action.payload.filter),
@@ -71,9 +99,6 @@ export default function menu(state = initialState, action: IMenuReducerActions) 
                     });
                 });
             }
-
-            // console.log("Filters: ", newFilters);
-            // console.log("DISHES THAT MADE THROUGH FILTERS: ", dishListShow);
 
             return {
                 filters: newFilters,

@@ -3,7 +3,7 @@ import {
     Image,
     Text,
     StyleSheet,
-    View, TouchableHighlight
+    View, TouchableHighlight, ActivityIndicator
 } from 'react-native';
 import { connect } from 'react-redux';
 import API_KEYS from '../constants/ApiKeys'
@@ -18,11 +18,18 @@ import signInSuccesful from "../redux/actions/signInAction";
 import GoogleAuthUser from "../dataModels/GoogleAuthUser";
 import CanteenApi from "../utils/CanteenApi";
 import UserData from "../dataModels/UserData";
+import Loader from "../components/Loader/Loader";
 
 const googleSignInBtn = require("../assets/images/google_signin_btn.png");
 
 class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenState> {
+    state = {
+        isLoading: false
+    };
+
     render() {
+        const loader = this.state.isLoading? <Loader/> : null;
+
         return (
             <View style={styles.container}>
                 <View style={styles.mainBox}>
@@ -43,12 +50,14 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
                 <View style={styles.bottomBox}>
                     <Text style={styles.bottomLine}>Made in Lodz 2018</Text>
                 </View>
+                {loader}
             </View>
         )
     }
 
     private _signIn = async (e: any) : Promise<any> => {
         e.preventDefault();
+        this._showLoader();
 
         try {
             const result = await Expo.Google.logInAsync({
@@ -80,9 +89,21 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
                 console.error("Signin cancelled")
             }
 
+            this._hideLoader();
+
         } catch (e) {
             console.error("Error while signingIn: ", e)
+            this._hideLoader();
+
         }
+    };
+
+    private _showLoader = () : void => {
+      this.setState({isLoading: true});
+    };
+
+    private _hideLoader = () : void => {
+        this.setState({isLoading: false});
     };
 
     private _resetAction = StackActions.reset({
@@ -159,5 +180,24 @@ const styles = StyleSheet.create({
         fontSize: 13,
         fontFamily: 'montserrat-light',
         textAlign: 'center'
+    },
+    loader: {
+        position: 'absolute',
+        backgroundColor:  'rgba(255, 255, 255, 0.3)',
+        borderRadius: 5,
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        shadowColor: Colors.black,
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowRadius: 3,
+        shadowOpacity: 0.2
     }
 });
