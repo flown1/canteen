@@ -5,7 +5,7 @@ export const CANTEEN_API_CONSTANTS = {
         PUT_DISHES: "/dishes",
         POST_USER: "/users",
         PAYMENTS: {
-            PAYPAL: `/payments/paypal`
+            BRAINTREE: '/payments'
         }
     },
     ENPOINTS_IMGUR: {

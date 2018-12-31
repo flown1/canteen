@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    ActivityIndicator,
     FlatList,
     StyleSheet,
     Text,
@@ -16,6 +15,7 @@ import { addDishToCart } from "../../../redux/actions/cartActions";
 import Colors from "../../../constants/Colors";
 import { USER_ROLES } from "../../../constants/UserRoles";
 import IReactNavigateProps from "../../../@types/@react-navigation/IReactNavigateProps";
+import Loader from "../../Loader/Loader";
 
 
 interface IDishListProps {
@@ -65,7 +65,8 @@ class DishesList extends React.Component<IDishListProps, IDishListState> {
     render() {
         if(!this.props.isMenuLoaded){
             return (
-                <ActivityIndicator size="large" color={Colors.green} />
+                <Loader/>
+
             )
         } else {
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    ActivityIndicator,
     Image,
     Keyboard,
     ScrollView,
@@ -24,6 +23,7 @@ import DishData from "../dataModels/DishData";
 import CanteenApi from "../utils/CanteenApi";
 import IReactNavigateProps from "../@types/@react-navigation/IReactNavigateProps";
 import {NavigationActions} from "react-navigation";
+import Loader from "../components/Loader/Loader";
 
 const cameraDummyImg = require('../assets/images/camera_add_ico_black.png');
 
@@ -57,9 +57,7 @@ export default class DishCreatorScreen extends React.Component<IDishCreatorScree
 
 
     render() {
-        const loadingOverlay = this.state.hasCreatingStarted ?  <View style={styles.overlay}>
-                <ActivityIndicator size={"large"} color={Colors.green}/>
-        </View>
+        const loadingOverlay = this.state.hasCreatingStarted ?  <Loader/>
         : null;
 
         return (
@@ -228,11 +226,11 @@ export default class DishCreatorScreen extends React.Component<IDishCreatorScree
         );
     }
 
-    private _showOverlay = (): void => {
+    private _showLoader = (): void => {
         this.setState({'hasCreatingStarted': true});
     };
 
-    private _hideOverlay = (): void => {
+    private _hideLoader = (): void => {
         this.setState({'hasCreatingStarted': false});
     };
 
@@ -244,7 +242,7 @@ export default class DishCreatorScreen extends React.Component<IDishCreatorScree
             console.warn("Ups! Podano nieprawidłowe dane.");
             return ;
         }
-        this._showOverlay();
+        this._showLoader();
 
         ImgurApi.postImage(image, name, (res) => {
             console.log("Res from Imgur:", res);
@@ -265,7 +263,7 @@ export default class DishCreatorScreen extends React.Component<IDishCreatorScree
                     } else {
                         console.warn("[ERR] Something went wrong. The dish was NOT added :(");
                     }
-                    this._hideOverlay();
+                    this._hideLoader();
                 })
             }
         });
@@ -315,25 +313,6 @@ const styles = StyleSheet.create({
         marginTop: 30,
         marginRight: 8,
         marginLeft: 8
-    },
-    overlay: {
-        position: 'absolute',
-        backgroundColor:  'rgba(255, 255, 255, 0.3)',
-        borderRadius: 5,
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        alignItems: 'center',
-        justifyContent: 'center',
-
-        shadowColor: Colors.black,
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowRadius: 3,
-        shadowOpacity: 0.2
     },
     header: {
         borderBottomColor: Colors.black,

@@ -1,8 +1,6 @@
 import React from 'react';
 import {
-    ActivityIndicator,
     Animated,
-    GestureResponderEvent,
     Image, ScrollView,
     StyleSheet,
     Text, TextInput,
@@ -20,6 +18,7 @@ import CanteenApi from "../../../../utils/CanteenApi";
 import DishData from "../../../../dataModels/DishData";
 import {dishUpdate} from "../../../../redux/actions/dishesActions";
 import ImgurApi from "../../../../utils/ImgurApi";
+import Loader from "../../../Loader/Loader";
 
 const plusIco = require('../../../../assets/images/plus.png');
 const editIco = require('../../../../assets/images/edit_ico_white.png');
@@ -135,9 +134,7 @@ class Dish extends React.Component<IDishProps, IDishState> {
                 </LinearGradient>
             </TouchableHighlight>;
 
-        const loader = this.state.isEditLoaderShow? <View style={styles.editBoxLoader}>
-            <ActivityIndicator size={'large'} color={Colors.lime}/>
-        </View>
+        const loader = this.state.isEditLoaderShow? <Loader/>
         : null;
 
         const boxType = this.state.isEditing?
@@ -542,25 +539,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: Colors.white,
         marginBottom: 10,
-
-        shadowColor: Colors.black,
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowRadius: 3,
-        shadowOpacity: 0.2
-    },
-    editBoxLoader: {
-        position: 'absolute',
-        backgroundColor:  'rgba(255, 255, 255, 0.3)',
-        borderRadius: 5,
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        alignItems: 'center',
-        justifyContent: 'center',
 
         shadowColor: Colors.black,
         shadowOffset: {

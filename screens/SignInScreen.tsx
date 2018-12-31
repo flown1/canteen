@@ -3,7 +3,7 @@ import {
     Image,
     Text,
     StyleSheet,
-    View, TouchableHighlight, ActivityIndicator
+    View, TouchableHighlight
 } from 'react-native';
 import { connect } from 'react-redux';
 import API_KEYS from '../constants/ApiKeys'
