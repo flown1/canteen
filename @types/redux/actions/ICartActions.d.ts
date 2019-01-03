@@ -1,15 +1,20 @@
 import DishData from "../../../dataModels/DishData";
 
-export interface ICartActionAddToCart {
+interface ICartActionAddToCart {
     type: String,
     payload: {
         dish: DishData
     }
 }
 
-export interface ICartActionDeleteOrder {
+interface ICartActionDeleteOrder {
     type: String,
     payload: {
         idToDelete: string
     }
+}
+
+interface ICartActionEmpty {
+    type: String
+    payload: {}
 }

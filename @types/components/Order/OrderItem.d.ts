@@ -1,7 +1,7 @@
-import OrderData from "../../../dataModels/OrderData";
+import OrderDataItem from "../../../dataModels/OrderDataItem";
 
 interface IOrderItemProps {
-    orderItem: OrderData,
+    orderItem: OrderDataItem,
     totalPrice: number,
     handleOnDelete: (id: string) => void
 }

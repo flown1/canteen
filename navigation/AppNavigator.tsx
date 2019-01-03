@@ -12,7 +12,6 @@ import CustomHeaderRight from "../components/CustomHeaderRight";
 import CartScreen from "../screens/CartScreen";
 import PaymentsScreen from "../screens/PaymentsScreen";
 import DishCreatorScreen from "../screens/DishCreatorScreen";
-import BraintreeScreen from "../screens/payments/BraintreeScreen";
 
 const MenuIco = require('../assets/images/menu_ico_black_new.png');
 const OrderIco = require('../assets/images/fastfood_ico_black.png');
@@ -124,9 +123,9 @@ export const AppNavigator = createStackNavigator({
     },
     Payments: {
         screen: PaymentsScreen,
-        navigationOptions: {
+        navigationOptions: ({ navigation }) => ({
             header: null
-        }
+        })
     }
 
 });

@@ -80,16 +80,17 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
                         console.log( "SUCCESSFULLY signed in ", user );
 
                         this.props.onSuccessfulSignIn( user );
+                        this._hideLoader();
                         this.props.navigation.dispatch( this._resetAction );
+
                     } else {
+                        this._hideLoader();
                         console.error("POSTing user UNsuccessful!");
                     }
                 });
             } else {
                 console.error("Signin cancelled")
             }
-
-            this._hideLoader();
 
         } catch (e) {
             console.error("Error while signingIn: ", e)

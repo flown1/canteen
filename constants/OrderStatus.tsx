@@ -1,0 +1,6 @@
+export enum ORDER_STATUS {
+    COMPLETED = "COMPLETED",
+    READY = "READY",
+    PAID = "PAID",
+    CANCELED = "CANCELED"
+};

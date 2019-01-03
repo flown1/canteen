@@ -1,12 +1,12 @@
 import {Config} from "../config/Config";
-import {CANTEEN_API_CONSTANTS} from "../constants/CanteenApi";
 import ApiKeys from "../constants/ApiKeys";
+import {IMGUR_API_CONSTANST} from "../constants/ImgurApi";
 
 export default class ImgurApi {
 
     static postImage(image, name: String, callback: Function) {
         const ROOT = `${Config.IMGUR.ROOT_URL}`;
-        const POST_IMAGE = CANTEEN_API_CONSTANTS.ENPOINTS_IMGUR.POST_IMAGE;
+        const POST_IMAGE = IMGUR_API_CONSTANST.ENPOINTS_IMGUR.POST_IMAGE;
 
         console.log(`image:`, image, `name:`, name);
 

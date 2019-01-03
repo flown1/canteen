@@ -3,7 +3,7 @@ import {ICartState} from "./ICartData";
 import ISignInState from "./ISignedInState";
 
 
-export interface IState {
+interface IState {
     signIn: ISignInState,
     menu: IMenuState,
     cart: ICartState

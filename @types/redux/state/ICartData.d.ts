@@ -1,5 +1,5 @@
-import OrderData from "../../../dataModels/OrderData";
+import OrderDataItem from "../../../dataModels/OrderDataItem";
 
 export interface ICartState {
-    items: Array<OrderData>
+    items: Array<OrderDataItem>
 }

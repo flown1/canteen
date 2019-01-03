@@ -5,17 +5,17 @@ import {
     View
 } from 'react-native';
 import OrderItem from "./OrderItem";
-import OrderData from "../../dataModels/OrderData";
+import OrderDataItem from "../../dataModels/OrderDataItem";
 import Dish from "../Menu/DishesList/Dish/Dish";
 
 interface IOrderListProps {
-    items: Array<OrderData>;
+    items: Array<OrderDataItem>;
     deleteItem: (id: string) => void;
 }
 
 export default class OrderList extends React.Component<IOrderListProps> {
     state = {
-        orderList: Array<OrderData>()
+        orderList: Array<OrderDataItem>()
     };
 
     private _keyExtractor = (item, index) => index.toString();

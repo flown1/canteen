@@ -2,6 +2,8 @@ import DishData from "../dataModels/DishData";
 import { Config } from "../config/Config";
 import { CANTEEN_API_CONSTANTS } from "../constants/CanteenApi";
 import GoogleAuthUser from "../dataModels/GoogleAuthUser";
+import OrderDataItem from "../dataModels/OrderDataItem";
+import OrderData from "../dataModels/OrderData";
 
 
 export default class CanteenApi {
@@ -55,6 +57,31 @@ export default class CanteenApi {
         })
         .catch((e) => {
             console.error(`Error while postDish(): ${e}`);
+            callback({data: {}, status: "ERROR"})
+        });
+    }
+
+    static postOrder(order: OrderData, callback: Function): void {
+        const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
+        const POST_ORDER_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.POST_ORDER;
+
+        fetch(ROOT + POST_ORDER_ENDPOINT, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+
+            }),
+        })
+        .then(( data ) => {return data.json()})
+        .then(( orderData ) => {
+            callback(orderData);
+        })
+        .catch((e) => {
+            console.error(`Error while postOrder(): ${e}`);
             callback({data: {}, status: "ERROR"})
         });
     }

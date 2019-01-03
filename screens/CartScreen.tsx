@@ -13,7 +13,7 @@ import Colors from "../constants/Colors";
 import OrderList from "../components/Order/OrderList";
 import {deleteOrderFromCart} from "../redux/actions/cartActions";
 import ProceedToPaymentsButton from "../components/Button/ProceesToPaymentsButton";
-import OrderData from "../dataModels/OrderData";
+import OrderDataItem from "../dataModels/OrderDataItem";
 import Fonts from "../constants/Fonts";
 
 const cartEmptyImg = require("../assets/images/cart_empty_img.png");
@@ -34,7 +34,7 @@ class CartScreen extends React.Component<ICartScreenProps> {
             )
         } else {
             let total = 0;
-            this.props.cart.items.map( (o: OrderData): number => {
+            this.props.cart.items.map( (o: OrderDataItem): number => {
                 total += (o.quantity * o.dish.price);
             });
 

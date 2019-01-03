@@ -2,8 +2,7 @@ import React from 'react';
 import {
     Image,
     StyleSheet,
-    TouchableOpacity, View,
-    WebView
+    TouchableOpacity, WebView,
 } from 'react-native';
 import {Linking} from "expo";
 import {CANTEEN_API_CONSTANTS} from "../../constants/CanteenApi";
@@ -11,31 +10,29 @@ import {Config} from "../../config/Config";
 
 const logo = require('../../assets/images/braintree_logo.png');
 
-interface IPaypalCheckoutButtonProps {
+interface IBraintreeCheckoutButtonProps {
+    onPaymentComplete: () => void
 }
 
-interface IPaypalCheckoutButtonState {
-    check: boolean
+interface IBraintreeCheckoutButtonState {
+    showWebView: boolean,
 }
 
-export default class PaypalCheckoutButton extends React.Component<IPaypalCheckoutButtonProps, IPaypalCheckoutButtonState> {
+export default class BraintreeCheckoutButton extends React.Component<IBraintreeCheckoutButtonProps, IBraintreeCheckoutButtonState> {
     state = {
-        check: false
+        showWebView: false,
     };
+
+    onMessage(m) {
+        this._hideWebView();
+        this.props.onPaymentComplete();
+    }
 
     render() {
         const uri = Config.SERVER_INFO.ROOT_URL + ":" + Config.SERVER_INFO.PORT + CANTEEN_API_CONSTANTS.ENDPOINTS.PAYMENTS.BRAINTREE;
-        const injectScript = `
-          (function () {
-            window.onclick = function(e) {
-              e.preventDefault();
-              window.postMessage(e.target.href);
-              e.stopPropagation()
-            }
-          }());
-        `;
 
-        const toRender = this.state.check? <WebView
+        const toRender = this.state.showWebView? <WebView
+                onLoad={this.onLoad}
                 ref={(ref) => { this.webview = ref; }}
                 source={{ uri }}
                 onNavigationStateChange={(event) => {
@@ -44,8 +41,8 @@ export default class PaypalCheckoutButton extends React.Component<IPaypalCheckou
                         Linking.openURL(event.url);
                     }
                 }}
-                injectedJavaScript={injectScript}
-                onMessage={this.onMessage}
+                javaScriptEnabled={true}
+                onMessage={m => this.onMessage(m)}
             />
         :
         <TouchableOpacity style={styles.container} onPress={this._handleOnPress}>
@@ -60,12 +57,16 @@ export default class PaypalCheckoutButton extends React.Component<IPaypalCheckou
     }
 
     private _handleOnPress = () => {
-        this._renderWebView();
+        this._showWebView();
     };
 
-    private _renderWebView = () => {
-        this.setState({check: true});
+    private _showWebView = () => {
+        this.setState({showWebView: true});
     };
+
+    private _hideWebView = () => {
+        this.setState({showWebView: false});
+    }
 }
 
 const styles = StyleSheet.create({
