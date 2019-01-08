@@ -3,7 +3,7 @@ import {
     Image,
     Text,
     StyleSheet,
-    View, TouchableHighlight
+    View, TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux';
 import API_KEYS from '../constants/ApiKeys'
@@ -42,13 +42,13 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
                                 lineStyle={styles.line}
                                 containerStyles={styles.struckLineContainer}/>
                     <View style={styles.signInBtnWrapper}>
-                        <TouchableHighlight onPress={this._signIn}>
+                        <TouchableOpacity onPress={this._signIn}>
                             <Image style={styles.googleBtn} source={googleSignInBtn}/>
-                        </TouchableHighlight>
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View style={styles.bottomBox}>
-                    <Text style={styles.bottomLine}>Made in Lodz 2018</Text>
+                    <Text style={styles.bottomLine}>Wszelkie prawa zastrzeżone &copy; Łodz 2018</Text>
                 </View>
                 {loader}
             </View>
@@ -172,6 +172,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     googleBtn: {
+        marginTop: 20
     },
     bottomBox: {
         bottom: 5,

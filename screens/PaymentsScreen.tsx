@@ -7,7 +7,7 @@ import {
 import { connect } from 'react-redux';
 import Fonts from "../constants/Fonts";
 import Colors from "../constants/Colors";
-import BraintreeCheckoutButton from "../components/Button/BraintreeCheckoutButton";
+import BraintreeCheckoutView from "../components/Button/BraintreeCheckoutView";
 import IReactNavigateProps from "../@types/@react-navigation/IReactNavigateProps";
 import OrderCodeCircle from "../components/OrderCodeCircle/OrderCodeCircle";
 import {NavigationActions, StackActions} from "react-navigation";
@@ -32,20 +32,21 @@ interface IPaymentsScreenState {
 class PaymentsScreen extends React.Component<IPaymentsScreenProps, IPaymentsScreenState> {
     state = {
         isPaymentComplete: false,
-        orderCode: "2138"
+        orderCode: "----"
     };
 
     render() {
         const toRender = this.state.isPaymentComplete?
             <View style={styles.container}>
                 <Text style={styles.paymentStatusTitle}>Płatność zakończona!</Text>
-                <OrderCodeCircle code={this.state.orderCode}/>
-                <OKButton onPress={this._handleOnOKButtonPress}/>
+                <View style={styles.bottomBox}>
+                    <OrderCodeCircle code={this.state.orderCode}/>
+                    <OKButton onPress={this._handleOnOKButtonPress}/>
+                </View>
             </View>
             :
             <View style={styles.container}>
-                <Text style={styles.promptText}>Wybierz metode platnosci:</Text>
-                <BraintreeCheckoutButton onPaymentComplete={this._handleOnPaymentComplete}/>
+                <BraintreeCheckoutView onPaymentComplete={this._handleOnPaymentComplete}/>
             </View>;
 
         return (
@@ -55,41 +56,38 @@ class PaymentsScreen extends React.Component<IPaymentsScreenProps, IPaymentsScre
         );
     }
 
-    private _handleOnPaymentComplete = () => {
-        console.log("click");
-        // const dishesOrdered = this.props.cart.items;
-        // const order = new OrderDataItem(dishesOrdered, this.state.orderCode, false);
-        //
-        // CanteenApi.postOrder(order, (res) => {
-        //     console.log("postOrder RESPONSE: ", res);
-        //     if (res.status === "SUCCESS") {
-        //
-        //     }
-        // });
+    private _handleOnPaymentComplete = (code: string): void => {
+        this._setCode(code);
         this._showPaymentComplete();
         this._emptyCart();
     };
 
-    private _showPaymentComplete = () => {
+    private _showPaymentComplete = (): void => {
         this.setState({isPaymentComplete: true});
     };
 
-    private _handleOnOKButtonPress = () => {
+    private _setCode = (code): void => {
+        if(code) {
+            this.setState({orderCode: code})
+        }
+    };
+
+    private _handleOnOKButtonPress = (): void => {
         this._goBackToMenu();
     };
 
-    private _goBackToMenu = () => {
+    private _goBackToMenu = (): void => {
         const _resetAction = StackActions.reset({
             index: 0,
             actions: [
                 NavigationActions.navigate({routeName: 'Menu'})
             ]
         });
-
+        
         this.props.navigation.dispatch( _resetAction );
     };
 
-    private _emptyCart = () => {
+    private _emptyCart = (): void => {
         this.props.emptyCart();
     }
 }
@@ -108,7 +106,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(PaymentsScreen);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     promptText: {
         fontFamily: Fonts.family.montserrat_light,
@@ -122,5 +120,9 @@ const styles = StyleSheet.create({
         color: Colors.black,
         textAlign: 'center',
         marginBottom: 30
+    },
+    bottomBox: {
+        justifyContent: 'center',
+        marginLeft: 80
     }
 });

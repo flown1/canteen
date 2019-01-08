@@ -4,9 +4,8 @@ export const CANTEEN_API_CONSTANTS = {
         POST_DISHES: "/dishes",
         PUT_DISHES: "/dishes",
         POST_USER: "/users",
-        POST_ORDER: "/order",
-        PAYMENTS: {
-            BRAINTREE: '/payments'
-        }
+        GET_ORDERS: "/orders",
+        POST_ORDER: "/orders",
+        PAYMENTS: '/payments'
     }
 };

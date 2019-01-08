@@ -1,5 +1,4 @@
 import {ICartState} from "../../@types/redux/state/ICartData";
-import {ICartActionAddToCart} from "../../@types/redux/actions/ICartActions";
 import {ACTIONS} from "../constants/Actions";
 import OrderDataItem from "../../dataModels/OrderDataItem";
 import DishData from "../../dataModels/DishData";

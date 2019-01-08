@@ -1,12 +1,10 @@
 import React from 'react';
 import {
     FlatList,
-    StyleSheet,
-    View
+    StyleSheet
 } from 'react-native';
 import OrderItem from "./OrderItem";
 import OrderDataItem from "../../dataModels/OrderDataItem";
-import Dish from "../Menu/DishesList/Dish/Dish";
 
 interface IOrderListProps {
     items: Array<OrderDataItem>;

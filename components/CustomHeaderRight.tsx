@@ -3,7 +3,7 @@ import {
     Image,
     StyleSheet,
     Text,
-    TouchableHighlight,
+    TouchableOpacity,
     View
 } from 'react-native';
 import Logo from "./Text/Logo";
@@ -26,14 +26,14 @@ interface ICustomHeaderProps {
 class CustomHeaderRight extends React.Component<ICustomHeaderProps> {
     render() {
         const basketIcon = this.props.user.role === USER_ROLES.CLIENT?
-            <TouchableHighlight onPress={this._handleCartIcoClick}>
+            <TouchableOpacity onPress={this._handleCartIcoClick}>
                 <View style={styles.cartWrapper}>
                 <Image source={cartIco} style={styles.cartIco}/>
                     <View style={styles.cartNumberWrapper}>
                         <Text style={styles.cartNumber}>{this.props.cartLength}</Text>
                     </View>
                 </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
             : null;
 
         return (
@@ -44,9 +44,9 @@ class CustomHeaderRight extends React.Component<ICustomHeaderProps> {
                     <View style={styles.line}/>
                 </View>
                 {basketIcon}
-                <TouchableHighlight onPress={this._handleSearchIcoClick}>
+                <TouchableOpacity onPress={this._handleSearchIcoClick}>
                     <Image source={loopIco} style={styles.loopIco}/>
-                </TouchableHighlight>
+                </TouchableOpacity>
             </View>
         );
     };
@@ -56,6 +56,7 @@ class CustomHeaderRight extends React.Component<ICustomHeaderProps> {
     };
 
     private _handleCartIcoClick = (): void => {
+        console.log("click");
         this.props.navigation.navigate('Cart');
     };
 }

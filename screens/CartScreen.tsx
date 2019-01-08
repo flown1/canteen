@@ -34,7 +34,7 @@ class CartScreen extends React.Component<ICartScreenProps> {
             )
         } else {
             let total = 0;
-            this.props.cart.items.map( (o: OrderDataItem): number => {
+            this.props.cart.items.map( (o: OrderDataItem): void => {
                 total += (o.quantity * o.dish.price);
             });
 
