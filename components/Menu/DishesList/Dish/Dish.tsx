@@ -339,7 +339,7 @@ class Dish extends React.Component<IDishProps, IDishState> {
                     const link = res.data.link;
                     const dish = new DishData(null, namePL, nameEN, descPL, descEN, link, price, isPromoted, menuId, tags, currency);
 
-                    CanteenApi.putDish(dish, (res) => {
+                    CanteenApi.editDish(dish, (res) => {
                         console.log("[CanteenApi] Response: ", res);
                         if (res.status === "SUCCESS") {
                             const data = res.data;
@@ -359,7 +359,7 @@ class Dish extends React.Component<IDishProps, IDishState> {
             const dish = new DishData(null, namePL, nameEN, descPL, descEN, imgUrl, price, isPromoted, menuId, tags, currency);
 
             this._showEditBoxLoader();
-            CanteenApi.putDish(dish, (res) => {
+            CanteenApi.editDish(dish, (res) => {
                 console.log("[CanteenApi] Response: ", res);
 
                 if (res.status === "SUCCESS") {

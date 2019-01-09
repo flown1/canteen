@@ -7,28 +7,26 @@ import {connect} from 'react-redux';
 import CanteenApi from "../../utils/CanteenApi";
 import OrderData from "../../dataModels/OrderData";
 import {IState} from "../../@types/redux/state/IState";
-import UserData from "../../dataModels/UserData";
 import {ORDER_STATUS} from "../../constants/OrderStatus";
-import OrderDataItem from "../../dataModels/OrderDataItem";
 
 interface IBraintreeCheckoutViewProps {
     onPaymentComplete: (string) => void,
-    items: Array<OrderDataItem>;
-    user: UserData
+    // items: Array<OrderDataItem>;
+    // user: UserData
 }
 
 interface IBraintreeCheckoutViewState {
+
 }
 
 class BraintreeCheckoutView extends React.Component<IBraintreeCheckoutViewProps, IBraintreeCheckoutViewState> {
-
     onMessage(m) {
         this._hideWebView();
 
         const items = this.props.items;
         const user = this.props. user;
 
-        const order = new OrderData(items, user.email, user.name, ORDER_STATUS.PAID, "0000", "");
+        const order = new OrderData(null, items, user.email, user.name, ORDER_STATUS.PAID, "0000", "");
         console.log("Will send order:", order);
 
         CanteenApi.postOrder(order, (res) => {

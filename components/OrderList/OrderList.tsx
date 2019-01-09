@@ -10,6 +10,7 @@ import OrderListItem from "./OrderListItem/OrderListItem";
 interface IOrderListProps {
     isLoaded: boolean
     orders: Array<OrderData>
+    onDestroy: (OrderData) => void
 }
 
 export default class OrderList extends React.Component<IOrderListProps> {
@@ -18,7 +19,7 @@ export default class OrderList extends React.Component<IOrderListProps> {
 
     _renderItem = ({item: o }) => {
         return (
-            <OrderListItem order={o}/>
+            <OrderListItem order={o} onDestroy={this._handleOnDestroy}/>
         );
     };
 
@@ -39,7 +40,12 @@ export default class OrderList extends React.Component<IOrderListProps> {
             );
         }
     }
+
+    _handleOnDestroy = (order: OrderData): void => {
+        this.props.onDestroy(order);
+    }
 }
+
 
 const styles = StyleSheet.create({
     orderListWrapper: {

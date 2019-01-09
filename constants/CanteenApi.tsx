@@ -6,6 +6,8 @@ export const CANTEEN_API_CONSTANTS = {
         POST_USER: "/users",
         GET_ORDERS: "/orders",
         POST_ORDER: "/orders",
+        SET_ORDER_READY: "/orders/ready",
+        SET_ORDER_COMPLETE: "/orders/complete",
         PAYMENTS: '/payments'
     }
 };

@@ -69,7 +69,7 @@ export default class CanteenApi {
             .then(( dataJson ) => {
                 console.log("RES: DataJson:", dataJson);
                 let orders = new Array<OrderData>();
-                dataJson.data.map((o: OrderData) => {
+                dataJson.data.map((o) => {
                     const itemsData = o.items;
                     const items = new Array<OrderDataItem>();
 
@@ -82,7 +82,7 @@ export default class CanteenApi {
                                                 dishData.menuId, dishData.tags, dishData.currency);
                         items.push(new OrderDataItem(dish, quantity));
                     });
-                    orders.push(new OrderData(items, o.ownerEmail, o.ownerName, o.status, o.code, o.date));
+                    orders.push(new OrderData(o._id.$oid, items, o.ownerEmail, o.ownerName, o.status, o.code, o.date));
                 });
                 callback({
                     data: {
@@ -113,7 +113,8 @@ export default class CanteenApi {
                 'ownerEmail': order.ownerEmail,
                 'ownerName': order.ownerName,
                 'status': order.status,
-                'code': order.code
+                'code': order.code,
+                'orderId': '000000'
             }),
         })
         .then(( data ) => { return data.json() })
@@ -126,7 +127,61 @@ export default class CanteenApi {
         });
     }
 
-    static putDish(dishData: DishData, callback: (res) => void) {
+    static setOrderReady(orderId: string, callback: Function): void {
+        const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
+        const POST_ORDER_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.SET_ORDER_READY;
+
+        console.log("Changing dish status to READY of ID:", orderId);
+
+        fetch(ROOT + POST_ORDER_ENDPOINT, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                'orderId': orderId
+            }),
+        })
+        .then(( data ) => { return data.json() })
+        .then(() => {
+            callback({data: {}, status: "SUCCESS"});
+        })
+        .catch((e) => {
+            console.error(`Error while setOrderReady(): ${e}`);
+            callback({data: {}, status: "ERROR"})
+        });
+    }
+
+    static setOrderComplete(orderId: string, callback: Function): void {
+        const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
+        const POST_ORDER_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.SET_ORDER_COMPLETE;
+
+        console.log("Changing dish status to COMPLETE of ID:", orderId);
+
+        fetch(ROOT + POST_ORDER_ENDPOINT, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                'orderId': orderId
+            }),
+        })
+            .then(( data ) => { return data.json() })
+            .then(() => {
+                callback({data: {}, status: "SUCCESS"});
+            })
+            .catch((e) => {
+                console.error(`Error while setOrderComplete(): ${e}`);
+                callback({data: {}, status: "ERROR"})
+            });
+    }
+
+    static editDish(dishData: DishData, callback: (res) => void) {
         const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
         const PUT_DISH_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.PUT_DISHES;
 

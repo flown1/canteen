@@ -2,6 +2,7 @@ import {ORDER_STATUS} from "../constants/OrderStatus";
 import OrderDataItem from "./OrderDataItem";
 
 export default class OrderData {
+    id: string;
     items: Array<OrderDataItem>;
     price: number;
     status: ORDER_STATUS;
@@ -10,7 +11,8 @@ export default class OrderData {
     code: string;
     date: string;
 
-    constructor(items: Array<OrderDataItem>, ownerEmail: string, ownerName: string, status: ORDER_STATUS, code: string, date: string) {
+    constructor(id: string, items: Array<OrderDataItem>, ownerEmail: string, ownerName: string, status: ORDER_STATUS, code: string, date: string) {
+        this.id = id;
         this.items = items;
         this.ownerEmail = ownerEmail;
         this.ownerName = ownerName;
@@ -26,8 +28,10 @@ export default class OrderData {
         let total = 0;
         for (let i = 1; i < items.length; i++) {
             const item = items[i];
-            total += item.dish.price;
+            total += item.dish.price * item.quantity;
+            console.log("Counted price for: ", item.dish.namePL, ". Price so far: ", total);
         }
+        console.log("Price for this order is: ", total);
         return total;
     }
 }

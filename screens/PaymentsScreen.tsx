@@ -13,8 +13,6 @@ import OrderCodeCircle from "../components/OrderCodeCircle/OrderCodeCircle";
 import {NavigationActions, StackActions} from "react-navigation";
 import OKButton from "../components/Button/OKButton";
 import {emptyCart} from "../redux/actions/cartActions";
-import CanteenApi from "../utils/CanteenApi";
-import OrderDataItem from "../dataModels/OrderDataItem";
 import {IState} from "../@types/redux/state/IState";
 import {ICartState} from "../@types/redux/state/ICartData";
 
@@ -40,7 +38,7 @@ class PaymentsScreen extends React.Component<IPaymentsScreenProps, IPaymentsScre
             <View style={styles.container}>
                 <Text style={styles.paymentStatusTitle}>Płatność zakończona!</Text>
                 <View style={styles.bottomBox}>
-                    <OrderCodeCircle code={this.state.orderCode}/>
+                    <OrderCodeCircle size={"LARGE"} code={this.state.orderCode}/>
                     <OKButton onPress={this._handleOnOKButtonPress}/>
                 </View>
             </View>
