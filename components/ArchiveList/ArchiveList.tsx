@@ -5,23 +5,22 @@ import {
 } from 'react-native';
 import OrderData from "../../dataModels/OrderData";
 import Loader from "../Loader/Loader";
-import OrderListItem from "./OrderListItem/OrderListItem";
 import Fonts from "../../constants/Fonts";
 import Colors from "../../constants/Colors";
+import ArchiveListItem from "./ArchiveListItem/ArchiveListItem";
 
-interface IOrderListProps {
+interface IArchiveListProps {
     isLoaded: boolean
     orders: Array<OrderData>
-    onDestroy: (OrderData) => void
 }
 
-export default class OrderList extends React.Component<IOrderListProps> {
+export default class ArchiveList extends React.Component<IArchiveListProps> {
 
     _keyExtractor = (item, index) => index.toString();
 
     _renderItem = ({item: o }) => {
         return (
-            <OrderListItem order={o} onDestroy={this._handleOnDestroy}/>
+            <ArchiveListItem order={o}/>
         );
     };
 
@@ -35,7 +34,7 @@ export default class OrderList extends React.Component<IOrderListProps> {
         } else {
             return(
                 <>
-                    <Text style={styles.title}>Zamówienia do realizacji:</Text>
+                    <Text style={styles.title}>Archiwum:</Text>
                     <Text style={styles.note}>Pociągnij w dół, aby odświeżyć...</Text>
                     <FlatList style={styles.orderListWrapper}
                               data={orders}
@@ -46,10 +45,6 @@ export default class OrderList extends React.Component<IOrderListProps> {
             );
         }
     }
-
-    _handleOnDestroy = (order: OrderData): void => {
-        this.props.onDestroy(order);
-    }
 }
 
 
@@ -57,7 +52,10 @@ const styles = StyleSheet.create({
     title: {
         fontFamily: Fonts.family.montserrat_light,
         fontSize: Fonts.sizes.big,
-        color: Colors.black
+        color: Colors.black,
+        marginLeft: 5,
+        marginTop: 8,
+        marginBottom: 8
     },
     orderListWrapper: {
         paddingLeft: 5,

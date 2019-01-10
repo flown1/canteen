@@ -5,23 +5,23 @@ import {
 } from 'react-native';
 import OrderData from "../../dataModels/OrderData";
 import Loader from "../Loader/Loader";
-import OrderListItem from "./OrderListItem/OrderListItem";
+import UserOrderListItem from "./UserOrderListItem/UserOrderListItem";
 import Fonts from "../../constants/Fonts";
 import Colors from "../../constants/Colors";
 
-interface IOrderListProps {
+interface IUserOrderListProps {
     isLoaded: boolean
     orders: Array<OrderData>
     onDestroy: (OrderData) => void
 }
 
-export default class OrderList extends React.Component<IOrderListProps> {
+export default class UserOrderList extends React.Component<IUserOrderListProps> {
 
     _keyExtractor = (item, index) => index.toString();
 
     _renderItem = ({item: o }) => {
         return (
-            <OrderListItem order={o} onDestroy={this._handleOnDestroy}/>
+            <UserOrderListItem order={o}/>
         );
     };
 
@@ -45,10 +45,6 @@ export default class OrderList extends React.Component<IOrderListProps> {
                 </>
             );
         }
-    }
-
-    _handleOnDestroy = (order: OrderData): void => {
-        this.props.onDestroy(order);
     }
 }
 

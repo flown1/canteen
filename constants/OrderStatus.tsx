@@ -1,5 +1,5 @@
 export enum ORDER_STATUS {
-    COMPLETED = "COMPLETED",
+    COMPLETE = "COMPLETE",
     READY = "READY",
     PAID = "PAID",
     CANCELED = "CANCELED"

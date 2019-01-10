@@ -1,19 +1,37 @@
 import React from 'react';
-import {Image, StyleSheet, View, Text, Button} from "react-native";
+import {Image, StyleSheet, View, Text, Button, GestureResponderEvent} from "react-native";
 import { connect } from 'react-redux';
 import {IAccountScreenProps} from "../@types/screens/AccountScreen/IAccountProps";
 import Colors from "../constants/Colors";
 import {IState} from "../@types/redux/state/IState";
 import {USER_ROLES} from "../constants/UserRoles";
 import Fonts from "../constants/Fonts";
+import Loader from "../components/Loader/Loader";
+import {NavigationActions, StackActions} from "react-navigation";
+import {signOut} from "../redux/actions/signInAction";
 
+interface IAccountScreenState {
+    isLogoutInProgress: boolean
+}
 
-class AccountScreen extends React.Component<IAccountScreenProps, {}> {
+class AccountScreen extends React.Component<IAccountScreenProps, IAccountScreenState> {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isLogoutInProgress: false
+        }
+    };
 
     render() {
         const adminLabel = this.props.signIn.user.role === USER_ROLES.ADMIN ?
             <Text style={styles.adminLabel}>{this.props.signIn.user.role}</Text>
             : null;
+
+        const overlay = this.state.isLogoutInProgress?
+            <Loader/>
+            :
+            null;
 
         return (
             <View style={styles.container}>
@@ -24,14 +42,41 @@ class AccountScreen extends React.Component<IAccountScreenProps, {}> {
                     {adminLabel}
                 </View>
                 <Button onPress={this._handleLogoutPress} title={"Wyloguj"}/>
+                {overlay}
             </View>
         );
     }
 
-    private _handleLogoutPress = () : void => {
-        console.log("Signing out...")
-    }
+    private _handleLogoutPress = (e: GestureResponderEvent) : void => {
+        e.preventDefault();
+        console.log("Signing out...");
+        this.setState({isLogoutInProgress: true});
+
+        this.props.navigation.dispatch(this._resetAction);
+        this.props.onLogout();
+
+    };
+
+    private _resetAction = StackActions.reset({
+        index: 0,
+        actions: [
+            NavigationActions.navigate({routeName: 'SignIn'})
+        ]
+    });
 }
+
+const mapStateToProps = (state: IState) => {
+    return {
+        signIn: state.signIn
+    }
+};
+const mapDispatchToProps = (dispatch) => {
+    return{
+        onLogout: () => dispatch(signOut())
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AccountScreen);
 
 const styles = StyleSheet.create({
     container: {
@@ -70,10 +115,3 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.family.montserrat_light
     }
 });
-
-const mapStateToProps = (state: IState) => {
-    return {
-        signIn: state.signIn
-    }
-};
-export default connect(mapStateToProps, null)(AccountScreen);

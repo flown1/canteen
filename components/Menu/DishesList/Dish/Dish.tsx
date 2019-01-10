@@ -27,8 +27,6 @@ interface IFadeInViewProps {
     style ?: Object
 }
 
-
-
 class FadeInViewAnim extends React.Component<IFadeInViewProps, {}> {
     state = {
         fadeAnim: new Animated.Value(0),
@@ -353,7 +351,6 @@ class Dish extends React.Component<IDishProps, IDishState> {
                 } else {
                     console.warn("Nie udało się zaktualizowąć dania. Problem z uploaem zdjecia. Sprobuj ponownie.");
                 }
-
             });
         } else {
             const dish = new DishData(null, namePL, nameEN, descPL, descEN, imgUrl, price, isPromoted, menuId, tags, currency);

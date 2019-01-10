@@ -97,6 +97,12 @@ const MainNavigator = createStackNavigator({
             navigationOptions: (navigation) => ({
                 header: null
             })
+        },
+        SignIn: {
+            screen: SignInScreen,
+            navigationOptions: (navigation) => ({
+                header: null
+            })
         }
     }
 );

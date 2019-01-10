@@ -62,9 +62,9 @@ export default class CanteenApi {
     }
     static getAllOrders(callback: Function): void {
         const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
-        const GET_ORDDERS_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.GET_ORDERS;
+        const GET_ORDERS_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.GET_ORDERS;
 
-        fetch(ROOT + GET_ORDDERS_ENDPOINT)
+        fetch(ROOT + GET_ORDERS_ENDPOINT)
             .then(( data ) => {return data.json()})
             .then(( dataJson ) => {
                 console.log("RES: DataJson:", dataJson);
@@ -96,6 +96,155 @@ export default class CanteenApi {
                 callback({data: {}, status: "ERROR"});
             });
     }
+
+    static getOrdersArchive(email: string, callback: Function): void {
+        const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
+        const GET_ORDDERS_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.GET_ORDERS_ARCHIVE;
+
+        fetch(ROOT + GET_ORDDERS_ENDPOINT + "?" + "ownerEmail=" + email)
+            .then(( data ) => {return data.json()})
+            .then(( dataJson ) => {
+                console.log("RES: DataJson:", dataJson);
+                let orders = new Array<OrderData>();
+                dataJson.data.orders.map((o) => {
+                    const itemsData = o.items;
+                    const items = new Array<OrderDataItem>();
+
+                    itemsData.map((i: OrderDataItem) => {
+                        const dishData = i.dish;
+                        const quantity = i.quantity;
+
+                        const dish = new DishData(dishData.id, dishData.namePL, dishData.nameEN, dishData.descPL,
+                            dishData.descEN, dishData.imgUrl, dishData.price, dishData.isPromoted,
+                            dishData.menuId, dishData.tags, dishData.currency);
+                        items.push(new OrderDataItem(dish, quantity));
+                    });
+                    orders.push(new OrderData(o._id.$oid, items, o.ownerEmail, o.ownerName, o.status, o.code, o.date));
+                });
+                callback({
+                    data: {
+                        orders: orders
+                    },
+                    status: "SUCCESS"
+                });
+            })
+            .catch((e) => {
+                console.error(`Error while getOrdersArchive at: ${e}`);
+                callback({data: {}, status: "ERROR"});
+            });
+    }
+
+    static getUserOrdersArchive(email: string, callback: Function): void {
+        const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
+        const GET_ORDERS_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.GET_ORDERS_USER_ARCHIVE;
+
+        fetch(ROOT + GET_ORDERS_ENDPOINT + "?" + "ownerEmail=" + email)
+            .then(( data ) => {return data.json()})
+            .then(( dataJson ) => {
+                console.log("RES: DataJson:", dataJson);
+                let orders = new Array<OrderData>();
+                dataJson.data.orders.map((o) => {
+                    const itemsData = o.items;
+                    const items = new Array<OrderDataItem>();
+
+                    itemsData.map((i: OrderDataItem) => {
+                        const dishData = i.dish;
+                        const quantity = i.quantity;
+
+                        const dish = new DishData(dishData.id, dishData.namePL, dishData.nameEN, dishData.descPL,
+                            dishData.descEN, dishData.imgUrl, dishData.price, dishData.isPromoted,
+                            dishData.menuId, dishData.tags, dishData.currency);
+                        items.push(new OrderDataItem(dish, quantity));
+                    });
+                    orders.push(new OrderData(o._id.$oid, items, o.ownerEmail, o.ownerName, o.status, o.code, o.date));
+                });
+                callback({
+                    data: {
+                        orders: orders
+                    },
+                    status: "SUCCESS"
+                });
+            })
+            .catch((e) => {
+                console.error(`Error while getUserOrdersArchive at: ${e}`);
+                callback({data: {}, status: "ERROR"});
+            });
+    }
+
+    static getIncompleteOrders(callback: Function): void {
+        const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
+        const GET_ORDERS_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.GET_ORDERS_INCOMPLETE;
+
+        fetch(ROOT + GET_ORDERS_ENDPOINT)
+            .then(( data ) => {return data.json()})
+            .then(( dataJson ) => {
+                console.log("RES: DataJson:", dataJson);
+                let orders = new Array<OrderData>();
+                dataJson.data.orders.map((o) => {
+                    const itemsData = o.items;
+                    const items = new Array<OrderDataItem>();
+
+                    itemsData.map((i: OrderDataItem) => {
+                        const dishData = i.dish;
+                        const quantity = i.quantity;
+
+                        const dish = new DishData(dishData.id, dishData.namePL, dishData.nameEN, dishData.descPL,
+                            dishData.descEN, dishData.imgUrl, dishData.price, dishData.isPromoted,
+                            dishData.menuId, dishData.tags, dishData.currency);
+                        items.push(new OrderDataItem(dish, quantity));
+                    });
+                    orders.push(new OrderData(o._id.$oid, items, o.ownerEmail, o.ownerName, o.status, o.code, o.date));
+                });
+                callback({
+                    data: {
+                        orders: orders
+                    },
+                    status: "SUCCESS"
+                });
+            })
+            .catch((e) => {
+                console.error(`Error while getIncompleteOrders() at: ${e}`);
+                callback({data: {}, status: "ERROR"});
+            });
+    }
+
+    static getUserOrders(email: string, callback: Function): void {
+        const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
+        const GET_ORDERS_USER_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.GET_ORDERS_USER;
+
+        fetch(ROOT + GET_ORDERS_USER_ENDPOINT + "?" + "ownerEmail=" + email )
+            .then(( data ) => {return data.json()})
+            .then(( dataJson ) => {
+                console.log("RES: DataJson:", dataJson);
+                let orders = new Array<OrderData>();
+                dataJson.data.orders.map((o) => {
+                    const itemsData = o.items;
+                    const items = new Array<OrderDataItem>();
+
+                    itemsData.map((i: OrderDataItem) => {
+                        const dishData = i.dish;
+                        const quantity = i.quantity;
+
+                        const dish = new DishData(dishData.id, dishData.namePL, dishData.nameEN, dishData.descPL,
+                            dishData.descEN, dishData.imgUrl, dishData.price, dishData.isPromoted,
+                            dishData.menuId, dishData.tags, dishData.currency);
+                        items.push(new OrderDataItem(dish, quantity));
+                    });
+                    orders.push(new OrderData(o._id.$oid, items, o.ownerEmail, o.ownerName, o.status, o.code, o.date));
+                });
+                callback({
+                    data: {
+                        orders: orders
+                    },
+                    status: "SUCCESS"
+                });
+            })
+            .catch((e) => {
+                console.error(`Error while getIncompleteOrders() at: ${e}`);
+                callback({data: {}, status: "ERROR"});
+            });
+    }
+
     static postOrder(order: OrderData, callback: Function): void {
         const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
         const POST_ORDER_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.POST_ORDER;

@@ -14,11 +14,11 @@ import {NavigationActions, StackActions} from "react-navigation";
 import TextStruck from "../components/Text/TextStruck";
 import Logo from "../components/Text/Logo";
 import Colors from "../constants/Colors";
-import signInSuccesful from "../redux/actions/signInAction";
 import GoogleAuthUser from "../dataModels/GoogleAuthUser";
 import CanteenApi from "../utils/CanteenApi";
 import UserData from "../dataModels/UserData";
 import Loader from "../components/Loader/Loader";
+import {signInSuccesful} from "../redux/actions/signInAction";
 
 const googleSignInBtn = require("../assets/images/google_signin_btn.png");
 

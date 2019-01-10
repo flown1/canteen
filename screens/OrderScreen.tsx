@@ -10,6 +10,7 @@ import OrderList from "../components/OrderList/OrderList";
 import CanteenApi from "../utils/CanteenApi";
 import Colors from "../constants/Colors";
 import Fonts from "../constants/Fonts";
+import UserOrderList from "../components/UserOrderList/UserOrderList";
 
 const noOrdersImage = require("../assets/images/no_orders.png");
 
@@ -46,12 +47,12 @@ class OrderScreen extends React.Component<IOrderScreenProps, IOrderScreenState> 
             isAdmin?
                 <OrderList orders={this.state.orders} isLoaded={this.state.isOrderListLoaded} onDestroy={() => this._handleOnDestroy.bind(this)}/>
                 :
-                <Text>Zwykla lista dla klienta</Text>
+                <UserOrderList orders={this.state.orders} isLoaded={this.state.isOrderListLoaded} onDestroy={() => this._handleOnDestroy.bind(this)}/>
             :
             <View style={styles.noOrdersContainer}>
                 <Text style={styles.noOrdersText}>Brak nowych zamówień</Text>
+                <Text style={styles.note}>Pociągnij w dół, aby odświeżyć...</Text>
                 <Image source={noOrdersImage} style={styles.noOrdersImage}/>
-                <Text style={styles.note}>Pociagnij w dół, aby odświeżyć...</Text>
             </View>;
 
         return (
@@ -92,18 +93,34 @@ class OrderScreen extends React.Component<IOrderScreenProps, IOrderScreenState> 
     };
 
     _fetchOrders = () : void => {
-        CanteenApi.getAllOrders((res) => {
-            if(res.status === "SUCCESS"){
-                // console.log("Got this response from getAllOrders:", res);
-                const data = res.data;
-                const orders = data.orders;
+        const user = this.props.user;
+        const isAdmin = user.role === USER_ROLES.ADMIN;
+        if (isAdmin) {
+            CanteenApi.getIncompleteOrders((res) => {
+                if (res.status === "SUCCESS") {
+                    const data = res.data;
+                    const orders = data.orders;
 
-                this.setState({orders: orders});
-            }
+                    this.setState({orders: orders});
+                }
 
-            this._ordersLoaded();
-            this._stopRefreshing();
-        })
+                this._ordersLoaded();
+                this._stopRefreshing();
+            })
+        } else {
+            const email = user.email;
+            CanteenApi.getUserOrders(email,(res) => {
+                if (res.status === "SUCCESS") {
+                    const data = res.data;
+                    const orders = data.orders;
+
+                    this.setState({orders: orders});
+                }
+
+                this._ordersLoaded();
+                this._stopRefreshing();
+            })
+        }
     }
 }
 
@@ -132,7 +149,7 @@ const styles = StyleSheet.create({
     },
     note: {
         fontFamily: Fonts.family.montserrat_light,
-        fontSize: Fonts.sizes.tiny,
+        fontSize: Fonts.sizes.small,
         color: Colors.darkGray
     }
 });

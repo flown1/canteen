@@ -7,15 +7,18 @@ import ReadyButton from "../../Button/ReadyButton";
 import OrderDataItem from "../../../dataModels/OrderDataItem";
 import Fonts from "../../../constants/Fonts";
 import CanteenApi from "../../../utils/CanteenApi";
-import {ORDER_STATUS} from "../../../constants/OrderStatus";
 import PickupButton from "../../Button/PickupButton";
+import CompleteButton from "../../Button/CompleteButton";
 
 interface IOrderListItemProps {
     order: OrderData
     onDestroy: (order: OrderData) => void
 }
+interface IOrderListItemState {
+    mode: string
+}
 
-export default class OrderListItem extends React.Component<IOrderListItemProps, {}> {
+export default class OrderListItem extends React.Component<IOrderListItemProps, IOrderListItemState> {
     private MODES = {
         PAID: "PAID",
         READY: "READY",
@@ -33,7 +36,7 @@ export default class OrderListItem extends React.Component<IOrderListItemProps, 
 
     render() {
         const order = this.props.order;
-        const {items, date, status, code} = order;
+        const {items, date, code} = order;
 
         const orderItemsList = items.map((i: OrderDataItem, idx: number) => {
             return (
@@ -42,18 +45,22 @@ export default class OrderListItem extends React.Component<IOrderListItemProps, 
         });
 
         let button = null;
-        switch (status) {
-            case ORDER_STATUS.PAID:
+        const mode = this.state.mode;
+        const MODES = this.MODES;
+
+        switch (mode) {
+            case MODES.PAID:
                 button = <ReadyButton onPress={this._handleOnReadyPress}/>;
                 break;
-            case ORDER_STATUS.READY:
+            case MODES.READY:
                 button = <PickupButton onPress={this._handleOnPickupPress}/>;
                 break;
-            case ORDER_STATUS.COMPLETED:
-                button = null;
+            case MODES.COMPLETE:
+                button = <CompleteButton/>;
                 break;
             default:
-                console.warn("Trying to set button the wrong way!!");
+                console.warn("Trying to set button as: ", status);
+                break;
         }
 
         return (
@@ -68,7 +75,7 @@ export default class OrderListItem extends React.Component<IOrderListItemProps, 
                     </View>
                 </View>
                 <View style={[styles.bottomPart]}>
-                    <View style={styles.itemsList}>
+                    <View style={styles.itemsListWrapper}>
                         {orderItemsList}
                     </View>
                     <View style={[styles.costRow,styles.flexRow]}>
@@ -81,14 +88,13 @@ export default class OrderListItem extends React.Component<IOrderListItemProps, 
     }
 
     _handleOnReadyPress = () => {
-        console.log("Ready button pressed...");
         const order = this.props.order;
         const id = order.id;
 
         CanteenApi.setOrderReady(id,(res) => {
             if (res.status) {
                 console.log("SUCCESSfuly changed status!");
-                this._setMode(this.MODES.READY);
+                this.setState({mode: "READY"});
             } else {
                 console.log("ERROR while changing status!");
             }
@@ -96,7 +102,6 @@ export default class OrderListItem extends React.Component<IOrderListItemProps, 
     };
 
     _handleOnPickupPress = () => {
-        console.log("Pickup button pressed...");
         const order = this.props.order;
         const id = order.id;
 
@@ -111,23 +116,22 @@ export default class OrderListItem extends React.Component<IOrderListItemProps, 
         })
     };
 
-    _setMode(mode: string) {
+    _setMode = (mode: string) => {
         const MODES = this.MODES;
         switch(mode) {
             case MODES.COMPLETE:
-                this.setState({modes: MODES.COMPLETE});
+                this.setState({mode: MODES.COMPLETE});
                 break;
             case MODES.PAID:
-                this.setState({modes: MODES.PAID});
+                this.setState({mode: MODES.PAID});
                 break;
             case MODES.READY:
-                this.setState({modes: MODES.READY});
+                this.setState({mode: MODES.READY});
                 break;
             default:
-                console.warn("Trying to set wrong mode in button");
                 break;
         }
-    }
+    };
 
     _selfDestruction = () => {
         const order = this.props.order;
@@ -178,10 +182,11 @@ const styles = StyleSheet.create({
         fontSize: Fonts.sizes.small,
         textAlign: 'right'
     },
-    itemsList: {
+    itemsListWrapper: {
 
     },
     dishListItem: {
+        marginLeft: 20,
         fontFamily: Fonts.family.montserrat_light,
         fontSize: Fonts.sizes.regular1,
     },

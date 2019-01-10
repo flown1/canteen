@@ -25,7 +25,7 @@ interface ICustomHeaderProps {
 
 class CustomHeaderRight extends React.Component<ICustomHeaderProps> {
     render() {
-        const basketIcon = this.props.user.role === USER_ROLES.CLIENT?
+        const basketIcon =  this.props.user && this.props.user.role === USER_ROLES.CLIENT?
             <TouchableOpacity onPress={this._handleCartIcoClick}>
                 <View style={styles.cartWrapper}>
                 <Image source={cartIco} style={styles.cartIco}/>
@@ -36,7 +36,7 @@ class CustomHeaderRight extends React.Component<ICustomHeaderProps> {
             </TouchableOpacity>
             : null;
 
-        return (
+        const header = this.props.user?
             <View style={styles.container}>
                 <View/>
                 <View style={styles.logoWrapper}>
@@ -48,6 +48,14 @@ class CustomHeaderRight extends React.Component<ICustomHeaderProps> {
                     <Image source={loopIco} style={styles.loopIco}/>
                 </TouchableOpacity>
             </View>
+            :
+            null
+        ;
+
+        return (
+            <>
+                {header}
+            </>
         );
     };
 
