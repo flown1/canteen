@@ -70,7 +70,7 @@ export default class OrderListItem extends React.Component<IOrderListItemProps, 
                         <OrderCodeCircle size={"SMALL"} code={code || "----"}/>
                     </View>
                     <View style={styles.upperRightPart}>
-                        <Text style={styles.date}>{date.split("+")[0] || "---"}</Text>
+                        <Text style={styles.date}>{date !== null ? date.split("+")[0] : "---"}</Text>
                         {button}
                     </View>
                 </View>

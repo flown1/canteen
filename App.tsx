@@ -1,32 +1,40 @@
 import React from 'react';
-import { AppLoading, Font } from 'expo';
+import {AppLoading, Font} from 'expo';
 import IError from "./@types/components/errors/IError";
 import IAppState from "./@types/IAppState";
 import IAppProps from "./@types/IAppProps";
-import {AppNavigator} from "./navigation/AppNavigator";
 import {createStore} from "redux";
 import rootReducer from "./redux/reducers";
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
+import AppWrapper from "./AppWrapper";
+import Loader from "./components/Loader/Loader";
+import { InAppNotificationProvider } from 'react-native-in-app-notification';
+
 
 export default class App extends React.Component<IAppProps, IAppState> {
     state = {
-        isLoadingComplete: false
+        isLoadingComplete: false,
     };
 
     render() {
         if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
             return (
-                <AppLoading
-                    startAsync={this._loadResourcesAsync}
-                    onError={this._handleLoadingError}
-                    onFinish={this._handleFinishLoading}
-                />
+                <>
+                    <AppLoading
+                        startAsync={this._loadResourcesAsync}
+                        onError={this._handleLoadingError}
+                        onFinish={this._handleFinishLoading}
+                    />
+                    <Loader/>
+                </>
             );
         } else {
             const store = createStore(rootReducer);
             return (
                 <Provider store={store}>
-                    <AppNavigator/>
+                    <InAppNotificationProvider>
+                        <AppWrapper/>
+                    </InAppNotificationProvider>
                 </Provider>
             )
         }

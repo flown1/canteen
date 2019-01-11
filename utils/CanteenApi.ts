@@ -7,12 +7,33 @@ import OrderDataItem from "../dataModels/OrderDataItem";
 
 
 export default class CanteenApi {
+    private static ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
+
+    static sendExponentPushToken(token: String, callback: Function) {
+        const POST_EXPONENT_PUSH_TOKEN_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.GET_ORDERS;
+
+        fetch(CanteenApi.ROOT + POST_EXPONENT_PUSH_TOKEN_ENDPOINT)
+            .then(( data ) => {return data.json()})
+            .then(( dataJson ) => {
+                console.log("RES: DataJson:", dataJson);
+
+                callback({
+                    data: {
+
+                    },
+                    status: "SUCCESS"
+                });
+            })
+            .catch((e) => {
+                console.error(`Error while getAllOrders at: ${e}`);
+                callback({data: {}, status: "ERROR"});
+            });
+    }
 
     static getAllDishes(callback: Function): void {
-        const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
         const DISHES_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.GET_DISHES;
 
-        fetch(ROOT + DISHES_ENDPOINT)
+        fetch(CanteenApi.ROOT + DISHES_ENDPOINT)
         .then(( data ) => {return data.json()})
         .then(( dataJson ) => {
             let dishes = new Array<DishData>();
@@ -28,10 +49,9 @@ export default class CanteenApi {
     }
 
     static postDish(dishData: DishData, callback: Function): void {
-        const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
         const POST_DISH_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.POST_DISHES;
 
-        fetch(ROOT + POST_DISH_ENDPOINT, {
+        fetch(CanteenApi.ROOT + POST_DISH_ENDPOINT, {
             method: "POST",
             credentials: "same-origin",
             headers: {
@@ -61,10 +81,9 @@ export default class CanteenApi {
         });
     }
     static getAllOrders(callback: Function): void {
-        const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
         const GET_ORDERS_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.GET_ORDERS;
 
-        fetch(ROOT + GET_ORDERS_ENDPOINT)
+        fetch(CanteenApi.ROOT + GET_ORDERS_ENDPOINT)
             .then(( data ) => {return data.json()})
             .then(( dataJson ) => {
                 console.log("RES: DataJson:", dataJson);
@@ -98,10 +117,9 @@ export default class CanteenApi {
     }
 
     static getOrdersArchive(email: string, callback: Function): void {
-        const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
         const GET_ORDDERS_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.GET_ORDERS_ARCHIVE;
 
-        fetch(ROOT + GET_ORDDERS_ENDPOINT + "?" + "ownerEmail=" + email)
+        fetch(CanteenApi.ROOT + GET_ORDDERS_ENDPOINT + "?" + "ownerEmail=" + email)
             .then(( data ) => {return data.json()})
             .then(( dataJson ) => {
                 console.log("RES: DataJson:", dataJson);
@@ -135,10 +153,9 @@ export default class CanteenApi {
     }
 
     static getUserOrdersArchive(email: string, callback: Function): void {
-        const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
         const GET_ORDERS_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.GET_ORDERS_USER_ARCHIVE;
 
-        fetch(ROOT + GET_ORDERS_ENDPOINT + "?" + "ownerEmail=" + email)
+        fetch(CanteenApi.ROOT + GET_ORDERS_ENDPOINT + "?" + "ownerEmail=" + email)
             .then(( data ) => {return data.json()})
             .then(( dataJson ) => {
                 console.log("RES: DataJson:", dataJson);
@@ -172,10 +189,9 @@ export default class CanteenApi {
     }
 
     static getIncompleteOrders(callback: Function): void {
-        const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
-        const GET_ORDERS_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.GET_ORDERS_INCOMPLETE;
+        const GET_ORDERS_INCOMPLETE = CANTEEN_API_CONSTANTS.ENDPOINTS.GET_ORDERS_INCOMPLETE;
 
-        fetch(ROOT + GET_ORDERS_ENDPOINT)
+        fetch(CanteenApi.ROOT + GET_ORDERS_INCOMPLETE)
             .then(( data ) => {return data.json()})
             .then(( dataJson ) => {
                 console.log("RES: DataJson:", dataJson);
@@ -209,10 +225,9 @@ export default class CanteenApi {
     }
 
     static getUserOrders(email: string, callback: Function): void {
-        const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
         const GET_ORDERS_USER_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.GET_ORDERS_USER;
 
-        fetch(ROOT + GET_ORDERS_USER_ENDPOINT + "?" + "ownerEmail=" + email )
+        fetch(CanteenApi.ROOT + GET_ORDERS_USER_ENDPOINT + "?" + "ownerEmail=" + email )
             .then(( data ) => {return data.json()})
             .then(( dataJson ) => {
                 console.log("RES: DataJson:", dataJson);
@@ -246,10 +261,9 @@ export default class CanteenApi {
     }
 
     static postOrder(order: OrderData, callback: Function): void {
-        const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
         const POST_ORDER_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.POST_ORDER;
 
-        fetch(ROOT + POST_ORDER_ENDPOINT, {
+        fetch(CanteenApi.ROOT + POST_ORDER_ENDPOINT, {
             method: "POST",
             credentials: "same-origin",
             headers: {
@@ -277,12 +291,11 @@ export default class CanteenApi {
     }
 
     static setOrderReady(orderId: string, callback: Function): void {
-        const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
         const POST_ORDER_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.SET_ORDER_READY;
 
         console.log("Changing dish status to READY of ID:", orderId);
 
-        fetch(ROOT + POST_ORDER_ENDPOINT, {
+        fetch(CanteenApi.ROOT + POST_ORDER_ENDPOINT, {
             method: "POST",
             credentials: "same-origin",
             headers: {
@@ -304,12 +317,11 @@ export default class CanteenApi {
     }
 
     static setOrderComplete(orderId: string, callback: Function): void {
-        const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
         const POST_ORDER_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.SET_ORDER_COMPLETE;
 
         console.log("Changing dish status to COMPLETE of ID:", orderId);
 
-        fetch(ROOT + POST_ORDER_ENDPOINT, {
+        fetch(CanteenApi.ROOT + POST_ORDER_ENDPOINT, {
             method: "POST",
             credentials: "same-origin",
             headers: {
@@ -331,10 +343,9 @@ export default class CanteenApi {
     }
 
     static editDish(dishData: DishData, callback: (res) => void) {
-        const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
         const PUT_DISH_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.PUT_DISHES;
 
-        fetch(ROOT + PUT_DISH_ENDPOINT, {
+        fetch(CanteenApi.ROOT + PUT_DISH_ENDPOINT, {
             method: "POST",
             credentials: "same-origin",
             headers: {
@@ -365,10 +376,9 @@ export default class CanteenApi {
     }
 
     static postUser(googleAuthUser: GoogleAuthUser, callback: (res) => void): void {
-        const ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
         const POST_USER_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.POST_USER;
 
-        fetch(ROOT + POST_USER_ENDPOINT, {
+        fetch(CanteenApi.ROOT + POST_USER_ENDPOINT, {
             method: "POST",
             credentials: "same-origin",
             headers: {

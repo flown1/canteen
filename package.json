@@ -30,6 +30,7 @@
     "react-native-firebase": "^5.0.0",
     "react-native-fontawesome": "^5.7.0",
     "react-native-google-signin": "^1.0.0-rc7",
+    "react-native-in-app-notification": "^3.0.0",
     "react-native-paypal": "github:smarkets/react-native-paypal",
     "react-native-paypal-wrapper": "^1.3.2",
     "react-native-stripe-api": "^0.1.0",
