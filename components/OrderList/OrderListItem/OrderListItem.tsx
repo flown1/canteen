@@ -28,15 +28,15 @@ export default class OrderListItem extends React.Component<IOrderListItemProps, 
     constructor(props) {
         super(props);
 
-        const orderItem = this.props.order;
+        const { status } = this.props.order;
         this.state = {
-            mode: orderItem.status
+            mode: status
         }
     }
 
     render() {
         const order = this.props.order;
-        const {items, date, code} = order;
+        const {items, date, status, code} = order;
 
         const orderItemsList = items.map((i: OrderDataItem, idx: number) => {
             return (
@@ -45,8 +45,8 @@ export default class OrderListItem extends React.Component<IOrderListItemProps, 
         });
 
         let button = null;
-        const mode = this.state.mode;
         const MODES = this.MODES;
+        const mode = this.state.mode;
 
         switch (mode) {
             case MODES.PAID:

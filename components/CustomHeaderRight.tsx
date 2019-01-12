@@ -41,7 +41,7 @@ class CustomHeaderRight extends React.Component<ICustomHeaderProps> {
                 <View/>
                 <View style={styles.logoWrapper}>
                     <Logo size={"medium"}/>
-                    <View style={styles.line}/>
+
                 </View>
                 {basketIcon}
                 <TouchableOpacity onPress={this._handleSearchIcoClick}>
@@ -98,11 +98,6 @@ const styles = StyleSheet.create({
     },
     logoWrapper: {
         justifyContent: 'center'
-    },
-    line: {
-        borderColor: Colors.black,
-        borderBottomWidth: 1,
-        bottom: 6
     },
     loopIco: {
         height: 30,

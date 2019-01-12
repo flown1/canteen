@@ -1,4 +1,5 @@
 import DishData from "../../../dataModels/DishData";
+import OrderDataItem from "../../../dataModels/OrderDataItem";
 
 interface ICartActionAddToCart {
     type: String,
@@ -10,7 +11,7 @@ interface ICartActionAddToCart {
 interface ICartActionDeleteOrder {
     type: String,
     payload: {
-        idToDelete: string
+        orderDataItem: OrderDataItem
     }
 }
 

@@ -19,6 +19,7 @@ import CanteenApi from "../utils/CanteenApi";
 import UserData from "../dataModels/UserData";
 import Loader from "../components/Loader/Loader";
 import {signInSuccesful} from "../redux/actions/signInAction";
+import {IState} from "../@types/redux/state/IState";
 
 const googleSignInBtn = require("../assets/images/google_signin_btn.png");
 
@@ -48,12 +49,33 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
                     </View>
                 </View>
                 <View style={styles.bottomBox}>
-                    <Text style={styles.bottomLine}>Wszelkie prawa zastrzeżone &copy; Łodz 2018</Text>
+                    <Text style={styles.bottomLine}>Wszelkie prawa zastrzeżone &copy; Łódź 2018</Text>
                 </View>
                 {loader}
             </View>
         )
     }
+
+    private _getExponentPushToken = async () : Promise<String> => {
+        const { status: existingStatus } = await Expo.Permissions.getAsync(
+            Expo.Permissions.NOTIFICATIONS
+        );
+        let finalStatus = existingStatus;
+
+        if (existingStatus !== 'granted') {
+            const { status } = await Expo.Permissions.askAsync(Expo.Permissions.NOTIFICATIONS);
+            finalStatus = status;
+        }
+
+        if (finalStatus !== 'granted') {
+            console.log("Notifications permission NOT granted");
+            return;
+        }
+
+        let token = await Expo.Notifications.getExpoPushTokenAsync();
+        console.log("Push Token is:", token);
+        return token
+    };
 
     private _signIn = async (e: any) : Promise<any> => {
         e.preventDefault();
@@ -83,6 +105,13 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
                         this._hideLoader();
                         this.props.navigation.dispatch( this._resetAction );
 
+                        this._getExponentPushToken().then((token) => {
+                            const ownerEmail = user.email;
+                            CanteenApi.updateExponentPushToken(ownerEmail, token, (res) => {
+                                console.log("Updating exponent push token result: ", res);
+                            });
+                        });
+
                     } else {
                         this._hideLoader();
                         console.error("POSTing user UNsuccessful!");
@@ -93,7 +122,7 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
             }
 
         } catch (e) {
-            console.error("Error while signingIn: ", e)
+            console.error("Error while signingIn: ", e);
             this._hideLoader();
 
         }
@@ -122,8 +151,12 @@ const mapDispatchToProps = (dispatch) => {
         }
     }
 };
-
-export default connect(state => state, mapDispatchToProps)(SignInScreen);
+const mapStateToProps = (state: IState) => {
+    return {
+        user: state.signIn.user
+    }
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen);
 
 const styles = StyleSheet.create({
     container: {

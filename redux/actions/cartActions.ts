@@ -1,6 +1,7 @@
 import DishData from "../../dataModels/DishData";
 import {ACTIONS} from "../constants/Actions";
 import {ICartActionAddToCart, ICartActionDeleteOrder, ICartActionEmpty} from "../../@types/redux/actions/ICartActions";
+import OrderDataItem from "../../dataModels/OrderDataItem";
 
 export function addDishToCart(dish: DishData) : ICartActionAddToCart {
     return {
@@ -11,11 +12,11 @@ export function addDishToCart(dish: DishData) : ICartActionAddToCart {
     }
 }
 
-export function deleteOrderFromCart(id: string): ICartActionDeleteOrder {
+export function deleteOrderFromCart(orderDataItem: OrderDataItem): ICartActionDeleteOrder {
     return {
         type: ACTIONS.CART.DELETE_ORDER,
         payload: {
-            idToDelete: id
+            orderDataItem: orderDataItem
         }
     }
 

@@ -15,7 +15,7 @@ interface IArchiveListItemState {
 export default class ArchiveListItem extends React.Component<IArchiveListItemProps, IArchiveListItemState> {
     render() {
         const order = this.props.order;
-        const {items, date} = order;
+        const {items, date, price} = order;
 
         const orderItemsList = items.map((i: OrderDataItem, idx: number) => {
             return (
@@ -26,7 +26,7 @@ export default class ArchiveListItem extends React.Component<IArchiveListItemPro
         return (
             <View style={styles.box}>
                 <View style={[styles.upperPart, styles.flexRow]}>
-                    <Text style={styles.status}>{date.split("+")[0]}</Text>
+                    <Text style={styles.status}>{date !== null ? date.split("+")[0] : "---"}</Text>
                 </View>
                 <View style={[styles.bottomPart]}>
                     <View style={styles.itemsListWrapper}>
@@ -34,7 +34,7 @@ export default class ArchiveListItem extends React.Component<IArchiveListItemPro
                     </View>
                     <View style={[styles.costRow,styles.flexRow]}>
                         <Text style={styles.costLabel}>Koszt:</Text>
-                        <Text style={styles.price}>{order.price} zł</Text>
+                        <Text style={styles.price}>{price !== null? price : "--.--"} zł</Text>
                     </View>
                 </View>
             </View>

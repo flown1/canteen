@@ -59,8 +59,8 @@ class CartScreen extends React.Component<ICartScreenProps> {
         }
     }
 
-    private _handleOnDeleteItem = (id: string) => {
-        this.props.onDelete(id);
+    private _handleOnDeleteItem = (orderDataItem: OrderDataItem) => {
+        this.props.onDelete(orderDataItem);
     };
 
     private _handleOnProceedToPaymentsPress = () => {
@@ -76,7 +76,7 @@ const mapStateToProps = (state: IState) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onDelete: (idToDelete: string) => dispatch(deleteOrderFromCart(idToDelete))
+        onDelete: (orderDataItem: OrderDataItem) => dispatch(deleteOrderFromCart(orderDataItem))
     }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(CartScreen)

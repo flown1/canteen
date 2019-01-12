@@ -36,7 +36,7 @@ export default class OrderItem extends React.Component<IOrderItemProps> {
     }
 
     private _handleOnXPress () {
-        this.props.handleOnDelete(this.props.orderItem.dish.id);
+        this.props.handleOnDelete(this.props.orderItem);
     }
 }
 

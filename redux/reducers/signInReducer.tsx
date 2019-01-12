@@ -3,6 +3,7 @@ import ISignInState from "../../@types/redux/state/ISignedInState";
 import {ISignInAction} from "../../@types/redux/actions/ISignInActions";
 import UserData from "../../dataModels/UserData";
 import SignOutResults from "../constants/SignOutResults";
+import {ACTIONS} from "../constants/Actions";
 
 const initialState : ISignInState= {
     isSignedIn: false,
@@ -22,6 +23,9 @@ export default function signIn(state = initialState, action) :ISignInState {
                 isSignedIn: false,
                 user: dummyUser
             };
+        case ACTIONS.TOKEN.UPDATE_EXPONENT_PUSH_TOKEN:
+
+            break;
         default:
             return state
     }

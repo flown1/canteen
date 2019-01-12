@@ -9,10 +9,21 @@ import OrderDataItem from "../dataModels/OrderDataItem";
 export default class CanteenApi {
     private static ROOT = `${Config.SERVER_INFO.ROOT_URL}:${Config.SERVER_INFO.PORT}`;
 
-    static sendExponentPushToken(token: String, callback: Function) {
-        const POST_EXPONENT_PUSH_TOKEN_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.GET_ORDERS;
+    static updateExponentPushToken(ownerEmail: String, token: String, callback: Function) {
+        const POST_EXPONENT_PUSH_TOKEN_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.UPDATE_EXPONENT_PUSH_TOKEN;
 
-        fetch(CanteenApi.ROOT + POST_EXPONENT_PUSH_TOKEN_ENDPOINT)
+        fetch(CanteenApi.ROOT + POST_EXPONENT_PUSH_TOKEN_ENDPOINT, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                'email': ownerEmail,
+                'exponentPushToken': token
+            }),
+        })
             .then(( data ) => {return data.json()})
             .then(( dataJson ) => {
                 console.log("RES: DataJson:", dataJson);
@@ -25,7 +36,7 @@ export default class CanteenApi {
                 });
             })
             .catch((e) => {
-                console.error(`Error while getAllOrders at: ${e}`);
+                console.error(`Error while updateExponentPushToken() at: ${e}`);
                 callback({data: {}, status: "ERROR"});
             });
     }

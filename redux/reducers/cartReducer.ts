@@ -4,7 +4,8 @@ import OrderDataItem from "../../dataModels/OrderDataItem";
 import DishData from "../../dataModels/DishData";
 
 const initialState : ICartState= {
-    items: new Array<OrderDataItem>()
+    items: new Array<OrderDataItem>(),
+    total: 0.00
 };
 const addDishToCart = (items, dish: DishData): ICartState => {
     const orderAlreadyExists = items.find((o: OrderDataItem) => {
@@ -29,19 +30,28 @@ const addDishToCart = (items, dish: DishData): ICartState => {
 
 export default function cart(state = initialState, action) {
     switch (action.type) {
-        case ACTIONS.CART.ADD_DISH:
-
+        case ACTIONS.CART.ADD_DISH: {
             const newItems = addDishToCart(state.items, action.payload.dish);
-            return  {
-                ...state,
-                items: newItems
-            };
-        case ACTIONS.CART.DELETE_ORDER:
-            const idToDelete = action.payload.idToDelete;
+            const cost = action.payload.dish.price;
+            const newTotal = state.total + cost;
+
             return {
                 ...state,
-                items: state.items.filter( (o: OrderDataItem) => o.dish.id !== idToDelete)
+                items: newItems,
+                total: newTotal
             };
+        }
+        case ACTIONS.CART.DELETE_ORDER: {
+            const orderToDelete = action.payload.orderDataItem;
+            const cost = action.payload.orderDataItem.total;
+            const newTotal = state.total - cost;
+
+            return {
+                ...state,
+                items: state.items.filter((o: OrderDataItem) => o !== orderToDelete),
+                total: newTotal
+            };
+        }
         case ACTIONS.CART.EMPTY:
             return {
                 ...state,

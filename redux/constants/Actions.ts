@@ -11,5 +11,8 @@ export const ACTIONS = {
         ADD_DISH: "ADD_DISH",
         DELETE_ORDER: "DELETE_DISH",
         EMPTY: "EMPTY"
+    },
+    TOKEN: {
+        UPDATE_EXPONENT_PUSH_TOKEN: "UPDATE_EXPONENT_PUSH_TOKEN"
     }
 };

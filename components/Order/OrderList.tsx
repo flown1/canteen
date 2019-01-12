@@ -8,7 +8,7 @@ import OrderDataItem from "../../dataModels/OrderDataItem";
 
 interface IOrderListProps {
     items: Array<OrderDataItem>;
-    deleteItem: (id: string) => void;
+    deleteItem: (orderDataItem: OrderDataItem) => void;
 }
 
 export default class OrderList extends React.Component<IOrderListProps> {
@@ -33,8 +33,8 @@ export default class OrderList extends React.Component<IOrderListProps> {
         );
     }
 
-    private _handleOnDelete(id: string) {
-        this.props.deleteItem(id)
+    private _handleOnDelete(orderDataItem: OrderDataItem) {
+        this.props.deleteItem(orderDataItem)
     }
 }
 

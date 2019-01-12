@@ -45,5 +45,10 @@ const styles = StyleSheet.create({
     },
     logoMedium: {
         fontSize: 45
+    },
+    line: {
+        borderColor: Colors.black,
+        borderBottomWidth: 1,
+        bottom: 6
     }
 });
