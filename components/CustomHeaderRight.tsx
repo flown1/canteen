@@ -41,11 +41,10 @@ class CustomHeaderRight extends React.Component<ICustomHeaderProps> {
                 <View/>
                 <View style={styles.logoWrapper}>
                     <Logo size={"medium"}/>
-
                 </View>
                 {basketIcon}
                 <TouchableOpacity onPress={this._handleSearchIcoClick}>
-                    <Image source={loopIco} style={styles.loopIco}/>
+                    {/*<Image source={loopIco} style={styles.loopIco}/>*/}
                 </TouchableOpacity>
             </View>
             :
@@ -86,6 +85,9 @@ const styles = StyleSheet.create({
         marginTop: 25,
         marginLeft: 8,
         marginRight: 8,
+        paddingBottom: 5,
+        borderBottomColor: Colors.gray,
+        borderBottomWidth: 1,
 
         //shadow
         shadowColor: Colors.black,

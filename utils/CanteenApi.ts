@@ -26,8 +26,6 @@ export default class CanteenApi {
         })
             .then(( data ) => {return data.json()})
             .then(( dataJson ) => {
-                console.log("RES: DataJson:", dataJson);
-
                 callback({
                     data: {
 
@@ -97,7 +95,6 @@ export default class CanteenApi {
         fetch(CanteenApi.ROOT + GET_ORDERS_ENDPOINT)
             .then(( data ) => {return data.json()})
             .then(( dataJson ) => {
-                console.log("RES: DataJson:", dataJson);
                 let orders = new Array<OrderData>();
                 dataJson.data.map((o) => {
                     const itemsData = o.items;
@@ -128,12 +125,11 @@ export default class CanteenApi {
     }
 
     static getOrdersArchive(email: string, callback: Function): void {
-        const GET_ORDDERS_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.GET_ORDERS_ARCHIVE;
+        const GET_ORDERS_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.GET_ORDERS_ARCHIVE;
 
-        fetch(CanteenApi.ROOT + GET_ORDDERS_ENDPOINT + "?" + "ownerEmail=" + email)
+        fetch(CanteenApi.ROOT + GET_ORDERS_ENDPOINT + "?" + "ownerEmail=" + email)
             .then(( data ) => {return data.json()})
             .then(( dataJson ) => {
-                console.log("RES: DataJson:", dataJson);
                 let orders = new Array<OrderData>();
                 dataJson.data.orders.map((o) => {
                     const itemsData = o.items;
@@ -169,7 +165,6 @@ export default class CanteenApi {
         fetch(CanteenApi.ROOT + GET_ORDERS_ENDPOINT + "?" + "ownerEmail=" + email)
             .then(( data ) => {return data.json()})
             .then(( dataJson ) => {
-                console.log("RES: DataJson:", dataJson);
                 let orders = new Array<OrderData>();
                 dataJson.data.orders.map((o) => {
                     const itemsData = o.items;
@@ -205,7 +200,6 @@ export default class CanteenApi {
         fetch(CanteenApi.ROOT + GET_ORDERS_INCOMPLETE)
             .then(( data ) => {return data.json()})
             .then(( dataJson ) => {
-                console.log("RES: DataJson:", dataJson);
                 let orders = new Array<OrderData>();
                 dataJson.data.orders.map((o) => {
                     const itemsData = o.items;
@@ -241,7 +235,6 @@ export default class CanteenApi {
         fetch(CanteenApi.ROOT + GET_ORDERS_USER_ENDPOINT + "?" + "ownerEmail=" + email )
             .then(( data ) => {return data.json()})
             .then(( dataJson ) => {
-                console.log("RES: DataJson:", dataJson);
                 let orders = new Array<OrderData>();
                 dataJson.data.orders.map((o) => {
                     const itemsData = o.items;

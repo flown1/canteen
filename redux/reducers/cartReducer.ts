@@ -43,7 +43,7 @@ export default function cart(state = initialState, action) {
         }
         case ACTIONS.CART.DELETE_ORDER: {
             const orderToDelete = action.payload.orderDataItem;
-            const cost = action.payload.orderDataItem.total;
+            const cost = action.payload.orderDataItem.total.toFixed(2);
             const newTotal = state.total - cost;
 
             return {

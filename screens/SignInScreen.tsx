@@ -73,7 +73,6 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
         }
 
         let token = await Expo.Notifications.getExpoPushTokenAsync();
-        console.log("Push Token is:", token);
         return token
     };
 

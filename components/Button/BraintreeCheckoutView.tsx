@@ -21,16 +21,16 @@ interface IBraintreeCheckoutViewState {
 }
 
 class BraintreeCheckoutView extends React.Component<IBraintreeCheckoutViewProps, IBraintreeCheckoutViewState> {
-    onMessage(m) {
+    onMessage = (m) => {
         console.log("Message received:");
         this._hideWebView();
-        console.log(m); //crashuje apke
+        console.log(m.nativeEvent.data); //crashuje apke
+        console.log(m);
 
         const items = this.props.cart.items;
         const user = this.props.user;
 
         const order = new OrderData(null, items, user.email, user.name, ORDER_STATUS.PAID, "0000", "");
-        console.log("Will send order:", order);
 
         CanteenApi.postOrder(order, (res) => {
             console.log("postOrder() RES: ", res);
@@ -44,33 +44,87 @@ class BraintreeCheckoutView extends React.Component<IBraintreeCheckoutViewProps,
                 this.props.onPaymentComplete(null);
             }
         });
-    }
+    };
+
+    _postOrderAndFallback = () => {
+        console.log("Straszne szmabo");
+        console.log("Message received:");
+
+        const items = this.props.cart.items;
+        const user = this.props.user;
+
+        const order = new OrderData(null, items, user.email, user.name, ORDER_STATUS.PAID, "0000", "");
+
+        CanteenApi.postOrder(order, (res) => {
+            console.log("postOrder() RES: ", res);
+            if (res.status === "SUCCESS") {
+                const data = res.data;
+                const code = data.code;
+
+                this.props.onPaymentComplete(code);
+            } else {
+                console.warn("Something went wrong when postOrder()");
+                this.props.onPaymentComplete(null);
+            }
+        });
+    };
 
     render() {
         const uri = Config.SERVER_INFO.ROOT_URL + ":" + Config.SERVER_INFO.PORT + CANTEEN_API_CONSTANTS.ENDPOINTS.PAYMENTS;
         const cost = this.props.cart.total;
 
-        const injectedScript = 'document.getElementById("amount").value = '+ cost;
+        const injectedScript = 'document.getElementById("amount").value = '+ cost + "; window.postMessage = String(Object.hasOwnProperty).replace('hasOwnProperty', 'postMessage');";
+
+
+        const fix = `(function() {
+            var originalPostMessage = window.postMessage;
+            
+            document.getElementById("amount").value = ${cost};
+
+
+            var patchedPostMessage = function(message, targetOrigin, transfer) {
+                originalPostMessage(message, targetOrigin, transfer);
+            };
+
+            patchedPostMessage.toString = function() {
+                return String(Object.hasOwnProperty).replace('hasOwnProperty', 'postMessage');
+            };
+
+            window.postMessage = patchedPostMessage;
+        })()`;
+        let self = this;
+
         return (
             <WebView
-                onLoad={this.onLoad}
-                ref={(ref) => { this.webview = ref; }}
+                // onLoad={this.onLoad}
+                // ref={(ref) => { this.webview = ref; }}
+                // originWhitelist={['*']}
                 source={{ uri }}
                 onNavigationStateChange={(event) => {
-                    if (event.url !== uri) {
-                        this.webview.stopLoading();
-                        Linking.openURL(event.url);
+                    console.log("------------");
+                    console.log("Event:", event);
+                    console.log("event.url: ", event.url);
+                    console.log("uri: ", uri);
+
+                    console.log("Is event.url different from uri:", event.url != uri);
+
+                    if (event.url === "http://192.168.69.105:3000/success") {
+                        console.log("onNavigationStateChanged");
+                        self._hideWebView();
+                        // Linking.openURL(event.url);
                     }
                 }}
                 javaScriptEnabled={true}
-                injectedJavaScript={injectedScript}//"window.postMessage = String(Object.hasOwnProperty).replace('hasOwnProperty', 'postMessage');"
-                onMessage={m => this.onMessage(m)}
+                injectedJavaScript={fix}//"window.postMessage = String(Object.hasOwnProperty).replace('hasOwnProperty', 'postMessage');"
+                onMessage={() => console.log("dudududdpa")}
             />
         );
     }
 
     private _hideWebView = () => {
-        this.setState({showWebView: false});
+        console.log("triggered _hideWebView");
+
+        this._postOrderAndFallback();
     }
 }
 

@@ -8,8 +8,6 @@ export default class ImgurApi {
         const ROOT = `${Config.IMGUR.ROOT_URL}`;
         const POST_IMAGE = IMGUR_API_CONSTANST.ENPOINTS_IMGUR.POST_IMAGE;
 
-        console.log(`image:`, image, `name:`, name);
-
         fetch(ROOT + POST_IMAGE, {
             method: "POST",
             credentials: "same-origin",
@@ -25,7 +23,6 @@ export default class ImgurApi {
         })
         .then(( data ) => {return data.json()})
         .then(( data ) => {
-            console.log("Received: ", data);
             callback(data);
         })
         .catch((e) => {

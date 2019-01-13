@@ -245,8 +245,6 @@ export default class DishCreatorScreen extends React.Component<IDishCreatorScree
         this._showLoader();
 
         ImgurApi.postImage(image, name, (res) => {
-            console.log("Res from Imgur:", res);
-
             if (res.status === 200) {
                 const data = res.data;
                 const imgLink = data.link;
@@ -255,7 +253,6 @@ export default class DishCreatorScreen extends React.Component<IDishCreatorScree
                                             imgLink, this.state.price, this.state.isPromoted, 1, this.state.tags, "PLN");
 
                 CanteenApi.postDish(dish, (res) => {
-                    console.log("Response from canteen Api: ", res);
                     if (res.status === "SUCCESS") {
                         console.log("[OK] Dish had been added");
 

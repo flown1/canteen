@@ -4,7 +4,7 @@ import {
     Image, ScrollView,
     StyleSheet,
     Text, TextInput,
-    TouchableHighlight,
+    TouchableOpacity,
     View
 } from 'react-native';
 import Colors from "../../../../constants/Colors";
@@ -106,31 +106,31 @@ class Dish extends React.Component<IDishProps, IDishState> {
     render() {
         const buttonType = this.props.editableMode?
             this.state.isEditing?
-                <TouchableHighlight onPress={() => this._handleConfirmBtnPress()} underlayColor="white">
+                <TouchableOpacity onPress={() => this._handleConfirmBtnPress()}>
                     <LinearGradient
                         colors={[Colors.yellow, Colors.orange]}
                         style={[styles.editBtn, styles.flexRow, { borderRadius: 5, alignItems: 'center' }]}>
                         <Image source={editIco} style={styles.btnIco}/>
                         <Text style={styles.orderBtnText}>OK</Text>
                     </LinearGradient>
-                </TouchableHighlight>
+                </TouchableOpacity>
                 :
-                <TouchableHighlight onPress={() => this._handleEditBtnPress()} underlayColor="white">
+                <TouchableOpacity onPress={() => this._handleEditBtnPress()}>
                     <LinearGradient
                         colors={[Colors.yellow, Colors.orange]}
                         style={[styles.editBtn, styles.flexRow, { borderRadius: 5, alignItems: 'center' }]}>
                         <Image source={editIco} style={styles.btnIco}/>
                         <Text style={styles.orderBtnText}>Edytuj</Text>
                     </LinearGradient>
-                </TouchableHighlight>
-            :<TouchableHighlight onPress={() => this._handleOrderBtnPress()} underlayColor="white">
+                </TouchableOpacity>
+            :<TouchableOpacity onPress={() => this._handleOrderBtnPress()}>
                 <LinearGradient
                     colors={[Colors.primary, Colors.green]}
                     style={[styles.orderBtn, styles.flexRow]}>
                     <Image source={plusIco} style={styles.btnIco}/>
                     <Text style={styles.orderBtnText}>Zamów</Text>
                 </LinearGradient>
-            </TouchableHighlight>;
+            </TouchableOpacity>;
 
         const loader = this.state.isEditLoaderShow? <Loader/>
         : null;
@@ -138,11 +138,11 @@ class Dish extends React.Component<IDishProps, IDishState> {
         const boxType = this.state.isEditing?
             <View style={styles.editBox}>
                 <View style={styles.leftPart}>
-                    <TouchableHighlight style={styles.rightPart} onPress={this._handleAddPhotoPress} underlayColor="white">
+                    <TouchableOpacity style={styles.rightPart} onPress={this._handleAddPhotoPress}>
                         <View>
                             <Image source={{uri: this.props.dish.imgUrl }|| {uri: ""}} style={styles.img}/>
                         </View>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.rightPart}>
                     <View style={styles.rightUp}>
@@ -326,19 +326,16 @@ class Dish extends React.Component<IDishProps, IDishState> {
     };
 
     private _handleConfirmBtnPress = () : void => {
-        console.log('confirmed...');
         const { namePL, nameEN, descPL, descEN, imgUrl, image, price, tags, isPromoted, menuId, currency } = this.state;
 
         const imageHasChange = image? true : false;
         if (imageHasChange) {
             ImgurApi.postImage(image, namePL, (res) => {
-                console.log("[ImgurApi] Response: ", res);
                 if (res.status === 200) {
                     const link = res.data.link;
                     const dish = new DishData(null, namePL, nameEN, descPL, descEN, link, price, isPromoted, menuId, tags, currency);
 
                     CanteenApi.editDish(dish, (res) => {
-                        console.log("[CanteenApi] Response: ", res);
                         if (res.status === "SUCCESS") {
                             const data = res.data;
 
@@ -357,8 +354,6 @@ class Dish extends React.Component<IDishProps, IDishState> {
 
             this._showEditBoxLoader();
             CanteenApi.editDish(dish, (res) => {
-                console.log("[CanteenApi] Response: ", res);
-
                 if (res.status === "SUCCESS") {
                     const data = res.data;
 

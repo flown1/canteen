@@ -83,12 +83,10 @@ class OrderScreen extends React.Component<IOrderScreenProps, IOrderScreenState> 
     };
 
     _handleOnDestroy = (order: OrderData) :void => {
-        console.log("Triggered _handleOnDestroy in OrderScreen");
         const newOrders = this.state.orders.filter((o: OrderData) => {
             return o !== order;
         });
 
-        console.log("New orders:", newOrders);
         this.setState({orders: newOrders});
     };
 
