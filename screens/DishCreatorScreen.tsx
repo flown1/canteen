@@ -256,7 +256,8 @@ export default class DishCreatorScreen extends React.Component<IDishCreatorScree
                     if (res.status === "SUCCESS") {
                         console.log("[OK] Dish had been added");
 
-                        this.props.navigation.dispatch(NavigationActions.back({key: 'Menu'}));
+                        const { goBack } = this.props.navigation;
+                        goBack();
                     } else {
                         console.warn("[ERR] Something went wrong. The dish was NOT added :(");
                     }
