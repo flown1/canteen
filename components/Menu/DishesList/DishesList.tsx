@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import CanteenApi from "../../../utils/CanteenApi";
 import DishData from '../../../dataModels/DishData'
 import Dish from "./Dish/Dish";
-import { dishesRetrieved } from "../../../redux/actions/dishesActions";
+import {dishDelete, dishesRetrieved} from "../../../redux/actions/dishesActions";
 import { IState } from "../../../@types/redux/state/IState";
 import { addDishToCart } from "../../../redux/actions/cartActions";
 import Colors from "../../../constants/Colors";
@@ -26,6 +26,7 @@ interface IDishListProps {
 
     onDishesReceived: (dishList: Array<DishData>) => void,
     addToCart: (dish: DishData) => void
+    dishDelete: (dish: DishData) => void
 }
 
 interface IDishListState {
@@ -60,6 +61,10 @@ class DishesList extends React.Component<IDishListProps, IDishListState> {
 
     _addToCart = (dish: DishData) => {
       this.props.addToCart(dish);
+    };
+
+    _handleOnSelfDestroy = (d: DishData) => {
+        this.props.dishDelete(d);
     };
 
     render() {

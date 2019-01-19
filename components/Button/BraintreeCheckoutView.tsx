@@ -108,7 +108,7 @@ class BraintreeCheckoutView extends React.Component<IBraintreeCheckoutViewProps,
 
                     console.log("Is event.url different from uri:", event.url != uri);
 
-                    if (event.url === "http://192.168.69.105:3000/success") {
+                    if (event.url === "http://192.168.69.100:3000/success") {
                         console.log("onNavigationStateChanged");
                         self._hideWebView();
                         // Linking.openURL(event.url);

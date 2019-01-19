@@ -402,4 +402,28 @@ export default class CanteenApi {
             callback({data: {}, status: "ERROR"})
         });
     }
+
+    static deleteDish(namePL: string, callback: (res) => void) {
+        const DELETE_DISH_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.DELETE_DISH;
+
+        fetch(CanteenApi.ROOT + DELETE_DISH_ENDPOINT, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                'namePL': namePL
+            }),
+        })
+            .then(( data ) => { return data.json() })
+            .then(() => {
+                callback({data: {}, status: "SUCCESS"});
+            })
+            .catch((e) => {
+                console.error(`Error while deleteDish(): ${e}`);
+                callback({data: {}, status: "ERROR"})
+            });
+    }
 }

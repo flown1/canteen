@@ -1,7 +1,7 @@
 export default {
     family: {
         montserrat_light: 'montserrat-light',
-        segoe_light: 'segoe'
+        scriptmt_bold: 'scriptmt-bold'
     },
     sizes: {
         tiny: 10,

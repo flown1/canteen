@@ -68,7 +68,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onDishesReceived: (dishList) => dispatch(dishesRetrieved(dishList)),
     }
-}
+};
 export default connect(mapStateToProps, mapDispatchToProps)(MenuScreen);
 const styles = StyleSheet.create({
     container: {

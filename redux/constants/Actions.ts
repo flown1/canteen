@@ -1,7 +1,8 @@
 export const ACTIONS = {
     DISHES: {
         RETRIEVED: "DISHES_RETRIEVED",
-        UPDATE: "DISHES_UPDATE"
+        UPDATE: "DISHES_UPDATE",
+        DELETE: "DELETE"
     },
     FILTER: {
         ADD: "ADD_FILTER",

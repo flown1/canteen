@@ -3,6 +3,7 @@ export const CANTEEN_API_CONSTANTS = {
         GET_DISHES: "/dishes",
         POST_DISHES: "/dishes",
         PUT_DISHES: "/dishes",
+        DELETE_DISH: "/dishes/delete",
         POST_USER: "/users",
         GET_ORDERS: "/orders",
         GET_ORDERS_ARCHIVE: "/orders/archive",

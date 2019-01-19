@@ -76,3 +76,19 @@ export function dishesUpdated(dishList: Array<DishData>): IDishesUpdated {
         }
     }
 }
+
+interface IDishDelete {
+    type: string,
+    payload: {
+        dish: DishData
+    }
+}
+
+export function dishDelete(dish: DishData): IDishDelete {
+    return {
+        type: ACTIONS.DISHES.DELETE,
+        payload: {
+            dish: dish
+        }
+    }
+}

@@ -8,7 +8,7 @@ import {
     View
 } from 'react-native';
 import Colors from "../../../../constants/Colors";
-import {ImagePicker, LinearGradient, Permissions} from "expo";
+import {Font, ImagePicker, LinearGradient, Permissions} from "expo";
 import {IDishProps} from "../../../../@types/components/Menu/DishList/Dish/IDishProps";
 import {DISH_TAGS} from "../../../../constants/DishTags";
 import { connect } from 'react-redux';
@@ -16,7 +16,7 @@ import CheckBox from "react-native-check-box";
 import Fonts from "../../../../constants/Fonts";
 import CanteenApi from "../../../../utils/CanteenApi";
 import DishData from "../../../../dataModels/DishData";
-import {dishUpdate} from "../../../../redux/actions/dishesActions";
+import {dishDelete, dishUpdate} from "../../../../redux/actions/dishesActions";
 import ImgurApi from "../../../../utils/ImgurApi";
 import Loader from "../../../Loader/Loader";
 
@@ -280,6 +280,7 @@ class Dish extends React.Component<IDishProps, IDishState> {
                             />
                         </ScrollView>
                     </View>
+                    <Text style={styles.deleteLabel} onPress={this._handleDeletePress}>X Usuń</Text>
                 </View>
                 {loader}
             </View>
@@ -367,6 +368,28 @@ class Dish extends React.Component<IDishProps, IDishState> {
         }
     };
 
+    private _handleDeletePress = () : void => {
+        const namePL = this.props.dish.namePL;
+        console.log("Delete pressed...", namePL);
+
+        this._showEditBoxLoader();
+        CanteenApi.deleteDish(namePL, (res) => {
+
+            if (res.status === "SUCCESS") {
+                console.log("delete SUCCESSFUL");
+                const dish = this.props.dish;
+                this.props.dishDelete(dish)
+            } else {
+                console.log("delete ERROR");
+                console.warn("Nie udało sie wyedytować ;(")
+            }
+
+            this._hideEditBoxLoader();
+            this._hideEditBox();
+        });
+
+    };
+
     private _showEditBox = () : void => {
         this.setState({isEditing: true});
     };
@@ -409,7 +432,8 @@ class Dish extends React.Component<IDishProps, IDishState> {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateDish: (dish: DishData) => dispatch(dishUpdate(dish))
+        updateDish: (dish: DishData) => dispatch(dishUpdate(dish)),
+        dishDelete: (dish) => dispatch(dishDelete(dish))
     }
 };
 export default connect(null, mapDispatchToProps)(Dish);
@@ -467,6 +491,9 @@ const styles = StyleSheet.create({
     inputLabel: {
         fontSize: Fonts.sizes.regular2,
         fontFamily: Fonts.family.montserrat_light
+    },
+    nameWrapper: {
+        width: 50
     },
     name: {
         fontSize: 21,
@@ -549,5 +576,9 @@ const styles = StyleSheet.create({
     checkbox: {
         flex: 1
     },
-
+    deleteLabel: {
+        fontFamily: Fonts.family.montserrat_light,
+        fontSize: Fonts.sizes.regular1,
+        color: Colors.crimson
+    }
 });

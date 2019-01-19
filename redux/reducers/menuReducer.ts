@@ -51,6 +51,32 @@ export default function menu(state = initialState, action: IMenuReducerActions) 
                 filters: state.filters
             }
         }
+        case ACTIONS.DISHES.DELETE: {
+            const dishToBeDeleted = action.payload.dish;
+            let newDishList = [];
+
+            state.dishList.map((dish: DishData) => {
+
+                if (dish.namePL !== dishToBeDeleted.namePL) {
+                    newDishList.push(dish);
+                }
+            });
+
+            let newDishListShow = [];
+
+            state.dishListShow.map((dish: DishData) => {
+                if (dish.namePL !== dishToBeDeleted.namePL) {
+                    newDishListShow.push(dish);
+                }
+            });
+
+            return {
+                dishList: newDishList,
+                dishListShow: newDishListShow,
+                isLoaded: true,
+                filters: state.filters
+            }
+        }
         case ACTIONS.FILTER.ADD: {
             let dishListShow = [];
             state.dishList.map((dish: DishData) => {
