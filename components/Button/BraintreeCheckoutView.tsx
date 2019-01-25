@@ -22,7 +22,6 @@ interface IBraintreeCheckoutViewState {
 
 class BraintreeCheckoutView extends React.Component<IBraintreeCheckoutViewProps, IBraintreeCheckoutViewState> {
     onMessage = (m) => {
-        console.log("Message received:");
         this._hideWebView();
         // console.log(m.nativeEvent.data);
         // console.log(m);
@@ -33,7 +32,6 @@ class BraintreeCheckoutView extends React.Component<IBraintreeCheckoutViewProps,
         const order = new OrderData(null, items, user.email, user.name, ORDER_STATUS.PAID, "0000", "");
 
         CanteenApi.postOrder(order, (res) => {
-            console.log("postOrder() RES: ", res);
             if (res.status === "SUCCESS") {
                 const data = res.data;
                 const code = data.code;
@@ -47,7 +45,6 @@ class BraintreeCheckoutView extends React.Component<IBraintreeCheckoutViewProps,
     };
 
     _postOrderAndFallback = () => {
-        console.log("Message received:");
 
         const items = this.props.cart.items;
         const user = this.props.user;
@@ -55,7 +52,6 @@ class BraintreeCheckoutView extends React.Component<IBraintreeCheckoutViewProps,
         const order = new OrderData(null, items, user.email, user.name, ORDER_STATUS.PAID, "0000", "");
 
         CanteenApi.postOrder(order, (res) => {
-            console.log("postOrder() RES: ", res);
             if (res.status === "SUCCESS") {
                 const data = res.data;
                 const code = data.code;
@@ -121,8 +117,6 @@ class BraintreeCheckoutView extends React.Component<IBraintreeCheckoutViewProps,
     }
 
     private _hideWebView = () => {
-        console.log("triggered _hideWebView");
-
         this._postOrderAndFallback();
     }
 }

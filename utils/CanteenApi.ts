@@ -266,7 +266,6 @@ export default class CanteenApi {
 
     static postOrder(order: OrderData, callback: Function): void {
         const POST_ORDER_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.POST_ORDER;
-        console.log("Total order Price: ", order.price);
 
         fetch(CanteenApi.ROOT + POST_ORDER_ENDPOINT, {
             method: "POST",
@@ -298,8 +297,6 @@ export default class CanteenApi {
     static setOrderReady(orderId: string, callback: Function): void {
         const POST_ORDER_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.SET_ORDER_READY;
 
-        console.log("Changing dish status to READY of ID:", orderId);
-
         fetch(CanteenApi.ROOT + POST_ORDER_ENDPOINT, {
             method: "POST",
             credentials: "same-origin",
@@ -323,8 +320,6 @@ export default class CanteenApi {
 
     static setOrderComplete(orderId: string, callback: Function): void {
         const POST_ORDER_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.SET_ORDER_COMPLETE;
-
-        console.log("Changing dish status to COMPLETE of ID:", orderId);
 
         fetch(CanteenApi.ROOT + POST_ORDER_ENDPOINT, {
             method: "POST",
@@ -394,8 +389,6 @@ export default class CanteenApi {
         })
         .then(( data ) => {return data.json()})
         .then(( userJson ) => {
-
-            console.log("[USER] Received: ", userJson);
             callback(userJson);
         })
         .catch((e) => {

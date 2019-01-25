@@ -59,11 +59,10 @@ class CustomHeaderRight extends React.Component<ICustomHeaderProps> {
     };
 
     private _handleSearchIcoClick = (): void => {
-        console.log("Clicked search icon");
+
     };
 
     private _handleCartIcoClick = (): void => {
-        console.log("click");
         this.props.navigation.navigate('Cart');
     };
 }

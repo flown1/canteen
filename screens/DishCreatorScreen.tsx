@@ -254,8 +254,6 @@ export default class DishCreatorScreen extends React.Component<IDishCreatorScree
 
                 CanteenApi.postDish(dish, (res) => {
                     if (res.status === "SUCCESS") {
-                        console.log("[OK] Dish had been added");
-
                         const { goBack } = this.props.navigation;
                         goBack();
                     } else {

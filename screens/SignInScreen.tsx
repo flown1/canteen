@@ -98,8 +98,6 @@ class SignInScreen extends React.Component<ISignInScreenProps, ISignInScreenStat
                         const data = res.data;
                         const user = new UserData( data.name, data.email, data.imgUrl, data.role, data.token );
 
-                        console.log( "SUCCESSFULLY signed in ", user );
-
                         this.props.onSuccessfulSignIn( user );
                         this._hideLoader();
                         this.props.navigation.dispatch( this._resetAction );

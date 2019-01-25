@@ -370,17 +370,14 @@ class Dish extends React.Component<IDishProps, IDishState> {
 
     private _handleDeletePress = () : void => {
         const namePL = this.props.dish.namePL;
-        console.log("Delete pressed...", namePL);
 
         this._showEditBoxLoader();
         CanteenApi.deleteDish(namePL, (res) => {
 
             if (res.status === "SUCCESS") {
-                console.log("delete SUCCESSFUL");
                 const dish = this.props.dish;
                 this.props.dishDelete(dish)
             } else {
-                console.log("delete ERROR");
                 console.warn("Nie udało sie wyedytować ;(")
             }
 

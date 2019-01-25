@@ -93,7 +93,6 @@ export default class OrderListItem extends React.Component<IOrderListItemProps, 
 
         CanteenApi.setOrderReady(id,(res) => {
             if (res.status) {
-                console.log("SUCCESSfuly changed status!");
                 this.setState({mode: "READY"});
             } else {
                 console.log("ERROR while changing status!");
@@ -107,7 +106,6 @@ export default class OrderListItem extends React.Component<IOrderListItemProps, 
 
         CanteenApi.setOrderComplete(id,(res) => {
             if (res.status) {
-                console.log("SUCCESSfuly changed status!");
                 this._setMode(this.MODES.COMPLETE);
                 this._selfDestruction();
             } else {

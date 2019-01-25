@@ -49,7 +49,6 @@ class AccountScreen extends React.Component<IAccountScreenProps, IAccountScreenS
 
     private _handleLogoutPress = (e: GestureResponderEvent) : void => {
         e.preventDefault();
-        console.log("Signing out...");
         this.setState({isLogoutInProgress: true});
 
         this.props.navigation.dispatch(this._resetAction);
