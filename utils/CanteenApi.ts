@@ -266,6 +266,7 @@ export default class CanteenApi {
 
     static postOrder(order: OrderData, callback: Function): void {
         const POST_ORDER_ENDPOINT = CANTEEN_API_CONSTANTS.ENDPOINTS.POST_ORDER;
+        console.log("Total order Price: ", order.price);
 
         fetch(CanteenApi.ROOT + POST_ORDER_ENDPOINT, {
             method: "POST",

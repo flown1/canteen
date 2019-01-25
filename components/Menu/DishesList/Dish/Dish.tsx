@@ -466,7 +466,7 @@ const styles = StyleSheet.create({
         width: 250,
         paddingTop: 5,
         paddingBottom: 5,
-        
+
         paddingRight: 2
     },
     img: {
@@ -577,6 +577,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     deleteLabel: {
+        textAlign: 'center',
         fontFamily: Fonts.family.montserrat_light,
         fontSize: Fonts.sizes.regular1,
         color: Colors.crimson

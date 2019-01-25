@@ -197,7 +197,7 @@ export default class DishCreatorScreen extends React.Component<IDishCreatorScree
                             <CheckBox
                                 style={styles.checkbox}
                                 isChecked={this.state.tags.indexOf(DISH_TAGS.OTHER) >= 0}
-                                leftText={"Other"}
+                                leftText={"Inne"}
                                 onClick={() => {
                                     if (this.state.tags.indexOf(DISH_TAGS.OTHER) >= 0) {
                                         const newTags = this.state.tags;

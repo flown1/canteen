@@ -26,9 +26,14 @@ export default class OrderData {
     private _countTotalPrice(): number {
         const items = this.items;
         let total = 0;
-        for (let i = 1; i < items.length; i++) {
+        console.log("Items to count price:", items);
+
+        for (let i = 0; i < items.length; i++) {
             const item = items[i];
-            total += item.dish.price * item.quantity;
+
+            const itemPrice = item.dish.price * item.quantity;
+            console.log(item.quantity, "x ", item.dish.namePL, "( ", item.dish.price, " ) = ", itemPrice);
+            total += itemPrice;
         }
         return total;
     }

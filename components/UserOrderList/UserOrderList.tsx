@@ -28,14 +28,14 @@ export default class UserOrderList extends React.Component<IUserOrderListProps> 
     render() {
         const orders = this.props.orders;
 
-        if(!this.props.isLoaded){
+        if (!this.props.isLoaded) {
             return (
                 <Loader/>
             )
         } else {
             return(
                 <>
-                    <Text style={styles.title}>Zamówienia do realizacji:</Text>
+                    <Text style={styles.title}>Twoje zamówienia:</Text>
                     <Text style={styles.note}>Pociągnij w dół, aby odświeżyć...</Text>
                     <FlatList style={styles.orderListWrapper}
                               data={orders}

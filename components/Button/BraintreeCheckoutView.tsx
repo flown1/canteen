@@ -24,8 +24,8 @@ class BraintreeCheckoutView extends React.Component<IBraintreeCheckoutViewProps,
     onMessage = (m) => {
         console.log("Message received:");
         this._hideWebView();
-        console.log(m.nativeEvent.data); //crashuje apke
-        console.log(m);
+        // console.log(m.nativeEvent.data);
+        // console.log(m);
 
         const items = this.props.cart.items;
         const user = this.props.user;
@@ -47,7 +47,6 @@ class BraintreeCheckoutView extends React.Component<IBraintreeCheckoutViewProps,
     };
 
     _postOrderAndFallback = () => {
-        console.log("Straszne szmabo");
         console.log("Message received:");
 
         const items = this.props.cart.items;
@@ -115,8 +114,8 @@ class BraintreeCheckoutView extends React.Component<IBraintreeCheckoutViewProps,
                     }
                 }}
                 javaScriptEnabled={true}
-                injectedJavaScript={fix}//"window.postMessage = String(Object.hasOwnProperty).replace('hasOwnProperty', 'postMessage');"
-                onMessage={() => console.log("dudududdpa")}
+                injectedJavaScript={fix}
+                onMessage={() => {}}
             />
         );
     }
